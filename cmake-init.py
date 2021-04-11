@@ -38,7 +38,7 @@ import re
 import subprocess
 import sys
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 root_cml_top = """cmake_minimum_required(VERSION 3.14)
 
@@ -431,7 +431,7 @@ executable_cpp = """\
 #include <iostream>
 #include <string>
 
-#include <{name}.h>
+#include <lib.h>
 
 int main() {{
   library lib;
@@ -442,7 +442,7 @@ int main() {{
 """
 
 executable_lib_cpp = """\
-#include <{name}.h>
+#include <lib.h>
 
 library::library() : name("{name}")
 {{}}
@@ -639,7 +639,7 @@ endif()
         root_cml.insert(1, """
 add_library(
     {name}_lib STATIC
-    include/main.h
+    include/lib.h
     source/lib.cpp
 )
 
@@ -722,7 +722,7 @@ int main() {
     elif type == "e":
         cml = test_exe_cml_top
         test = """\
-#include <{name}.h>
+#include <lib.h>
 
 int main() {{
   library l;
@@ -744,7 +744,7 @@ def include_dir(d):
     type = d["type_id"]
     if type == "e":
         return {
-            "sample.h": executable_h,
+            "lib.h": executable_h,
         }
     return {
         name: {
@@ -755,13 +755,12 @@ def include_dir(d):
 
 
 def source_dir(d):
-    name = d["name"]
     if d["type_id"] != "e":
         return {
-            f"{name}.cpp": shared_cpp.format(**d),
+            d["name"] + ".cpp": shared_cpp.format(**d),
         }
     return {
-        f"{name}.cpp": executable_lib_cpp.format(**d),
+        "lib.cpp": executable_lib_cpp.format(**d),
         "main.cpp": executable_cpp.format(**d),
     }
 
