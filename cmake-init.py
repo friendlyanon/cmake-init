@@ -24,21 +24,26 @@ FetchContent ready, separate consumer and developer targets, provide install
 rules with proper relocatable CMake packages and use modern CMake (3.14+)
 
 Usage:
-  cmake-init create <path>
+  cmake-init create [-y | -s | -e | -ho] <path>
   cmake-init [-h | --help]
   cmake-init --version
 
 Options:
+  -y -s      Omit prompts, use default values and create a shared library
+  -ho        Omit prompts, use default values and create a header-only library
+  -e         Omit prompts, use default values and create an executable
   -h --help  Show this screen
   --version  Show version
 """
 
+import contextlib
+import io
 import os
 import re
 import subprocess
 import sys
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 
 root_cml_top = """cmake_minimum_required(VERSION 3.14)
 
@@ -495,14 +500,14 @@ def not_empty(value):
     return len(value) != 0
 
 
-def prompt(msg, default, mapper=None, predicate=not_empty, header=None):
+def prompt(msg, default, mapper=None, predicate=not_empty, header=None, no_prompt=False):
     if header is not None:
         print(header)
     while True:
         # noinspection PyBroadException
         try:
             print(msg.format(default), end=": ")
-            value = input() or default
+            value = ("" if no_prompt else input()) or default
             if mapper is not None:
                 value = mapper(value)
             if predicate(value):
@@ -514,7 +519,7 @@ def prompt(msg, default, mapper=None, predicate=not_empty, header=None):
 
 
 def is_valid_name(name):
-    special = ["test", "lib"] # special case for this script only
+    special = ["test", "lib"]  # special case for this script only
     return name not in special \
         and re.match("^[a-zA-Z][0-9a-zA-Z-_]+$", name) is not None \
         and re.match("[-_]{2,}", name) is None
@@ -524,15 +529,20 @@ def is_semver(version):
     return re.match(r"^\d+(\.\d+){0,3}", version) is not None
 
 
-def get_substitutes(name):
+def get_substitutes(type, name):
+    no_prompt = type is not None
+
+    def ask(*args, **kwargs):
+        return prompt(*args, **kwargs, no_prompt=no_prompt)
+
     d = {
-        "name": prompt(
+        "name": ask(
             "Project name ({})",
             name,
             predicate=is_valid_name,
             header="Use only characters matching the [0-9a-zA-Z-_] pattern"
         ),
-        "version": prompt(
+        "version": ask(
             "Project version ({})",
             "0.1.0",
             predicate=is_semver,
@@ -540,11 +550,11 @@ def get_substitutes(name):
 Use Semantic Versioning, because CMake naturally supports that. Visit
 https://semver.org/ for more information."""
         ),
-        "description": prompt(*(["Short description"] * 2)),
-        "homepage": prompt("Homepage URL ({})", "https://example.com/"),
-        "type_id": prompt(
+        "description": ask(*(["Short description"] * 2)),
+        "homepage": ask("Homepage URL ({})", "https://example.com/"),
+        "type_id": ask(
             "Target type ([S]tatic/shared or [e]xecutable or [h]eader-only)",
-            "s",
+            type or "s",
             mapper=lambda v: v[0:1].lower(),
             predicate=lambda v: v in ["s", "h", "e"],
             header="""\
@@ -598,7 +608,7 @@ install(
     elif type == "e":
         d["rules"] = f"\n    RUNTIME COMPONENT {name}_Runtime"
     if type != "e":
-        d["exclude_examples"] = prompt(
+        d["exclude_examples"] = ask(
             "Exclude examples ([Y]es/[n]o)",
             "y",
             mapper=lambda v: v.lower(),
@@ -731,8 +741,10 @@ int main() {{
 }}
 """.format(**d)
     return {
-        "CMakeLists.txt":
-            map(lambda s: s.format(**d), [cml % (set_path,), add_path]),
+        "CMakeLists.txt": map(
+            lambda s: s.format(**d),
+            [cml % (set_path,), add_path],
+        ),
         "source": {
             d["name"] + "_test.cpp": test,
         },
@@ -866,7 +878,7 @@ not useful for consumers. You can run these targets with the following command:
 """.format(config=config))
 
 
-def create(path):
+def create(type, path):
     root_exists = os.path.exists(path)
     if root_exists and os.path.isdir(path) and len(os.listdir(path)) != 0:
         print(
@@ -874,7 +886,11 @@ def create(path):
             file=sys.stderr,
         )
         exit(1)
-    d = get_substitutes(os.path.basename(path))
+    if type != "":
+        with contextlib.redirect_stdout(io.StringIO()):
+            d = get_substitutes(type, os.path.basename(path))
+    else:
+        d = get_substitutes(None, os.path.basename(path))
     project = {
         **root_dir(d),
         "cmake": cmake_dir(d),
@@ -912,8 +928,16 @@ def print_help():
 
 
 def main(argc, argv):
-    if argc == 2 and argv[0] == "create":
-        return create(os.path.realpath(argv[1]))
+    # TODO: argparse is ugly as sin, but maybe that would be better here
+    #  docopt in core Python when?
+    if argc == 3 and argv[0] == "create":
+        for i, arg in enumerate(argv[1:]):
+            if arg in ["-y", "-s", "-e", "-ho"]:
+                type = arg[1:2]
+                type = "s" if type == "y" else type
+                return create(type, os.path.realpath(argv[2 - i]))
+    elif argc == 2 and argv[0] == "create":
+        return create("", os.path.realpath(argv[1]))
     elif argc == 1:
         # if argv[0] == "uncomment":
         #     return uncomment()

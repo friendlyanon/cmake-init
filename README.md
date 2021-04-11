@@ -68,13 +68,15 @@ python cmake-init.py %*
 
 * `cmake-init create <path>`  
   This command will create a CMake project at the provided location and
-  according to the answers given to the prompts.
+  according to the answers given to the prompts. You may pass the `-s`, `-e` or
+  `-ho` flags after `create` to quickly create a shared library, executable or
+  a header only library respectively.
 * `cmake-init -h`  
   Shows the help screen.
 
 ## To-do
 
-* Maybe figure out PEX
+* Maybe figure out PEX  
   It would be nicer if the big chunks of strings could be packaged in a
   runnable zip, so the script itself stays simple.
 
