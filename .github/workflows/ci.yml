@@ -23,6 +23,8 @@ jobs:
         - { type: shared, build: YES }
         - { type: static, build: NO }
 
+    name: "Library: ${{ matrix.type }} (${{ matrix.os }})"
+
     runs-on: ${{ matrix.os }}-latest
 
     steps:
@@ -59,6 +61,12 @@ jobs:
         type: [-e, -ho]
 
         os: [macos, ubuntu, windows]
+
+        include:
+        - { type: -e, name: Executable }
+        - { type: -ho, name: "Library: header-only" }
+
+    name: ${{ matrix.name }} (${{ matrix.os }})
 
     runs-on: ${{ matrix.os }}-latest
 
