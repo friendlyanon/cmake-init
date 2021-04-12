@@ -43,7 +43,7 @@ import re
 import subprocess
 import sys
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 
 root_cml_top = """cmake_minimum_required(VERSION 3.14)
 
@@ -124,12 +124,6 @@ endif()
 set({name}_warning_guard SYSTEM)
 if(PROJECT_IS_TOP_LEVEL OR {name}_INCLUDE_WITHOUT_SYSTEM)
   set({name}_warning_guard "")
-endif()
-
-# ---- Warnings ----
-
-if({name}_DEVELOPER_MODE)
-  include(cmake/warnings.cmake)
 endif()
 """
 
@@ -292,7 +286,6 @@ include(../cmake/project-is-top-level.cmake)
 %s
 if(PROJECT_IS_TOP_LEVEL)
   find_package({name} REQUIRED)
-  include(../cmake/warnings.cmake)
   enable_testing()
 endif()
 
@@ -413,6 +406,7 @@ cmake_user_presets = """\
       "binaryDir": "${sourceDir}/build",
       "generator": "%s",
       "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "%s",
         "%s_DEVELOPER_MODE": "ON"%s
       }
     }
@@ -620,9 +614,11 @@ install(
 
 def root_dir(d):
     type = d["type_id"]
+    warnings = "-Wall -Wextra -pedantic"
     generator = "Unix Makefiles"
     config = ",\n        \"CMAKE_BUILD_TYPE\": \"Release\""
     if os.name == "nt":
+        warnings = "/W4 /permissive-"
         generator = "Visual Studio 16 2019"
         config = ""
     matrix = ""
@@ -681,7 +677,7 @@ add_custom_target(
         "CMakeLists.txt": [s.format(**d) for s in root_cml],
         "CMakePresets.json": cmake_presets,
         "CMakeUserPresets.json":
-            cmake_user_presets % (generator, d["name"], config),
+            cmake_user_presets % (generator, warnings, d["name"], config),
     }
 
 
@@ -695,13 +691,6 @@ def cmake_dir(d):
         "project-is-top-level.cmake": project_is_top_level.format(**d),
         "install-rules.cmake": install_rules.format(**d),
         "windows-set-path.cmake": windows_set_path,
-        "warnings.cmake": """\
-if(MSVC)
-  add_compile_options(/W4 /permissive-)
-else()
-  add_compile_options(-Wall -Wextra -pedantic)
-endif()
-""",
     }
 
 
