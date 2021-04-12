@@ -43,7 +43,7 @@ import re
 import subprocess
 import sys
 
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 
 root_cml_top = """cmake_minimum_required(VERSION 3.14)
 
@@ -107,7 +107,7 @@ variables = """# ---- Developer mode ----
 if(PROJECT_IS_TOP_LEVEL)
   option({name}_DEVELOPER_MODE "Enable developer mode" OFF)
 {shared_libs}
-  if(ENV{{CI}})
+  if("$ENV{{CI}}")
     set({name}_DEVELOPER_MODE ON CACHE INTERNAL "")
   endif()
 endif()
