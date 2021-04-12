@@ -1,0 +1,88 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+    - master
+
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  shared_static:
+    strategy:
+      fail-fast: false
+
+      matrix:
+        type: [shared, static]
+
+        os: [macos, ubuntu, windows]
+
+        include:
+        - { type: shared, build: YES }
+        - { type: static, build: NO }
+
+    runs-on: ${{ matrix.os }}-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - uses: actions/setup-python@v2
+      with: { python-version: "3.x" }
+
+    - name: Create project
+      run: python cmake-init.py create -s ci
+
+    - name: Configure
+      working-directory: ci
+      run: cmake --preset=ci-${{ matrix.os }}
+        -D BUILD_SHARED_LIBS=${{ matrix.build }}
+
+    - name: Build
+      working-directory: ci
+      run: cmake --build build --config Release
+
+    - name: Install
+      working-directory: ci
+      run: cmake --install build --config Release --prefix prefix
+
+    - name: Test
+      working-directory: ci/build
+      run: ctest -C Release
+
+  other:
+    strategy:
+      fail-fast: false
+
+      matrix:
+        type: [-e, -ho]
+
+        os: [macos, ubuntu, windows]
+
+    runs-on: ${{ matrix.os }}-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - uses: actions/setup-python@v2
+      with: { python-version: "3.x" }
+
+    - name: Create project
+      run: python cmake-init.py create ${{ matrix.type }} ci
+
+    - name: Configure
+      working-directory: ci
+      run: cmake --preset=ci-${{ matrix.os }}
+
+    - name: Build
+      working-directory: ci
+      run: cmake --build build --config Release
+
+    - name: Install
+      working-directory: ci
+      run: cmake --install build --config Release --prefix prefix
+
+    - name: Test
+      working-directory: ci/build
+      run: ctest -C Release
