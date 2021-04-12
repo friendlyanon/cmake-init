@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # cmake-init - The missing CMake project initializer
 # Copyright (C) 2021  friendlyanon
