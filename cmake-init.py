@@ -43,7 +43,7 @@ import re
 import subprocess
 import sys
 
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 
 root_cml_top = """cmake_minimum_required(VERSION 3.14)
 
@@ -104,6 +104,10 @@ string(
 
 variables = """# ---- Developer mode ----
 
+# Developer mode enables targets and code paths in the CMake scripts that are
+# only relevant for the developer(s) of {name}
+# Targets necessary to build the project must be provided unconditionally, so
+# consumers can trivially build and package the project
 if(PROJECT_IS_TOP_LEVEL)
   option({name}_DEVELOPER_MODE "Enable developer mode" OFF)
 {shared_libs}
@@ -114,16 +118,21 @@ endif()
 
 # ---- Warning guard ----
 
+# target_include_directories with the SYSTEM modifier will request the compiler
+# to omit warnings from the provided paths, if the compiler supports that
+# This is to provide a user experience similar to find_package when
+# add_subdirectory or FetchContent is used to consume this project
+set({name}_warning_guard "")
 if(NOT PROJECT_IS_TOP_LEVEL)
   option(
-      {name}_INCLUDE_WITHOUT_SYSTEM
-      "Enable {name}'s warnings for dependents"
-      OFF
+      {name}_INCLUDES_WITH_SYSTEM
+      "Use SYSTEM modifier for {name}'s includes, disabling warnings"
+      ON
   )
-endif()
-set({name}_warning_guard SYSTEM)
-if(PROJECT_IS_TOP_LEVEL OR {name}_INCLUDE_WITHOUT_SYSTEM)
-  set({name}_warning_guard "")
+  mark_as_advanced({name}_INCLUDES_WITH_SYSTEM)
+  if({name}_INCLUDES_WITH_SYSTEM)
+    set({name}_warning_guard SYSTEM)
+  endif()
 endif()
 """
 
