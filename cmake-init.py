@@ -43,7 +43,7 @@ import re
 import subprocess
 import sys
 
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 
 root_cml_top = """cmake_minimum_required(VERSION 3.14)
 
@@ -452,7 +452,7 @@ header_only_h = """\
 
 #include <string>
 
-constexpr std::string name() {{
+inline std::string name() {{
   return "{name}";
 }}
 """
@@ -726,7 +726,7 @@ int main() {
 int main() {{
   library l;
 
-  return l.name() == "{name}" ? 0 : 1;
+  return l.name == "{name}" ? 0 : 1;
 }}
 """.format(**d)
     return {
