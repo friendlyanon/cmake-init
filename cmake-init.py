@@ -43,7 +43,7 @@ import re
 import subprocess
 import sys
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 root_cml_top = """cmake_minimum_required(VERSION 3.14)
 
@@ -189,7 +189,7 @@ target_include_directories(
     "$<BUILD_INTERFACE:${{PROJECT_SOURCE_DIR}}/include>"
 )
 
-target_compile_features({name}_{name} PUBLIC cxx_std_17)
+target_compile_features({name}_{name} INTERFACE cxx_std_17)
 """
 
 executable = """
