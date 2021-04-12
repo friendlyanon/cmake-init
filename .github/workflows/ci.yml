@@ -34,23 +34,23 @@ jobs:
       with: { python-version: "3.x" }
 
     - name: Create project
-      run: python cmake-init.py create -s ci
+      run: python cmake-init.py create -s proj
 
     - name: Configure
-      working-directory: ci
+      working-directory: proj
       run: cmake --preset=ci-${{ matrix.os }}
         -D BUILD_SHARED_LIBS=${{ matrix.build }}
 
     - name: Build
-      working-directory: ci
+      working-directory: proj
       run: cmake --build build --config Release
 
     - name: Install
-      working-directory: ci
+      working-directory: proj
       run: cmake --install build --config Release --prefix prefix
 
     - name: Test
-      working-directory: ci/build
+      working-directory: proj/build
       run: ctest -C Release
 
   other:
@@ -77,20 +77,20 @@ jobs:
       with: { python-version: "3.x" }
 
     - name: Create project
-      run: python cmake-init.py create ${{ matrix.type }} ci
+      run: python cmake-init.py create ${{ matrix.type }} proj
 
     - name: Configure
-      working-directory: ci
+      working-directory: proj
       run: cmake --preset=ci-${{ matrix.os }}
 
     - name: Build
-      working-directory: ci
+      working-directory: proj
       run: cmake --build build --config Release
 
     - name: Install
-      working-directory: ci
+      working-directory: proj
       run: cmake --install build --config Release --prefix prefix
 
     - name: Test
-      working-directory: ci/build
+      working-directory: proj/build
       run: ctest -C Release
