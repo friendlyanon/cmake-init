@@ -32,7 +32,7 @@ import re
 import subprocess
 import sys
 
-__version__ = "0.2.5"
+__version__ = "0.3.0"
 
 root_cml_top = """cmake_minimum_required(VERSION 3.14)
 
@@ -648,7 +648,7 @@ endif()
     if type == "e":
         root_cml.insert(1, """
 add_library(
-    {name}_lib STATIC
+    {name}_lib OBJECT
     include/lib.h
     source/lib.cpp
 )
