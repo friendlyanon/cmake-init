@@ -162,7 +162,7 @@ target_include_directories(
     "$<BUILD_INTERFACE:${{PROJECT_BINARY_DIR}}/include>"
 )
 
-target_compile_features({name}_{name} PUBLIC cxx_std_17)
+target_compile_features({name}_{name} PUBLIC cxx_std_{std})
 """
 
 header_only_library = """
@@ -181,7 +181,7 @@ target_include_directories(
     "$<BUILD_INTERFACE:${{PROJECT_SOURCE_DIR}}/include>"
 )
 
-target_compile_features({name}_{name} INTERFACE cxx_std_17)
+target_compile_features({name}_{name} INTERFACE cxx_std_{std})
 """
 
 executable = """
@@ -194,7 +194,7 @@ set_target_properties(
     EXPORT_NAME {name}
 )
 
-target_compile_features({name}_{name} PRIVATE cxx_std_17)
+target_compile_features({name}_{name} PRIVATE cxx_std_{std})
 
 target_link_libraries({name}_{name} PRIVATE {name}_lib)
 """
@@ -289,7 +289,7 @@ endif()
 
 add_executable({name}_test source/{name}_test.cpp)
 target_link_libraries({name}_test PRIVATE {name}::{name})
-target_compile_features({name}_test PRIVATE cxx_std_17)
+target_compile_features({name}_test PRIVATE cxx_std_{std})
 
 add_test(NAME {name}_test COMMAND {name}_test)
 """
@@ -301,7 +301,7 @@ test_exe_cml_top = """\
 
 add_executable({name}_test source/{name}_test.cpp)
 target_link_libraries({name}_test PRIVATE {name}_lib)
-target_compile_features({name}_test PRIVATE cxx_std_17)
+target_compile_features({name}_test PRIVATE cxx_std_{std})
 
 add_test(NAME {name}_test COMMAND {name}_test)%s
 """
@@ -555,6 +555,12 @@ up to hide every symbol by default (as it should) and use an export header to
 explicitly mark symbols for export/import, but only when built as a shared
 library."""
         ),
+        "std": ask(
+            "C++ standard (11/14/17/20)",
+            cli_args.std or "17",
+            predicate=lambda v: v in ["11", "14", "17", "20"],
+            header="C++ standard to use. Defaults to 17.",
+        ),
         "exclude_examples": "y",
         "shared_libs": "",
         "includes": "",
@@ -654,7 +660,7 @@ target_include_directories(
     "$<BUILD_INTERFACE:${{PROJECT_SOURCE_DIR}}/include>"
 )
 
-target_compile_features({name}_lib PUBLIC cxx_std_17)
+target_compile_features({name}_lib PUBLIC cxx_std_{std})
 
 # ---- Declare executable ----
 """)
@@ -783,7 +789,7 @@ add_custom_target(run_examples)
 function(add_example NAME)
   add_executable("${{NAME}}" "${{NAME}}.cpp")
   target_link_libraries("${{NAME}}" PRIVATE {name}::{name})
-  target_compile_features("${{NAME}}" PRIVATE cxx_std_17)
+  target_compile_features("${{NAME}}" PRIVATE cxx_std_{std})
   add_custom_target(
       "run_${{NAME}}"
       COMMAND "$<TARGET_FILE:${{NAME}}>"
@@ -919,7 +925,7 @@ def main():
     subps = p.add_subparsers(dest="subcommand")
     create_p = subps.add_parser("create", description=create.__doc__)
     create_p.add_argument("path", type=os.path.realpath)
-    create_p.set_defaults(func=create, type="")
+    create_p.set_defaults(func=create, type="", std="")
     create_type_g = create_p.add_mutually_exclusive_group()
     for type, flags in {"s": ["-s", "-y"], "e": ["-e"], "h": ["-ho"]}.items():
         create_type_g.add_argument(
@@ -928,11 +934,15 @@ def main():
             action="store_const",
             const=type,
         )
+    create_p.add_argument(
+        "--std",
+        choices=["11", "14", "17", "20"],
+    )
     args = p.parse_args()
     if args.subcommand is None:
         p.print_help()
     else:
-        setattr(args, "flags_used", args.type != "")
+        setattr(args, "flags_used", args.type != "" or args.std != "")
         args.func(args)
 
 
