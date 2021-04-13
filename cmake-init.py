@@ -22,20 +22,9 @@
 Opinionated CMake project initializer to generate CMake projects that are
 FetchContent ready, separate consumer and developer targets, provide install
 rules with proper relocatable CMake packages and use modern CMake (3.14+)
-
-Usage:
-  cmake-init create [-y | -s | -e | -ho] <path>
-  cmake-init [-h | --help]
-  cmake-init --version
-
-Options:
-  -y -s      Omit prompts, use default values and create a shared library
-  -ho        Omit prompts, use default values and create a header-only library
-  -e         Omit prompts, use default values and create an executable
-  -h --help  Show this screen
-  --version  Show version
 """
 
+import argparse
 import contextlib
 import io
 import os
@@ -532,8 +521,8 @@ def is_semver(version):
     return re.match(r"^\d+(\.\d+){0,3}", version) is not None
 
 
-def get_substitutes(type, name):
-    no_prompt = type is not None
+def get_substitutes(cli_args, name):
+    no_prompt = cli_args.flags_used
 
     def ask(*args, **kwargs):
         return prompt(*args, **kwargs, no_prompt=no_prompt)
@@ -557,7 +546,7 @@ https://semver.org/ for more information."""
         "homepage": ask("Homepage URL ({})", "https://example.com/"),
         "type_id": ask(
             "Target type ([S]tatic/shared or [e]xecutable or [h]eader-only)",
-            type or "s",
+            cli_args.type or "s",
             mapper=lambda v: v[0:1].lower(),
             predicate=lambda v: v in ["s", "h", "e"],
             header="""\
@@ -876,7 +865,10 @@ not useful for consumers. You can run these targets with the following command:
 """.format(config=config))
 
 
-def create(type, path):
+def create(args):
+    """Create a CMake project according to the provided information
+    """
+    path = args.path
     root_exists = os.path.exists(path)
     if root_exists and os.path.isdir(path) and len(os.listdir(path)) != 0:
         print(
@@ -884,11 +876,11 @@ def create(type, path):
             file=sys.stderr,
         )
         exit(1)
-    if type != "":
+    if args.flags_used:
         with contextlib.redirect_stdout(io.StringIO()):
-            d = get_substitutes(type, os.path.basename(path))
+            d = get_substitutes(args, os.path.basename(path))
     else:
-        d = get_substitutes(None, os.path.basename(path))
+        d = get_substitutes(args, os.path.basename(path))
     project = {
         **root_dir(d),
         "cmake": cmake_dir(d),
@@ -921,36 +913,31 @@ def uncomment():
     pass
 
 
-def print_help():
-    print(__doc__, end="")
-
-
-def main(argc, argv):
-    # TODO: argparse is ugly as sin, but maybe that would be better here
-    #  docopt in core Python when?
-    if argc == 3 and argv[0] == "create":
-        for i, arg in enumerate(argv[1:]):
-            if arg in ["-y", "-s", "-e", "-ho"]:
-                type = arg[1:2]
-                type = "s" if type == "y" else type
-                return create(type, os.path.realpath(argv[2 - i]))
-    elif argc == 2 and argv[0] == "create":
-        return create("", os.path.realpath(argv[1]))
-    elif argc == 1:
-        # if argv[0] == "uncomment":
-        #     return uncomment()
-        if argv[0] == "--version":
-            return print(__version__)
-        if argv[0] in ["-h", "--help"]:
-            return print_help()
-    elif argc == 0:
-        return print_help()
-    print("Unknown arguments:", argv, file=sys.stderr)
-    exit(1)
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--version", action="version", version=__version__)
+    subps = p.add_subparsers(dest="subcommand")
+    create_p = subps.add_parser("create", description=create.__doc__)
+    create_p.add_argument("path", type=os.path.realpath)
+    create_p.set_defaults(func=create, type="")
+    create_type_g = create_p.add_mutually_exclusive_group()
+    for type, flags in {"s": ["-s", "-y"], "e": ["-e"], "h": ["-ho"]}.items():
+        create_type_g.add_argument(
+            *flags,
+            dest="type",
+            action="store_const",
+            const=type,
+        )
+    args = p.parse_args()
+    if args.subcommand is None:
+        p.print_help()
+    else:
+        setattr(args, "flags_used", args.type != "")
+        args.func(args)
 
 
 if __name__ == "__main__":
     try:
-        main(len(sys.argv) - 1, sys.argv[1:])
+        main()
     except KeyboardInterrupt:
         pass
