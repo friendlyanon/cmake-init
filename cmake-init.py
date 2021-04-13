@@ -545,8 +545,8 @@ https://semver.org/ for more information."""
         "description": ask(*(["Short description"] * 2)),
         "homepage": ask("Homepage URL ({})", "https://example.com/"),
         "type_id": ask(
-            "Target type ([S]tatic/shared or [e]xecutable or [h]eader-only)",
-            cli_args.type or "s",
+            "Target type ([E]xecutable or [s]tatic/shared or [h]eader-only)",
+            cli_args.type or "e",
             mapper=lambda v: v[0:1].lower(),
             predicate=lambda v: v in ["s", "h", "e"],
             header="""\
