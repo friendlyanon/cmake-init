@@ -30,6 +30,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - uses: actions/setup-python@v2
+      if: matrix.os == 'macos'
+      with: { python-version: "3.x" }
+
     - name: Create project
       run: python cmake-init.py create -s proj
 
@@ -69,6 +73,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+
+    - uses: actions/setup-python@v2
+      if: matrix.os == 'macos'
+      with: { python-version: "3.x" }
 
     - name: Create project
       run: python cmake-init.py create ${{ matrix.type }} proj
