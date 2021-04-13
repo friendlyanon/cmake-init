@@ -32,7 +32,7 @@ import re
 import subprocess
 import sys
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 root_cml_top = """cmake_minimum_required(VERSION 3.14)
 
@@ -927,7 +927,7 @@ def main():
     create_p.add_argument("path", type=os.path.realpath)
     create_p.set_defaults(func=create, type="", std="")
     create_type_g = create_p.add_mutually_exclusive_group()
-    for type, flags in {"s": ["-s", "-y"], "e": ["-e"], "h": ["-ho"]}.items():
+    for type, flags in {"s": ["-s"], "e": ["-e", "-y"], "h": ["-ho"]}.items():
         create_type_g.add_argument(
             *flags,
             dest="type",
