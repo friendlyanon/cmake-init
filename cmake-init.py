@@ -359,6 +359,20 @@ cmake_presets = """\
   },
   "configurePresets": [
     {
+      "name": "warnings-unix",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-Wall -Wextra -pedantic"
+      }
+    },
+    {
+      "name": "warnings-windows",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "/W4 /permissive-"
+      }
+    },
+    {
       "name": "ci-build",
       "binaryDir": "${sourceDir}/build",
       "hidden": true
@@ -367,7 +381,7 @@ cmake_presets = """\
       "name": "ci-unix",
       "generator": "Unix Makefiles",
       "hidden": true,
-      "inherits": "ci-build",
+      "inherits": ["warnings-unix", "ci-build"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
@@ -382,7 +396,7 @@ cmake_presets = """\
     },
     {
       "name": "ci-windows",
-      "inherits": "ci-build",
+      "inherits": ["warnings-windows", "ci-build"],
       "generator": "Visual Studio 16 2019",
       "architecture": "x64"
     }
@@ -401,11 +415,9 @@ cmake_user_presets = """\
   "configurePresets": [
     {
       "name": "dev",
-      "binaryDir": "${sourceDir}/build",
-      "generator": "%s",
+      "inherits": "ci-%s",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "%s",
-        "%s_DEVELOPER_MODE": "ON"%s
+        "%s_DEVELOPER_MODE": "ON"
       }
     }
   ]
@@ -618,13 +630,7 @@ install(
 
 def root_dir(d):
     type = d["type_id"]
-    warnings = "-Wall -Wextra -pedantic"
-    generator = "Unix Makefiles"
-    config = ",\n        \"CMAKE_BUILD_TYPE\": \"Release\""
-    if os.name == "nt":
-        warnings = "/W4 /permissive-"
-        generator = "Visual Studio 16 2019"
-        config = ""
+    preset_os = "windows" if os.name == "nt" else "unix"
     matrix = ""
     shared_option = ""
     if type == "s":
@@ -680,8 +686,7 @@ add_custom_target(
         ".gitignore": gitignore,
         "CMakeLists.txt": [s.format(**d) for s in root_cml],
         "CMakePresets.json": cmake_presets,
-        "CMakeUserPresets.json":
-            cmake_user_presets % (generator, warnings, d["name"], config),
+        "CMakeUserPresets.json": cmake_user_presets % (preset_os, d["name"]),
     }
 
 
