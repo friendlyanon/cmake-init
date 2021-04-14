@@ -32,7 +32,7 @@ import re
 import subprocess
 import sys
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 root_cml_top = """cmake_minimum_required(VERSION 3.14)
 
@@ -535,6 +535,9 @@ def is_semver(version):
 
 def get_substitutes(cli_args, name):
     no_prompt = cli_args.flags_used
+    if no_prompt and not is_valid_name(name):
+        print(f"'{name}' is not a valid name", file=sys.stderr)
+        exit(1)
 
     def ask(*args, **kwargs):
         return prompt(*args, **kwargs, no_prompt=no_prompt)
