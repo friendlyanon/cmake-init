@@ -122,6 +122,12 @@ jobs:
       shell: sh
       run: echo "::set-output name=version::$(python cmake-init.pyz --version)"
 
+    - uses: mathieudutour/github-tag-action@v5.4
+      id: tag_version
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        custom_tag: ${{ steps.version.outputs.version }}
+
     - name: Release
       uses: softprops/action-gh-release@v1
       env:
@@ -129,5 +135,6 @@ jobs:
       with:
         files: cmake-init.pyz
         prerelease: true
-        body: Release of version ${{ steps.version.outputs.version }}
-        name: ${{ steps.version.outputs.version }}
+        tag_name: ${{ steps.tag_version.outputs.new_tag }}
+        body: Release of version ${{ steps.tag_version.outputs.new_tag }}
+        name: ${{ steps.tag_version.outputs.new_tag }}
