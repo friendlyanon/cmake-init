@@ -15,17 +15,17 @@ include(cmake/variables.cmake)
 
 # ---- Declare library ----
 
-add_library(headeronly_headeronly INTERFACE)
-add_library(headeronly::headeronly ALIAS headeronly_headeronly)
+add_library(%(name)s_%(name)s INTERFACE)
+add_library(%(name)s::%(name)s ALIAS %(name)s_%(name)s)
 
 set_property(
-    TARGET headeronly_headeronly PROPERTY
-    EXPORT_NAME headeronly
+    TARGET %(name)s_%(name)s PROPERTY
+    EXPORT_NAME %(name)s
 )
 
 target_include_directories(
-    headeronly_headeronly
-    ${headeronly_warning_guard}
+    %(name)s_%(name)s
+    ${%(name)s_warning_guard}
     INTERFACE
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
