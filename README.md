@@ -51,7 +51,7 @@ Here are some example outputs of the script as of 0.2.4:
 
 Make sure you have these programs installed:
 
-* Python
+* Python 3.8 or newer
 * CMake 3.19 or newer
 * git
 
