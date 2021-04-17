@@ -60,14 +60,14 @@ chosen for this, because it is cross-platform, convenient for this use-case and
 you likely already have it installed or the need for it will come up later
 anyway.
 
-You have to just download the `cmake-init.py` script, place it somewhere in
-your `PATH` and rename it to `cmake-init`. On Windows, you have to create a
-`cmake-init.bat` file to proxy to the script:
+You have to just download the `cmake-init.pyz` script from the [releases][4],
+place it somewhere in your `PATH` and rename it to `cmake-init`. On Windows,
+you have to create a `cmake-init.bat` file to proxy to the script:
 
 ```batch
 @echo off
 
-python cmake-init.py %*
+python cmake-init.pyz %*
 ```
 
 ## Usage
@@ -105,3 +105,4 @@ indirectly from the use or non-use of these files.
 [1]: https://cmake.org/cmake/help/latest/module/FetchContent.html
 [2]: http://www.gnu.org/licenses/gpl-3.0.en.html
 [3]: https://www.gnu.org/licenses/gpl.html
+[4]: https://github.com/friendlyanon/cmake-init/releases

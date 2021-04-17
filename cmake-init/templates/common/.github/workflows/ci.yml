@@ -1,0 +1,41 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+    - master
+
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [macos, ubuntu, windows]{type shared}
+
+        type: [shared, static]
+
+        include:
+        - { type: shared, shared: YES }
+        - { type: static, shared: NO }{end}
+
+    runs-on: ${{ matrix.os }}-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Configure
+      run: cmake --preset=ci-${{ matrix.os }}{type shared}
+        -D BUILD_SHARED_LIBS=${{ matrix.shared }}{end}
+
+    - name: Build
+      run: cmake --build build --config Release -j 2
+
+    - name: Install
+      run: cmake --install build --config Release --prefix prefix
+
+    - name: Test
+      working-directory: build
+      run: ctest -C Release -j 2

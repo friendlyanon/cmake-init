@@ -35,7 +35,9 @@ jobs:
       with: { python-version: "3.x" }
 
     - name: Create project
-      run: python cmake-init.py create -s proj
+      run: |
+        python -m zipapp cmake-init -p "/usr/bin/env python3"
+        python cmake-init.pyz create -s proj
 
     - name: Configure
       working-directory: proj
@@ -79,7 +81,9 @@ jobs:
       with: { python-version: "3.x" }
 
     - name: Create project
-      run: python cmake-init.py create ${{ matrix.type }} proj
+      run: |
+        python -m zipapp cmake-init -p "/usr/bin/env python3"
+        python cmake-init.pyz create ${{ matrix.type }} proj
 
     - name: Configure
       working-directory: proj
@@ -96,3 +100,33 @@ jobs:
     - name: Test
       working-directory: proj/build
       run: ctest -C Release
+
+  release:
+    name: Package a release
+
+    if: github.event_name == 'push'
+
+    needs: [shared_static, other]
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Package
+      run: python -m zipapp cmake-init -p "/usr/bin/env python3"
+
+    - name: Get version
+      id: version
+      shell: sh
+      run: echo "::set-output name=version::$(python cmake-init.pyz --version)"
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: cmake-init.pyz
+        prerelease: true
+        body: Release of version ${{ steps.version.outputs.version }}
+        name: ${{ steps.version.outputs.version }}
