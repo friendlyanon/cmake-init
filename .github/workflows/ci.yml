@@ -129,5 +129,6 @@ jobs:
       with:
         files: cmake-init.pyz
         prerelease: true
+        tag_name: v${{ steps.version.outputs.version }}
         body: Release of version ${{ steps.version.outputs.version }}
         name: v${{ steps.version.outputs.version }}
