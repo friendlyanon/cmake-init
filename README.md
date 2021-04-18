@@ -67,7 +67,7 @@ you have to create a `cmake-init.bat` file to proxy to the script:
 ```batch
 @echo off
 
-python cmake-init.pyz %*
+python %~dp0\cmake-init.pyz %*
 ```
 
 ## Usage
