@@ -163,7 +163,7 @@ def write_dir(path, d, zip_path):
 
 
 def git_init(cwd):
-    subprocess.run("git init", shell=True, check=True, cwd=cwd)
+    subprocess.run("git init -b master", shell=True, check=True, cwd=cwd)
     print("""
 The project is ready to be used with git. If you are using GitHub, you may
 push the project with the following commands from the project directory:
