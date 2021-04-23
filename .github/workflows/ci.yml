@@ -37,7 +37,7 @@ jobs:
     - name: Create project
       run: |
         python -m zipapp cmake-init -p "/usr/bin/env python3"
-        python cmake-init.pyz create -s proj
+        python cmake-init.pyz -s proj
 
     - name: Configure
       working-directory: proj
@@ -82,7 +82,7 @@ jobs:
     - name: Create project
       run: |
         python -m zipapp cmake-init -p "/usr/bin/env python3"
-        python cmake-init.pyz create ${{ matrix.type }} proj
+        python cmake-init.pyz ${{ matrix.type }} proj
 
     - name: Configure
       working-directory: proj
