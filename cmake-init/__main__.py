@@ -241,39 +241,26 @@ http://github.com/friendlyanon/cmake-init/wiki
 You are all set. Have fun programming and create something awesome!""")
 
 
-def uncomment():
-    # TODO: litter the generated files with copious amounts of comments in a
-    #  way that makes them easy to remove with this script, so they don't end
-    #  up in VCS, as the comments would be there only to explain rationale and
-    #  CMake behavior for the developer
-    pass
-
-
 def main():
     p = argparse.ArgumentParser(prog="cmake-init", description=__doc__)
     p.add_argument("--version", action="version", version=__version__)
-    subps = p.add_subparsers(dest="subcommand")
-    create_p = subps.add_parser("create", description=create.__doc__)
-    create_p.add_argument("path", type=os.path.realpath)
-    create_p.set_defaults(func=create, type_id="", std="")
-    create_type_g = create_p.add_mutually_exclusive_group()
+    p.add_argument("path", type=os.path.realpath)
+    p.set_defaults(type_id="", std="")
+    type_g = p.add_mutually_exclusive_group()
     for type, flags in {"s": ["-s"], "e": ["-e", "-y"], "h": ["-ho"]}.items():
-        create_type_g.add_argument(
+        type_g.add_argument(
             *flags,
             dest="type_id",
             action="store_const",
             const=type,
         )
-    create_p.add_argument(
+    p.add_argument(
         "--std",
         choices=["11", "14", "17", "20"],
     )
     args = p.parse_args()
-    if args.subcommand is None:
-        p.print_help()
-    else:
-        setattr(args, "flags_used", args.type_id != "" or args.std != "")
-        args.func(args)
+    setattr(args, "flags_used", args.type_id != "" or args.std != "")
+    create(args)
 
 
 try:
