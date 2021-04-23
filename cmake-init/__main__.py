@@ -264,10 +264,8 @@ def main():
 
 
 try:
-    zip._fileRefCnt += 1  # for whatever reason, this can reach 0
-    main()
+    # open a dummy fd to keep the zip from being closed
+    with zip.open("__main__.py") as dummy_fp:
+        main()
 except KeyboardInterrupt:
     pass
-finally:
-    zip._fileRefCnt -= 1
-    zip.close()
