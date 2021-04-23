@@ -31,7 +31,7 @@ import subprocess
 import sys
 import zipfile
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 zip = zipfile.ZipFile(os.path.dirname(__file__), "r")
 
