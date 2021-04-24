@@ -183,7 +183,8 @@ push the project with the following commands from the project directory:
 def print_tips(d):
     config = " --config Release" if os.name == "nt" else ""
     test_cfg = " -C Release" if os.name == "nt" else ""
-    print("""\
+    cpus = os.cpu_count()
+    print(f"""\
 To get you started with the project in developer mode, you may configure,
 build, install and test with the following commands from the project directory,
 in that order:
@@ -192,25 +193,28 @@ in that order:
     cmake --build build{config} -j {cpus}
     cmake --install build{config} --prefix prefix
     cd build && ctest{test_cfg} -j {cpus} --output-on-failure
-""".format(config=config, cpus=os.cpu_count(), test_cfg=test_cfg))
-    if not d["examples"] and d["type_id"] != "e":
+""")
+    extra = []
+    if d["examples"]:
+        extra.append("""\
+    run_examples - runs all the examples created by the add_example command""")
+    if d["type_id"] == "e":
+        extra.append("""\
+    run_exe - runs the executable built by the project""")
+    if len(extra) == 0:
         return
     print("""\
 There are some convenience targets that you can run to invoke some built
 executables conveniently:
 """)
-    if d["examples"]:
-        print("""\
-    run_examples - runs all the examples created by the add_example command""")
-    if d["type_id"] == "e":
-        print("""\
-    run_exe - runs the executable built by the project""")
-    print("""
+    for msg in extra:
+        print(msg)
+    print(f"""
 These targets are only available in developer mode, because they are generally
 not useful for consumers. You can run these targets with the following command:
 
     cmake --build build{config} -t <target>
-""".format(config=config))
+""")
 
 
 def create(args):
