@@ -14,10 +14,10 @@
       }
     },
     {
-      "name": "warnings-windows",
+      "name": "%(win_flags)s-windows",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "/W4 /permissive-"
+        "CMAKE_CXX_FLAGS": "/W4 /permissive-%(win_extra_flags)s"
       }
     },
     {
@@ -44,7 +44,7 @@
     },
     {
       "name": "ci-windows",
-      "inherits": ["warnings-windows", "ci-build"],
+      "inherits": ["%(win_flags)s-windows", "ci-build"],
       "generator": "Visual Studio 16 2019",
       "architecture": "x64"
     }
