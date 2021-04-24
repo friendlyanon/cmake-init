@@ -10,6 +10,41 @@ on:
     - master
 
 jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    # To enable coverage, go to https://codecov.io/, acquire a token, put it
+    # into your secrets (Settings > Secrets > New repository secret) and delete
+    # the "if" conditional below.
+    # If you do not wish to use codecov, then simply delete this job from the
+    # workflow.
+    if: "false"
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install LCov
+      run: sudo apt-get update -q
+        && sudo apt-get install lcov -q -y
+
+    - name: Configure
+      run: cmake --preset=ci-coverage
+
+    - name: Build
+      run: cmake --build build -j 2
+
+    - name: Test
+      working-directory: build
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        PS4: "\e[36m+++\e[0m "
+      run: |
+        set -x
+        ctest --output-on-failure
+        lcov -c -d .. -o coverage.info --include '${{ github.workspace }}/*'
+        lcov --list coverage.info
+        bash <(curl -s https://codecov.io/bash) -f coverage.info
+
   test:
     strategy:
       matrix:
