@@ -115,8 +115,6 @@ library."""
         ),
         "examples": False,
         "os": "windows" if os.name == "nt" else "unix",
-        "win_flags": "warnings",
-        "win_extra_flags": "",
     }
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":
@@ -126,9 +124,6 @@ library."""
             mapper=lambda v: v[0:1].lower(),
             predicate=lambda v: v in ["y", "n"],
         )
-    else:
-        d["win_flags"] = "flags"
-        d["win_extra_flags"] = " /EHsc"
     return d
 
 
