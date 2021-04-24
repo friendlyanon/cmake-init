@@ -7,7 +7,7 @@ rules with proper relocatable CMake packages and use modern CMake (3.14+)
 See the gif in the [assets](assets) folder for an example of using
 `cmake-init`.
 
-Here are some example outputs of the script as of 0.2.4:
+Here are some example outputs of the script as of 0.6.1:
 
 * https://github.com/friendlyanon/cmake-init-shared-static
 * https://github.com/friendlyanon/cmake-init-executable
