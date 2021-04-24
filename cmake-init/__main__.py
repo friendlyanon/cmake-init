@@ -31,6 +31,8 @@ import subprocess
 import sys
 import zipfile
 
+from distutils.version import LooseVersion
+
 __version__ = "0.5.1"
 
 zip = zipfile.ZipFile(os.path.dirname(__file__), "r")
@@ -163,7 +165,14 @@ def write_dir(path, d, zip_path):
 
 
 def git_init(cwd):
-    subprocess.run("git init -b master", shell=True, check=True, cwd=cwd)
+    branch = ""
+    git_version_out = \
+        subprocess.run("git --version", shell=True, capture_output=True)
+    git_version_str = str(git_version_out.stdout[12:], sys.stdout.encoding)
+    git_version = LooseVersion(git_version_str.rstrip())
+    if LooseVersion("2.28.0") <= git_version:
+        branch = " -b master"
+    subprocess.run(f"git init{branch}", shell=True, check=True, cwd=cwd)
     print("""
 The project is ready to be used with git. If you are using GitHub, you may
 push the project with the following commands from the project directory:
