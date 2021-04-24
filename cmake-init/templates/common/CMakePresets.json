@@ -39,7 +39,7 @@
       "inherits": "ci-unix",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Coverage",
-        "CMAKE_CXX_FLAGS_COVERAGE": "-O0 -g --coverage",
+        "CMAKE_CXX_FLAGS_COVERAGE": "-O0 -g --coverage -fkeep-inline-functions -fkeep-static-functions",
         "CMAKE_EXE_LINKER_FLAGS_COVERAGE": "--coverage",
         "CMAKE_STATIC_LINKER_FLAGS_COVERAGE": "--coverage",
         "CMAKE_SHARED_LINKER_FLAGS_COVERAGE": "--coverage"
