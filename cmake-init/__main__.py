@@ -255,21 +255,41 @@ You are all set. Have fun programming and create something awesome!""")
 
 
 def main():
-    p = argparse.ArgumentParser(prog="cmake-init", description=__doc__)
+    p = argparse.ArgumentParser(
+        prog="cmake-init",
+        description=__doc__,
+        add_help=False,
+    )
+    p.add_argument(
+        "--help",
+        action="help",
+        help="show this help message and exit",
+    )
     p.add_argument("--version", action="version", version=__version__)
-    p.add_argument("path", type=os.path.realpath)
+    p.add_argument(
+        "path",
+        type=os.path.realpath,
+        help="path to generate to, the name is also derived from this",
+    )
     p.set_defaults(type_id="", std="")
     type_g = p.add_mutually_exclusive_group()
-    for type, flags in {"s": ["-s"], "e": ["-e", "-y"], "h": ["-ho"]}.items():
+    mapping = {
+        "s": "omit prompts, generate a static/shared library (default)",
+        "e": "omit prompts, generate an executable",
+        "h": "omit prompts, generate a header-only library",
+    }
+    for flag, help in mapping.items():
         type_g.add_argument(
-            *flags,
+            f"-{flag}",
             dest="type_id",
             action="store_const",
-            const=type,
+            const=flag,
+            help=help,
         )
     p.add_argument(
         "--std",
         choices=["11", "14", "17", "20"],
+        help="set the C++ standard to use (default: 17)",
     )
     args = p.parse_args()
     setattr(args, "flags_used", args.type_id != "" or args.std != "")

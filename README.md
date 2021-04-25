@@ -75,9 +75,9 @@ python %~dp0\cmake-init.pyz %*
 * `cmake-init <path>`  
   This command will create a CMake project at the provided location and
   according to the answers given to the prompts. You may pass the `-s`, `-e` or
-  `-ho` flags after to quickly create a shared library, executable or a header
+  `-h` flags after to quickly create a shared library, executable or a header
   only library respectively.
-* `cmake-init -h`  
+* `cmake-init --help`  
   Shows the help screen.
 
 ## Licensing
