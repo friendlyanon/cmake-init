@@ -37,6 +37,8 @@ __version__ = "0.6.1"
 
 zip = zipfile.ZipFile(os.path.dirname(__file__), "r")
 
+is_windows = os.name == "nt"
+
 
 def not_empty(value):
     return len(value) != 0
@@ -123,7 +125,7 @@ library."""
             header="This will require you to download clang-tidy locally.",
         ) == "y",
         "examples": False,
-        "os": "win64" if os.name == "nt" else "unix",
+        "os": "win64" if is_windows else "unix",
     }
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":
@@ -192,8 +194,8 @@ push the project with the following commands from the project directory:
 
 
 def print_tips(d):
-    config = " --config Release" if os.name == "nt" else ""
-    test_cfg = " -C Release" if os.name == "nt" else ""
+    config = " --config Release" if is_windows else ""
+    test_cfg = " -C Release" if is_windows else ""
     cpus = os.cpu_count()
     print(f"""\
 To get you started with the project in developer mode, you may configure,
