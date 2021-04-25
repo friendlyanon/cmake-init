@@ -115,6 +115,13 @@ library."""
             predicate=lambda v: v in ["11", "14", "17", "20"],
             header="C++ standard to use. Defaults to 17.",
         ),
+        "use_clang_tidy": ask(
+            "Add clang-tidy to local dev preset ([Y]es/[n]o)",
+            cli_args.use_clang_tidy or "y",
+            mapper=lambda v: v[0:1].lower(),
+            predicate=lambda v: v in ["y", "n"],
+            header="This will require you to download clang-tidy locally.",
+        ) == "y",
         "examples": False,
         "os": "windows" if os.name == "nt" else "unix",
     }
@@ -271,7 +278,8 @@ def main():
         type=os.path.realpath,
         help="path to generate to, the name is also derived from this",
     )
-    p.set_defaults(type_id="", std="")
+    create_flags = ["type_id", "std", "use_clang_tidy"]
+    p.set_defaults(**{k: "" for k in create_flags})
     type_g = p.add_mutually_exclusive_group()
     mapping = {
         "s": "omit prompts, generate a static/shared library (default)",
@@ -291,8 +299,16 @@ def main():
         choices=["11", "14", "17", "20"],
         help="set the C++ standard to use (default: 17)",
     )
+    p.add_argument(
+        "--no-clang-tidy",
+        action="store_const",
+        dest="use_clang_tidy",
+        const="n",
+        help="omit the clang-tidy preset from the dev preset",
+    )
     args = p.parse_args()
-    setattr(args, "flags_used", args.type_id != "" or args.std != "")
+    flags_used = any(getattr(args, k) != "" for k in create_flags)
+    setattr(args, "flags_used", flags_used)
     create(args)
 
 

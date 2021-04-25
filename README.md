@@ -54,6 +54,7 @@ Make sure you have these programs installed:
 * Python 3.8 or newer
 * CMake 3.19 or newer
 * git
+* clang-tidy (optional, should be available in PATH as `clang-tidy`)
 
 `cmake-init` consists of a single file that can be run using Python. Python was
 chosen for this, because it is cross-platform, convenient for this use-case and
@@ -70,6 +71,21 @@ you have to create a `cmake-init.bat` file to proxy to the script:
 python %~dp0\cmake-init.pyz %*
 ```
 
+### clang-tidy
+
+[clang-tidy][5] is a static analysis tool that helps you spot logical errors in
+your code before it is compiled. This script gives you the option to inherit
+the `clang-tidy` preset in your `dev` preset, enabling the CMake integration
+for this tool.
+
+CI will always run clang-tidy for you, so it is entirely optional to install
+and use it locally, but it is recommended.
+
+**For Windows users**, if you wish to use clang-tidy, then you must install
+[Ninja][6] and set the `generator` field in your `dev` preset to `Ninja`. The
+reason for this is that only [Makefiles and Ninja][7] are supported with CMake
+for use with clang-tidy. For other generators, this feature is a no-op.
+
 ## Usage
 
 * `cmake-init <path>`  
@@ -78,7 +94,7 @@ python %~dp0\cmake-init.pyz %*
   `-h` flags after to quickly create a shared library, executable or a header
   only library respectively.
 * `cmake-init --help`  
-  Shows the help screen.
+  Shows the help screen for more flags and switches.
 
 ## Licensing
 
@@ -100,3 +116,6 @@ indirectly from the use or non-use of these files.
 [2]: http://www.gnu.org/licenses/gpl-3.0.en.html
 [3]: https://www.gnu.org/licenses/gpl.html
 [4]: https://github.com/friendlyanon/cmake-init/releases
+[5]: https://clang.llvm.org/extra/clang-tidy/
+[6]: https://github.com/ninja-build/ninja
+[7]: https://cmake.org/cmake/help/latest/prop_tgt/LANG_CLANG_TIDY.html

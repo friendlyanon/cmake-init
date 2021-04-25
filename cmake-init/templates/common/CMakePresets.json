@@ -7,6 +7,13 @@
   },
   "configurePresets": [
     {
+      "name": "clang-tidy",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;--header-filter=${sourceDir}/*"
+      }
+    },
+    {
       "name": "flags-unix",
       "hidden": true,
       "cacheVariables": {
@@ -30,7 +37,7 @@
       "name": "ci-unix",
       "generator": "Unix Makefiles",
       "hidden": true,
-      "inherits": ["flags-unix", "ci-build"],
+      "inherits": ["flags-unix", "ci-build", "clang-tidy"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
@@ -55,7 +62,7 @@
     },
     {
       "name": "ci-windows",
-      "inherits": ["flags-windows", "ci-build"],
+      "inherits": ["flags-windows", "ci-build", "clang-tidy"],
       "generator": "Visual Studio 16 2019",
       "architecture": "x64"
     }
