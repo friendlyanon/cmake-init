@@ -69,13 +69,13 @@ jobs:
       fail-fast: false
 
       matrix:
-        type: [-e, -ho]
+        type: [-e, -h]
 
         os: [macos, ubuntu, windows]
 
         include:
         - { type: -e, name: Executable }
-        - { type: -ho, name: "Library: header-only" }
+        - { type: -h, name: "Library: header-only" }
 
     name: ${{ matrix.name }} (${{ matrix.os }})
 
