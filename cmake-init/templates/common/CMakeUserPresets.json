@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 14,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "dev",
+      "inherits": ["ci-%(os)s"{if use_clang_tidy}, "clang-tidy"{end}],
+      "cacheVariables": {
+        "%(name)s_DEVELOPER_MODE": "ON"
+      }
+    }
+  ]
+}
