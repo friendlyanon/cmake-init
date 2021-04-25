@@ -80,12 +80,6 @@ python %~dp0\cmake-init.pyz %*
 * `cmake-init -h`  
   Shows the help screen.
 
-## To-do
-
-* Maybe figure out PEX  
-  It would be nicer if the big chunks of strings could be packaged in a
-  runnable zip, so the script itself stays simple.
-
 ## Licensing
 
 [![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)][2]  
