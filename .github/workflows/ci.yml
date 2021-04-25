@@ -6,9 +6,17 @@ on:
     - master
     - develop
 
+    paths:
+    - cmake-init/**
+    - .github/workflows/*
+
   pull_request:
     branches:
     - develop
+
+    paths:
+    - cmake-init/**
+    - .github/workflows/*
 
 jobs:
   shared_static:
