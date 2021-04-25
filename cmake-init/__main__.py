@@ -123,7 +123,7 @@ library."""
             header="This will require you to download clang-tidy locally.",
         ) == "y",
         "examples": False,
-        "os": "windows" if os.name == "nt" else "unix",
+        "os": "win64" if os.name == "nt" else "unix",
     }
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":

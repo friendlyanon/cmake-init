@@ -37,10 +37,17 @@
       "name": "ci-unix",
       "generator": "Unix Makefiles",
       "hidden": true,
-      "inherits": ["flags-unix", "ci-build", "clang-tidy"],
+      "inherits": ["flags-unix", "ci-build"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
+    },
+    {
+      "name": "ci-win64",
+      "inherits": ["flags-windows", "ci-build"],
+      "generator": "Visual Studio 16 2019",
+      "architecture": "x64",
+      "hidden": true
     },
     {
       "name": "ci-coverage",
@@ -58,13 +65,11 @@
     },
     {
       "name": "ci-ubuntu",
-      "inherits": "ci-unix"
+      "inherits": ["ci-unix", "clang-tidy"]
     },
     {
       "name": "ci-windows",
-      "inherits": ["flags-windows", "ci-build", "clang-tidy"],
-      "generator": "Visual Studio 16 2019",
-      "architecture": "x64"
+      "inherits": "ci-win64"
     }
   ]
 }

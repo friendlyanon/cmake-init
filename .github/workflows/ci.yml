@@ -39,6 +39,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: Install clang-tidy
+      if: matrix.os == 'ubuntu'
+      run: sudo apt-get install clang-tidy -y -q
+
     - uses: actions/setup-python@v2
       with: { python-version: "3.8" }
 
@@ -83,6 +87,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+
+    - name: Install clang-tidy
+      if: matrix.os == 'ubuntu'
+      run: sudo apt-get install clang-tidy -y -q
 
     - uses: actions/setup-python@v2
       with: { python-version: "3.8" }
