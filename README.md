@@ -34,6 +34,11 @@ Here are some example outputs of the script as of 0.6.1:
 * Use modern CMake (3.14+)  
   There are too many outdated and plain wrong examples on the internet, it's
   time to change that.
+* Make usage of tools easy  
+  Code coverage (gcov), code linting and formatting (clang-format), static
+  analysis (clang-tidy) and dynamic analysis (sanitizers, valgrind) are all
+  very helpful ways to guide the developer in creating better software, so they
+  should be easy to use.
 
 ## Non-goals
 
