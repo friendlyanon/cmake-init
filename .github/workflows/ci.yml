@@ -33,6 +33,9 @@ jobs:
         - { job: 1, type: -s, name: "Library: static", flag: "" }
         - { job: 2, type: -h, name: "Library: header-only", flag: "" }
         - { job: 3, type: -e, name: "Executable", flag: "" }
+        # CMake by default will pick 10.0.17763.0 up, but that has bugs in it
+        # that make it emit warnings with the new conforming preprocessor
+        - { os: windows, sdk_flag: "-D CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION=10.0.19041.0" }
 
     name: ${{ matrix.name }} (${{ matrix.os }})
 
@@ -56,6 +59,7 @@ jobs:
     - name: Configure
       working-directory: proj
       run: cmake --preset=ci-${{ matrix.os }} ${{ matrix.flag }}
+        ${{ matrix.sdk_flag }}
 
     - name: Build
       working-directory: proj
