@@ -19,67 +19,20 @@ on:
     - .github/workflows/*
 
 jobs:
-  shared_static:
+  test:
     strategy:
       fail-fast: false
 
       matrix:
-        type: [shared, static]
+        job: [0, 1, 2, 3]
 
         os: [macos, ubuntu, windows]
 
         include:
-        - { type: shared, build: YES }
-        - { type: static, build: NO }
-
-    name: "Library: ${{ matrix.type }} (${{ matrix.os }})"
-
-    runs-on: ${{ matrix.os }}-latest
-
-    steps:
-    - uses: actions/checkout@v1
-
-    - name: Install clang-tidy
-      if: matrix.os == 'ubuntu'
-      run: sudo apt-get install clang-tidy -y -q
-
-    - uses: actions/setup-python@v2
-      with: { python-version: "3.8" }
-
-    - name: Create project
-      run: |
-        python -m zipapp cmake-init -p "/usr/bin/env python3"
-        python cmake-init.pyz -s proj
-
-    - name: Configure
-      working-directory: proj
-      run: cmake --preset=ci-${{ matrix.os }}
-        -D BUILD_SHARED_LIBS=${{ matrix.build }}
-
-    - name: Build
-      working-directory: proj
-      run: cmake --build build --config Release
-
-    - name: Install
-      working-directory: proj
-      run: cmake --install build --config Release --prefix prefix
-
-    - name: Test
-      working-directory: proj/build
-      run: ctest -C Release
-
-  other:
-    strategy:
-      fail-fast: false
-
-      matrix:
-        type: [-e, -h]
-
-        os: [macos, ubuntu, windows]
-
-        include:
-        - { type: -e, name: Executable }
-        - { type: -h, name: "Library: header-only" }
+        - { job: 0, type: -s, name: "Library: shared", flag: "-D BUILD_SHARED_LIBS=YES" }
+        - { job: 1, type: -s, name: "Library: static", flag: "" }
+        - { job: 2, type: -h, name: "Library: header-only", flag: "" }
+        - { job: 3, type: -e, name: "Executable", flag: "" }
 
     name: ${{ matrix.name }} (${{ matrix.os }})
 
@@ -102,7 +55,7 @@ jobs:
 
     - name: Configure
       working-directory: proj
-      run: cmake --preset=ci-${{ matrix.os }}
+      run: cmake --preset=ci-${{ matrix.os }} ${{ matrix.flag }}
 
     - name: Build
       working-directory: proj
@@ -121,7 +74,7 @@ jobs:
 
     if: github.ref == 'refs/heads/master'
 
-    needs: [shared_static, other]
+    needs: test
 
     runs-on: ubuntu-latest
 
