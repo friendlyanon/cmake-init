@@ -35,7 +35,7 @@ jobs:
         - { job: 3, type: -e, name: "Executable", flag: "" }
         # CMake by default will pick 10.0.17763.0 up, but that has bugs in it
         # that make it emit warnings with the new conforming preprocessor
-        - { os: windows, sdk_flag: "-D CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION=10.0.19041.0" }
+        - { os: windows, sdk_flag: "-D CMAKE_SYSTEM_VERSION=10.0.18362" }
 
     name: ${{ matrix.name }} (${{ matrix.os }})
 
