@@ -25,7 +25,7 @@
       "name": "flags-windows",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "/W4 /permissive- /EHsc /volatile:iso /Zc:__cplusplus /Zc:preprocessor /Zc:throwingNew"
+        "CMAKE_CXX_FLAGS": "/W4 /permissive- /EHsc /volatile:iso /Zc:__cplusplus /Zc:throwingNew"
       }
     },
     {

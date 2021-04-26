@@ -50,12 +50,9 @@ jobs:
       matrix:
         os: [macos, ubuntu, windows]{type shared}
 
-        type: [shared, static]{end}
+        type: [shared, static]
 
         include:
-        # CMake by default will pick 10.0.17763.0 up, but that has bugs in it
-        # that make it emit warnings with the new conforming preprocessor
-        - { os: windows, sdk_flag: "-D CMAKE_SYSTEM_VERSION=10.0.18362" }{type shared}
         - { type: shared, shared: YES }
         - { type: static, shared: NO }{end}
 
@@ -69,7 +66,7 @@ jobs:
       run: sudo apt-get install clang-tidy -y -q
 
     - name: Configure
-      run: cmake --preset=ci-${{ matrix.os }} ${{ matrix.sdk_flag }}{type shared}
+      run: cmake --preset=ci-${{ matrix.os }}{type shared}
         -D BUILD_SHARED_LIBS=${{ matrix.shared }}{end}
 
     - name: Build
