@@ -149,8 +149,8 @@ def mkdir(path):
     os.makedirs(path, exist_ok=True)
 
 
-def write_file(path, d, zip_path):
-    if os.path.exists(path):
+def write_file(path, d, overwrite, zip_path):
+    if not overwrite and os.path.exists(path):
         return
 
     def replacer(match):
@@ -169,15 +169,15 @@ def write_file(path, d, zip_path):
         f.write(contents % d)
 
 
-def write_dir(path, d, zip_path):
+def write_dir(path, d, overwrite, zip_path):
     for entry in zip_path.iterdir():
         name = entry.name.replace("__name__", d["name"])
         next_path = os.path.join(path, name)
         if entry.is_file():
-            write_file(next_path, d, entry)
+            write_file(next_path, d, overwrite, entry)
         elif name != "example" or d["examples"]:
             mkdir(next_path)
-            write_dir(next_path, d, entry)
+            write_dir(next_path, d, overwrite, entry)
 
 
 def git_init(cwd):
@@ -241,8 +241,10 @@ def create(args):
     """Create a CMake project according to the provided information
     """
     path = args.path
-    root_exists = os.path.exists(path)
-    if root_exists and os.path.isdir(path) and len(os.listdir(path)) != 0:
+    if not args.overwrite \
+            and os.path.exists(path) \
+            and os.path.isdir(path) \
+            and len(os.listdir(path)) != 0:
         print(
             f"Error - directory exists and is not empty:\n{path}",
             file=sys.stderr,
@@ -255,8 +257,11 @@ def create(args):
         d = get_substitutes(args, os.path.basename(path))
     mkdir(path)
     mapping = {"s": "shared/", "e": "executable/", "h": "header/"}
-    write_dir(path, d, zipfile.Path(zip, "templates/" + mapping[d["type_id"]]))
-    write_dir(path, d, zipfile.Path(zip, "templates/common/"))
+    zip_paths = ["templates/" + mapping[d["type_id"]], "templates/common/"]
+    if args.overwrite:
+        zip_paths.reverse()
+    for zip_path in zip_paths:
+        write_dir(path, d, args.overwrite, zipfile.Path(zip, zip_path))
     git_init(path)
     print_tips(d)
     print("""\
@@ -287,6 +292,7 @@ def main():
         type=os.path.realpath,
         help="path to generate to, the name is also derived from this",
     )
+    p.set_defaults(overwrite=False)
     create_flags = ["type_id", "std", "use_clang_tidy", "use_cppcheck"]
     p.set_defaults(**{k: "" for k in create_flags})
     type_g = p.add_mutually_exclusive_group()
@@ -321,6 +327,11 @@ def main():
         dest="use_cppcheck",
         const="n",
         help="omit the cppcheck preset from the dev preset",
+    )
+    p.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="omit checks for existing files and non-empty project root",
     )
     args = p.parse_args()
     flags_used = any(getattr(args, k) != "" for k in create_flags)
