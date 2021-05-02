@@ -59,7 +59,8 @@ Make sure you have these programs installed:
 * Python 3.8 or newer
 * CMake 3.19 or newer
 * git
-* clang-tidy (optional, should be available in PATH as `clang-tidy`)
+* [clang-tidy](#clang-tidy) (optional)
+* [cppcheck](#cppcheck) (optional)
 
 `cmake-init` consists of a single file that can be run using Python. Python was
 chosen for this, because it is cross-platform, convenient for this use-case and
@@ -90,6 +91,21 @@ and use it locally, but it is recommended.
 [Ninja][6] and set the `generator` field in your `dev` preset to `Ninja`. The
 reason for this is that only [Makefiles and Ninja][7] are supported with CMake
 for use with clang-tidy. For other generators, this feature is a no-op.
+
+### cppcheck
+
+[cppcheck][8] is a static analysis tool similar to clang-tidy, however the
+overlap in what they detect is minimal, so it's beneficial to use both of them.
+This script gives you the option to inherit the `cppcheck` preset in your `dev`
+preset, enabling the CMake integration for this tool.
+
+CI will always run cppcheck for you, so it is entirely optional to install and
+use it locally, but it is recommended.
+
+**For Windows users**, if you wish to use cppcheck, then you must install
+[Ninja][6] and set the `generator` field in your `dev` preset to `Ninja`. The
+reason for this is that only [Makefiles and Ninja][9] are supported with CMake
+for use with cppcheck. For other generators, this feature is a no-op.
 
 ## Usage
 
@@ -124,3 +140,5 @@ indirectly from the use or non-use of these files.
 [5]: https://clang.llvm.org/extra/clang-tidy/
 [6]: https://github.com/ninja-build/ninja
 [7]: https://cmake.org/cmake/help/latest/prop_tgt/LANG_CLANG_TIDY.html
+[8]: http://cppcheck.sourceforge.net/
+[9]: https://cmake.org/cmake/help/latest/prop_tgt/LANG_CPPCHECK.html

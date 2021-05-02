@@ -7,6 +7,13 @@
   },
   "configurePresets": [
     {
+      "name": "cppcheck",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_CPPCHECK": "cppcheck"
+      }
+    },
+    {
       "name": "clang-tidy",
       "hidden": true,
       "cacheVariables": {
@@ -65,7 +72,7 @@
     },
     {
       "name": "ci-ubuntu",
-      "inherits": ["ci-unix", "clang-tidy"]
+      "inherits": ["ci-unix", "clang-tidy", "cppcheck"]
     },
     {
       "name": "ci-windows",

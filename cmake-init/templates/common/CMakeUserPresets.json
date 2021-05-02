@@ -8,7 +8,7 @@
   "configurePresets": [
     {
       "name": "dev",
-      "inherits": ["ci-%(os)s"{if use_clang_tidy}, "clang-tidy"{end}],
+      "inherits": ["ci-%(os)s"{if use_clang_tidy}, "clang-tidy"{end}{if use_cppcheck}, "cppcheck"{end}],
       "cacheVariables": {
         "%(name)s_DEVELOPER_MODE": "ON"
       }

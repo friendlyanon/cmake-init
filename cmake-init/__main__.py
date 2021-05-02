@@ -124,6 +124,13 @@ library."""
             predicate=lambda v: v in ["y", "n"],
             header="This will require you to download clang-tidy locally.",
         ) == "y",
+        "use_cppcheck": ask(
+            "Add cppcheck to local dev preset ([Y]es/[n]o)",
+            cli_args.use_cppcheck or "y",
+            mapper=lambda v: v[0:1].lower(),
+            predicate=lambda v: v in ["y", "n"],
+            header="This will require you to download cppcheck locally.",
+        ) == "y",
         "examples": False,
         "os": "win64" if is_windows else "unix",
     }
@@ -280,7 +287,7 @@ def main():
         type=os.path.realpath,
         help="path to generate to, the name is also derived from this",
     )
-    create_flags = ["type_id", "std", "use_clang_tidy"]
+    create_flags = ["type_id", "std", "use_clang_tidy", "use_cppcheck"]
     p.set_defaults(**{k: "" for k in create_flags})
     type_g = p.add_mutually_exclusive_group()
     mapping = {
@@ -307,6 +314,13 @@ def main():
         dest="use_clang_tidy",
         const="n",
         help="omit the clang-tidy preset from the dev preset",
+    )
+    p.add_argument(
+        "--no-cppcheck",
+        action="store_const",
+        dest="use_cppcheck",
+        const="n",
+        help="omit the cppcheck preset from the dev preset",
     )
     args = p.parse_args()
     flags_used = any(getattr(args, k) != "" for k in create_flags)
