@@ -32,7 +32,7 @@
       "name": "flags-windows",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "/W4 /permissive- /EHsc /volatile:iso /Zc:__cplusplus /Zc:throwingNew{type shared} /wd4251{end}"
+        "CMAKE_CXX_FLAGS": "/W4 /permissive- /EHsc /volatile:iso /Zc:__cplusplus /Zc:throwingNew"
       }
     },
     {

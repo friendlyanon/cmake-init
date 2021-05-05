@@ -26,6 +26,7 @@ generate_export_header(
     %(name)s_%(name)s
     BASE_NAME %(name)s
     EXPORT_FILE_NAME include/%(name)s/%(name)s_export.h
+    CUSTOM_CONTENT_FROM_VARIABLE pragma_suppress_c4251
 )
 
 if(NOT BUILD_SHARED_LIBS)

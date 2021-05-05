@@ -12,7 +12,15 @@ if(PROJECT_IS_TOP_LEVEL)
   endif()
 endif()
 
-# ---- Warning guard ----
+{type shared}# ---- Suppress C4251 on Windows ----
+
+# Please see include/%(name)s/%(name)s.h for more details
+set(pragma_suppress_c4251 "#define %(uc_name)s_SUPPRESS_C4251")
+if(MSVC)
+  string(APPEND pragma_suppress_c4251 [[ _Pragma("warning(suppress:4251)")]])
+endif()
+
+{end}# ---- Warning guard ----
 
 # target_include_directories with the SYSTEM modifier will request the compiler
 # to omit warnings from the provided paths, if the compiler supports that

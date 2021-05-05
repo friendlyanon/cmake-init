@@ -6,12 +6,12 @@
 
 /**
  * A note about the MSVC warning C4251:
- * This warning is disabled in the preset of the project, because there are too
- * many ways to work around it and all involve some kind of trade-off
- * (increased code complexity requiring more developer time, writing
- * boilerplate code, longer compile times), but those solutions are very
- * situational and solve things in slightly different ways, depending on the
- * requirements of the project.
+ * This warning should be suppressed for private data members of the project's
+ * exported classes, because there are too many ways to work around it and all
+ * involve some kind of trade-off (increased code complexity requiring more
+ * developer time, writing boilerplate code, longer compile times), but those
+ * solutions are very situational and solve things in slightly different ways,
+ * depending on the requirements of the project.
  * That is to say, there is no general solution.
  *
  * What can be done instead is understand where issues could arise where this
@@ -53,5 +53,6 @@ public:
   const char* name();
 
 private:
+  %(uc_name)s_SUPPRESS_C4251
   std::string name_;
 };
