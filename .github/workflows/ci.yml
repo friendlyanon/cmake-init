@@ -32,7 +32,7 @@ jobs:
         - { job: 0, type: -s, name: "Library: shared", flag: "-D BUILD_SHARED_LIBS=YES" }
         - { job: 1, type: -s, name: "Library: static", flag: "" }
         - { job: 2, type: -h, name: "Library: header-only", flag: "" }
-        - { job: 3, type: -e, name: "Executable", flag: "" }
+        - { job: 3, type: -e, name: Executable, flag: "" }
 
     name: ${{ matrix.name }} (${{ matrix.os }})
 
@@ -54,20 +54,16 @@ jobs:
         python cmake-init.pyz ${{ matrix.type }} proj
 
     - name: Configure
-      working-directory: proj
-      run: cmake --preset=ci-${{ matrix.os }} ${{ matrix.flag }}
+      run: cmake -S proj --preset=ci-${{ matrix.os }} ${{ matrix.flag }}
 
     - name: Build
-      working-directory: proj
-      run: cmake --build build --config Release
+      run: cmake --build proj/build --config Release
 
     - name: Install
-      working-directory: proj
-      run: cmake --install build --config Release --prefix prefix
+      run: cmake --install proj/build --config Release --prefix proj/prefix
 
     - name: Test
-      working-directory: proj/build
-      run: ctest -C Release
+      run: ctest --test-dir proj/build -C Release
 
   release:
     name: Package a release

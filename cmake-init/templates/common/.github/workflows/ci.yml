@@ -40,7 +40,7 @@ jobs:
         PS4: "\e[36m+++\e[0m "
       run: |
         set -x
-        ctest --output-on-failure
+        ctest --output-on-failure -j 2
         lcov -c -d .. -o coverage.info --include '${{ github.workspace }}/*'
         lcov --list coverage.info
         bash <(curl -s https://codecov.io/bash) -f coverage.info
@@ -89,9 +89,8 @@ jobs:
       run: echo /usr/lib/llvm-11/bin >> "$GITHUB_PATH"
 
     - name: Test
-      working-directory: build
       env: ${{ fromJSON(matrix.options || '{}') }}
-      run: ctest --output-on-failure
+      run: ctest --test-dir build --output-on-failure -j 2
 
   test:
     strategy:
@@ -124,5 +123,4 @@ jobs:
       run: cmake --install build --config Release --prefix prefix
 
     - name: Test
-      working-directory: build
-      run: ctest -C Release -j 2
+      run: ctest --test-dir build --output-on-failure -C Release -j 2

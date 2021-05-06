@@ -212,7 +212,7 @@ in that order:
     cmake --preset=dev
     cmake --build build{config} -j {cpus}
     cmake --install build{config} --prefix prefix
-    cd build && ctest{test_cfg} -j {cpus} --output-on-failure
+    ctest --test-dir build{test_cfg} -j {cpus} --output-on-failure
 """)
     extra = []
     if d["examples"]:
