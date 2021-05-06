@@ -45,6 +45,52 @@ jobs:
         lcov --list coverage.info
         bash <(curl -s https://codecov.io/bash) -f coverage.info
 
+  sanitize:
+    name: sanitize (${{ matrix.name }})
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        name: [address, undefined, memory]
+
+        include:
+        - name: address
+          flags: -fno-common
+          options: "{ \"ASAN_OPTIONS\": \"\
+            strict_string_checks=1:\
+            detect_stack_use_after_return=1:\
+            check_initialization_order=1:\
+            strict_init_order=1:\
+            detect_leaks=1\" }"
+
+        - name: undefined
+          options: '{ "UBSAN_OPTIONS": "print_stacktrace=1" }'
+
+        - name: memory
+          flags: -fsanitize-memory-track-origins=2
+          options: '{ "MSAN_SYMBOLIZER_PATH": "/usr/lib/llvm-11/bin" }'
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Configure
+      env:
+        SANITIZER: ${{ matrix.name }}
+        EXTRA_FLAGS: ${{ matrix.flags }}
+        CXX: clang++-11
+      run: cmake --preset=ci-sanitizer
+
+    - name: Build
+      run: cmake --build build -j 2
+
+    - name: Test
+      working-directory: build
+      env: ${{ fromJSON(matrix.options) }}
+      run: ctest --output-on-failure
+
   test:
     strategy:
       matrix:

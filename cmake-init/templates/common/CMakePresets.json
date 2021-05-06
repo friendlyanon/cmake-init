@@ -67,6 +67,14 @@
       }
     },
     {
+      "name": "ci-sanitizer",
+      "inherits": "ci-unix",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Sanitizer",
+        "CMAKE_CXX_FLAGS_SANITIZER": "-O2 -g -fsanitize=$env{SANITIZER} -fno-omit-frame-pointer $env{EXTRA_FLAGS}"
+      }
+    },
+    {
       "name": "ci-macos",
       "inherits": "ci-unix"
     },
