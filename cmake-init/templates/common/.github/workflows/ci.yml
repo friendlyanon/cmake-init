@@ -69,7 +69,6 @@ jobs:
 
         - name: memory
           flags: -fsanitize-memory-track-origins=2
-          options: '{ "MSAN_SYMBOLIZER_PATH": "/usr/lib/llvm-11/bin" }'
 
     runs-on: ubuntu-latest
 
@@ -86,9 +85,12 @@ jobs:
     - name: Build
       run: cmake --build build -j 2
 
+    - name: Add LLVM tools to PATH
+      run: echo /usr/lib/llvm-11/bin >> "$GITHUB_PATH"
+
     - name: Test
       working-directory: build
-      env: ${{ fromJSON(matrix.options) }}
+      env: ${{ fromJSON(matrix.options || '{}') }}
       run: ctest --output-on-failure
 
   test:
