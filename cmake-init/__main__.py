@@ -275,7 +275,81 @@ http://github.com/friendlyanon/cmake-init/wiki
 You are all set. Have fun programming and create something awesome!""")
 
 
+def vcpkg(d):
+    """Generate a vcpkg port in the ports folder, to make writing custom ports
+    easier for dependencies on GitHub that are not present among the vcpkg
+    provided ports
+    """
+    path = os.path.join("ports", d["name"])
+    if os.path.isdir(path):
+        print(f"""'{d["name"]}' already exists""", file=sys.stderr)
+        exit(1)
+    mkdir(path)
+    write_dir(path, d, False, zipfile.Path(zip, "templates/vcpkg/"))
+    vcpkg_root = "%VCPKG_ROOT:\=/%" if is_windows else "$VCPKG_ROOT"
+    pwd = "%cd:\=/%" if is_windows else "$PWD"
+    print(f"""\
+The port has been generated in:
+
+    {os.path.realpath(path)}
+
+Please navigate there and edit the placeholders that are surrounded with
+<angle brackets> and follow the instructions in the comments. After that's
+done, make sure you add the port to your vcpkg manifest for easy integration.
+When configuring your project, you must pass some extra variables:
+
+    cmake --preset=dev
+    -D "CMAKE_TOOLCHAIN_FILE={vcpkg_root}/scripts/buildsystems/vcpkg.cmake"
+    -D "VCPKG_OVERLAY_PORTS={pwd}/ports"
+
+Make sure you always keep up-to-date with vcpkg documentation:
+https://github.com/microsoft/vcpkg""")
+
+
+def vcpkg_mode():
+    if not os.path.isdir(".git") or not os.path.isfile("CMakeLists.txt"):
+        print("Working directory is not a CMake project", file=sys.stderr)
+        exit(1)
+    p = argparse.ArgumentParser(
+        prog="cmake-init",
+        description=vcpkg.__doc__,
+        add_help=False,
+    )
+    p.add_argument("--vcpkg", dest="name", metavar="<name>", required=True)
+    p.set_defaults(type_id="")
+    type_g = p.add_mutually_exclusive_group()
+    for flag in "sh":
+        type_g.add_argument(
+            f"-{flag}",
+            dest="type_id",
+            action="store_const",
+            const=flag,
+        )
+    args = p.parse_args()
+    if args.type_id == "":
+        args.type_id = prompt(
+            "Library type ([S]tatic/shared or [h]eader-only)",
+            "s",
+            mapper=lambda v: v[0:1].lower(),
+            predicate=lambda v: v in "sh",
+        )
+    vcpkg(args.__dict__)
+
+
+def get_or(array, index, default):
+    try:
+        return array[index]
+    except IndexError:
+        return default
+
+
 def main():
+    # I guess this is similar to how cmake switches modes on the first flag in
+    # the CLI, like cmake --build and cmake --install, but how to include that
+    # in argparse's help output?
+    if get_or(sys.argv, 1, "") == "--vcpkg":
+        vcpkg_mode()
+        return
     p = argparse.ArgumentParser(
         prog="cmake-init",
         description=__doc__,
@@ -287,12 +361,20 @@ def main():
         help="show this help message and exit",
     )
     p.add_argument("--version", action="version", version=__version__)
+    p.set_defaults(overwrite=False, dummy=False)
+    p.add_argument(
+        "--vcpkg",
+        dest="dummy",
+        type=lambda _: True,
+        metavar="<name>",
+        help="\
+pass as the first flag to make a vcpkg port of <name> with type -s, -e or -h",
+    )
     p.add_argument(
         "path",
         type=os.path.realpath,
         help="path to generate to, the name is also derived from this",
     )
-    p.set_defaults(overwrite=False)
     create_flags = ["type_id", "std", "use_clang_tidy", "use_cppcheck"]
     p.set_defaults(**{k: "" for k in create_flags})
     type_g = p.add_mutually_exclusive_group()
@@ -334,6 +416,9 @@ def main():
         help="omit checks for existing files and non-empty project root",
     )
     args = p.parse_args()
+    if args.dummy:
+        p.print_help()
+        exit()
     flags_used = any(getattr(args, k) != "" for k in create_flags)
     setattr(args, "flags_used", flags_used)
     create(args)
