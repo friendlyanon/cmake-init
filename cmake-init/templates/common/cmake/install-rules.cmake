@@ -5,13 +5,19 @@ endif()
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs){type shared}
 
-install(
-    DIRECTORY
-    "${PROJECT_SOURCE_DIR}/include/"
-    "${PROJECT_BINARY_DIR}/include/"
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-    COMPONENT %(name)s_Development
-){end}{type header}
+# Allow vcpkg portfiles to not bother with headers in debug folder
+option(%(name)s_INSTALL_HEADERS "Install headers" ON)
+mark_as_advanced(%(name)s_INSTALL_HEADERS)
+
+if(%(name)s_INSTALL_HEADERS)
+  install(
+      DIRECTORY
+      "${PROJECT_SOURCE_DIR}/include/"
+      "${PROJECT_BINARY_DIR}/include/"
+      DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+      COMPONENT %(name)s_Development
+  )
+endif(){end}{type header}
 
 install(
     DIRECTORY "${PROJECT_SOURCE_DIR}/include/"
@@ -41,11 +47,11 @@ write_basic_package_version_file(
     ARCH_INDEPENDENT{end}
 )
 
+# Allow package maintainers to freely override the path for the configs
 set(
     %(name)s_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/%(name)s"
     CACHE STRING "CMake package config location relative to the install prefix"
 )
-
 mark_as_advanced(%(name)s_INSTALL_CMAKEDIR)
 
 install(
