@@ -303,7 +303,10 @@ When configuring your project, you must pass some extra variables:
     -D "VCPKG_OVERLAY_PORTS={pwd}/ports"
 
 Make sure you always keep up-to-date with vcpkg documentation:
-https://github.com/microsoft/vcpkg""")
+https://github.com/microsoft/vcpkg
+
+See the following example for how integration with vcpkg should look like:
+https://github.com/friendlyanon/cmake-init-vcpkg-example""")
 
 
 def vcpkg_mode():
