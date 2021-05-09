@@ -55,6 +55,7 @@ def prompt(msg, default, mapper=None, predicate=not_empty, header=None, no_promp
             if mapper is not None:
                 value = mapper(value)
             if predicate(value):
+                print()
                 return value
         except Exception:
             pass
