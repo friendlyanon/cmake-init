@@ -368,7 +368,7 @@ def main():
         type=lambda _: True,
         metavar="<name>",
         help="\
-pass as the first flag to make a vcpkg port of <name> with type -s, -e or -h",
+pass as the first flag to make a vcpkg port of <name> with type -s or -h",
     )
     p.add_argument(
         "path",
