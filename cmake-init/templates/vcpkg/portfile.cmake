@@ -1,4 +1,7 @@
-# Please see
+{type header}# Header only libraries don't build anything, skip debug build
+set(VCPKG_BUILD_TYPE release)
+
+{end}# Please see
 # https://vcpkg.readthedocs.io/en/latest/maintainers/vcpkg_from_github/ for
 # details on how to fill out the arguments
 vcpkg_from_github(
@@ -29,9 +32,7 @@ vcpkg_cmake_configure(
     # the duplicates
     "-D${name}_INSTALL_HEADERS=OFF"{end}
 )
-{type header}
-set(VCPKG_BUILD_TYPE release)
-{end}
+
 vcpkg_cmake_install(){type shared}
 
 # If the port's name and the CMake package's name are different, then we can
