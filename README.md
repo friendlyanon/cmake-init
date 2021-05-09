@@ -4,8 +4,7 @@ Opinionated CMake project initializer to generate CMake projects that are
 FetchContent ready, separate consumer and developer targets, provide install
 rules with proper relocatable CMake packages and use modern CMake (3.14+)
 
-See the gif in the [assets](assets) folder for an example of using
-`cmake-init`.
+![Example GIF of cmake-init in action](assets/example.gif)
 
 Here are some example outputs of the script as of 0.9.0:
 
