@@ -26,18 +26,18 @@ vcpkg_cmake_configure(
     # projects not following best practices, please refer to their
     # documentation or their CMake scripts, or in a worst-case scenario, you
     # have to patch around the project's deficiencies
-    "-D${name}_INSTALL_CMAKEDIR=share/${name}"{type shared}
-    OPTIONS_DEBUG
-    # Only install headers in release mode to avoid the need to later delete
-    # the duplicates
-    "-D${name}_INSTALL_HEADERS=OFF"{end}
+    "-D${name}_INSTALL_CMAKEDIR=share/${name}"
 )
 
 vcpkg_cmake_install(){type shared}
 
 # If the port's name and the CMake package's name are different, then we can
 # pass the package name here, otherwise no arguments are necessary
-vcpkg_cmake_config_fixup(PACKAGE_NAME "${name}"){end}
+vcpkg_cmake_config_fixup(PACKAGE_NAME "${name}")
+
+# Remove files that aren't just the build artifacts and empty folders
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share"){end}
 
 # vcpkg requires a license file to be installed as well
 configure_file(

@@ -5,19 +5,13 @@ endif()
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs){type shared}
 
-# Allow vcpkg portfiles to not bother with headers in debug folder
-option(%(name)s_INSTALL_HEADERS "Install headers" ON)
-mark_as_advanced(%(name)s_INSTALL_HEADERS)
-
-if(%(name)s_INSTALL_HEADERS)
-  install(
-      DIRECTORY
-      "${PROJECT_SOURCE_DIR}/include/"
-      "${PROJECT_BINARY_DIR}/include/"
-      DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-      COMPONENT %(name)s_Development
-  )
-endif(){end}{type header}
+install(
+    DIRECTORY
+    "${PROJECT_SOURCE_DIR}/include/"
+    "${PROJECT_BINARY_DIR}/include/"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+    COMPONENT %(name)s_Development
+){end}{type header}
 
 install(
     DIRECTORY "${PROJECT_SOURCE_DIR}/include/"
