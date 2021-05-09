@@ -1,7 +1,8 @@
 #!/bin/sh
 
 if [ "$(git branch --show-current)" = master ]; then
-  VERSION="v$(grep -oP '^__version__ = "\K\d(\.\d){2}' cmake-init/__main__.py)"
+  MAIN=cmake-init/__main__.py
+  VERSION="v$(grep -oP '^__version__ = "\K\d(\.\d+){2}' "${MAIN}")"
   if [ -n "$(git ls-remote --tags origin "${VERSION}")" ]; then
     echo "${VERSION} already exists remotely, bump the version" >&2
     exit 1
