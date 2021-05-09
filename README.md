@@ -42,7 +42,8 @@ There is also an example repository showing how to integrate with vcpkg:
   Code coverage (gcov), code linting and formatting (clang-format), static
   analysis (clang-tidy) and dynamic analysis (sanitizers, valgrind) are all
   very helpful ways to guide the developer in creating better software, so they
-  should be easy to use.
+  should be easy to use. There is also some level of support for [vcpkg][10] to
+  make consuming dependencies from git repositories easier.
 
 ## Non-goals
 
@@ -118,6 +119,11 @@ for use with cppcheck. For other generators, this feature is a no-op.
   according to the answers given to the prompts. You may pass the `-s`, `-e` or
   `-h` flags after to quickly create a shared library, executable or a header
   only library respectively.
+* `cmake-init --vcpkg <name>`  
+  Generate a vcpkg port with the provided name in the `ports` directory to make
+  consuming dependencies not in any central package manager's repository
+  easier. This command must be run in a CMake project root tracked by git. See
+  the vcpkg example at the top of the README for more details.
 * `cmake-init --help`  
   Shows the help screen for more flags and switches.
 
@@ -146,3 +152,4 @@ indirectly from the use or non-use of these files.
 [7]: https://cmake.org/cmake/help/latest/prop_tgt/LANG_CLANG_TIDY.html
 [8]: http://cppcheck.sourceforge.net/
 [9]: https://cmake.org/cmake/help/latest/prop_tgt/LANG_CPPCHECK.html
+[10]: https://github.com/microsoft/vcpkg
