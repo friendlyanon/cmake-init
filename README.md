@@ -13,6 +13,10 @@ Here are some example outputs of the script as of 0.9.0:
 * https://github.com/friendlyanon/cmake-init-header-only
 * https://github.com/friendlyanon/cmake-init-shared-static
 
+There is also an example repository showing how to integrate with vcpkg:
+
+* https://github.com/friendlyanon/cmake-init-vcpkg-example
+
 ## Goals
 
 * Be simple to use  
