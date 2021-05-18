@@ -65,6 +65,7 @@ Make sure you have these programs installed:
 * git
 * [clang-tidy](#clang-tidy) (optional)
 * [cppcheck](#cppcheck) (optional)
+* [Doxygen](#doxygen) (optional)
 
 `cmake-init` consists of a single file that can be run using Python. Python was
 chosen for this, because it is cross-platform, convenient for this use-case and
@@ -111,6 +112,18 @@ use it locally, but it is recommended.
 reason for this is that only [Makefiles and Ninja][9] are supported with CMake
 for use with cppcheck. For other generators, this feature is a no-op.
 
+### Doxygen
+
+[Doxygen][11] is a tool to generate documentation from annotated source code.
+In conjunction with it, [m.css][12] is used for presenting the generated
+documentation.
+
+The generated projects will have a `docs` target in developer mode, which can
+be used to build the documentation into the `<binary-dir>/docs/html` directory.
+
+After Doxygen is installed, please make sure the `doxygen` executable exists in
+the `PATH`, otherwise you might get confusing error messages.
+
 ## Usage
 
 * `cmake-init <path>`  
@@ -152,3 +165,5 @@ indirectly from the use or non-use of these files.
 [8]: http://cppcheck.sourceforge.net/
 [9]: https://cmake.org/cmake/help/latest/prop_tgt/LANG_CPPCHECK.html
 [10]: https://github.com/microsoft/vcpkg
+[11]: https://www.doxygen.nl/
+[12]: https://mcss.mosra.cz/
