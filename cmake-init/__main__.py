@@ -215,18 +215,15 @@ in that order:
     cmake --install build{config} --prefix prefix
     ctest --test-dir build{test_cfg} -j {cpus} --output-on-failure
 """)
-    extra = []
+    extra = ["    docs - build the documentation using Doxygen and m.css"]
     if d["examples"]:
         extra.append("""\
     run_examples - runs all the examples created by the add_example command""")
     if d["type_id"] == "e":
         extra.append("""\
     run_exe - runs the executable built by the project""")
-    if len(extra) == 0:
-        return
     print("""\
-There are some convenience targets that you can run to invoke some built
-executables conveniently:
+There are some convenience targets that you can run manually:
 """)
     for msg in extra:
         print(msg)
