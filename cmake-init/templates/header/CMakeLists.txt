@@ -57,7 +57,7 @@ if(BUILD_EXAMPLES)
   add_subdirectory(example)
 endif(){end}
 
-option(BUILD_DOCUMENTATION "Build documentation using Doxygen and m.css" ON)
+option(BUILD_DOCUMENTATION "Build documentation using Doxygen and m.css" OFF)
 if(BUILD_DOCUMENTATION)
   include(cmake/docs.cmake)
 endif()
