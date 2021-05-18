@@ -69,3 +69,8 @@ add_custom_target(
     COMMAND "$<TARGET_FILE:%(name)s_%(name)s>"
     VERBATIM
 )
+
+option(BUILD_DOCUMENTATION "Build documentation using Doxygen and m.css" ON)
+if(BUILD_DOCUMENTATION)
+  include(cmake/docs.cmake)
+endif()

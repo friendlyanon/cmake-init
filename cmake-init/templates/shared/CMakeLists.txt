@@ -77,3 +77,8 @@ option(BUILD_EXAMPLES "Build examples tree." ON)
 if(BUILD_EXAMPLES)
   add_subdirectory(example)
 endif(){end}
+
+option(BUILD_DOCUMENTATION "Build documentation using Doxygen and m.css" ON)
+if(BUILD_DOCUMENTATION)
+  include(cmake/docs.cmake)
+endif()
