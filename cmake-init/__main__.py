@@ -139,7 +139,7 @@ library."""
     if d["type_id"] != "e":
         d["examples"] = "n" == ask(
             "Exclude examples ([Y]es/[n]o)",
-            "y",
+            cli_args.examples or "y",
             mapper=lambda v: v[0:1].lower(),
             predicate=lambda v: v in ["y", "n"],
         )
@@ -376,7 +376,8 @@ pass as the first flag to make a vcpkg port of <name> with type -s or -h",
         type=os.path.realpath,
         help="path to generate to, the name is also derived from this",
     )
-    create_flags = ["type_id", "std", "use_clang_tidy", "use_cppcheck"]
+    create_flags = \
+        ["type_id", "std", "use_clang_tidy", "use_cppcheck", "examples"]
     p.set_defaults(**{k: "" for k in create_flags})
     type_g = p.add_mutually_exclusive_group()
     mapping = {
@@ -415,6 +416,12 @@ pass as the first flag to make a vcpkg port of <name> with type -s or -h",
         "--overwrite",
         action="store_true",
         help="omit checks for existing files and non-empty project root",
+    )
+    p.add_argument(
+        "--examples",
+        action="store_const",
+        const="n",
+        help="generate examples for a library",
     )
     args = p.parse_args()
     if args.dummy:

@@ -24,15 +24,15 @@ jobs:
       fail-fast: false
 
       matrix:
-        job: [0, 1, 2, 3]
+        job: [1, 2, 3, 4]
 
         os: [macos, ubuntu, windows]
 
         include:
-        - { job: 0, type: -s, name: "Library: shared", flag: "-D BUILD_SHARED_LIBS=YES" }
-        - { job: 1, type: -s, name: "Library: static", flag: "" }
-        - { job: 2, type: -h, name: "Library: header-only", flag: "" }
-        - { job: 3, type: -e, name: Executable, flag: "" }
+        - { job: 1, type: "-s --examples", name: "Library: shared", flag: "-D BUILD_SHARED_LIBS=YES" }
+        - { job: 2, type: "-s --examples", name: "Library: static", flag: "" }
+        - { job: 3, type: "-h --examples", name: "Library: header-only", flag: "" }
+        - { job: 4, type: -e, name: Executable, flag: "" }
 
     name: ${{ matrix.name }} (${{ matrix.os }})
 
