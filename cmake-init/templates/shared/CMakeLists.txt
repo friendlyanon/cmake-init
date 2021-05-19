@@ -55,7 +55,16 @@ target_compile_features(%(name)s_%(name)s PUBLIC cxx_std_%(std)s)
 
 # ---- Install rules ----
 
-include(cmake/install-rules.cmake)
+include(cmake/install-rules.cmake){if examples}
+
+# ---- Examples ----
+
+if(PROJECT_IS_TOP_LEVEL)
+  option(BUILD_EXAMPLES "Build examples tree." "${%(name)s_DEVELOPER_MODE}")
+  if(BUILD_EXAMPLES)
+    add_subdirectory(example)
+  endif()
+endif(){end}
 
 # ---- Developer mode ----
 
@@ -71,12 +80,7 @@ endif()
 include(CTest)
 if(BUILD_TESTING)
   add_subdirectory(test)
-endif(){if examples}
-
-option(BUILD_EXAMPLES "Build examples tree." ON)
-if(BUILD_EXAMPLES)
-  add_subdirectory(example)
-endif(){end}
+endif()
 
 option(BUILD_DOCUMENTATION "Build documentation using Doxygen and m.css" OFF)
 if(BUILD_DOCUMENTATION)
