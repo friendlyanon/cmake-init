@@ -14,9 +14,7 @@ option makes tests and other developer targets and options available. Not
 enabling this option means that you are a consumer of this project and thus you
 have no need for these targets and options.
 
-Developer mode is forced to be on when the `CI` environment variable is set to
-a value that CMake recognizes as "on", which is set to `true` in all of the CI
-workflows.
+Developer mode is always set to on in CI workflows.
 
 ### Presets
 
@@ -42,10 +40,7 @@ the project:
   "configurePresets": [
     {
       "name": "dev",
-      "inherits": ["ci-<os>"],
-      "cacheVariables": {
-        "%(name)s_DEVELOPER_MODE": "ON"
-      }
+      "inherits": ["dev-mode", "ci-<os>"]
     }
   ]
 }

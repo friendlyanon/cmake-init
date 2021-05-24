@@ -7,6 +7,13 @@
   },
   "configurePresets": [
     {
+      "name": "dev-mode",
+      "hidden": true,
+      "cacheVariables": {
+        "%(name)s_DEVELOPER_MODE": "ON"
+      }
+    },
+    {
       "name": "cppcheck",
       "hidden": true,
       "cacheVariables": {
@@ -58,7 +65,7 @@
     },
     {
       "name": "ci-coverage",
-      "inherits": "ci-unix",
+      "inherits": ["ci-unix", "dev-mode"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Coverage",
         "CMAKE_CXX_FLAGS_COVERAGE": "-O0 -g --coverage -fkeep-inline-functions -fkeep-static-functions",
@@ -68,7 +75,7 @@
     },
     {
       "name": "ci-sanitizer",
-      "inherits": "ci-unix",
+      "inherits": ["ci-unix", "dev-mode"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Sanitizer",
         "CMAKE_CXX_FLAGS_SANITIZER": "-O2 -g -fsanitize=$env{SANITIZER} -fno-omit-frame-pointer $env{EXTRA_FLAGS}"
@@ -76,15 +83,15 @@
     },
     {
       "name": "ci-macos",
-      "inherits": "ci-unix"
+      "inherits": ["ci-unix", "dev-mode"]
     },
     {
       "name": "ci-ubuntu",
-      "inherits": ["ci-unix", "clang-tidy", "cppcheck"]
+      "inherits": ["ci-unix", "clang-tidy", "cppcheck", "dev-mode"]
     },
     {
       "name": "ci-windows",
-      "inherits": "ci-win64"
+      "inherits": ["ci-win64", "dev-mode"]
     }
   ]
 }

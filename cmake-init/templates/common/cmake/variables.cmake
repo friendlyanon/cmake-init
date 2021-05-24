@@ -5,11 +5,8 @@
 # Targets necessary to build the project must be provided unconditionally, so
 # consumers can trivially build and package the project
 if(PROJECT_IS_TOP_LEVEL)
-  option(%(name)s_DEVELOPER_MODE "Enable developer mode" OFF)
-{type shared}  option(BUILD_SHARED_LIBS "Build shared libs." OFF){end}
-  if("$ENV{CI}")
-    set(%(name)s_DEVELOPER_MODE ON CACHE INTERNAL "")
-  endif()
+  option(%(name)s_DEVELOPER_MODE "Enable developer mode" OFF){type shared}
+  option(BUILD_SHARED_LIBS "Build shared libs." OFF){end}
 endif()
 
 {type shared}# ---- Suppress C4251 on Windows ----
