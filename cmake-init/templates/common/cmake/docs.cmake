@@ -21,10 +21,7 @@ set(
 set(working_dir "${PROJECT_BINARY_DIR}/docs")
 
 foreach(file IN ITEMS Doxyfile conf.py)
-  configure_file(
-      "${PROJECT_SOURCE_DIR}/docs/${file}.in" "${working_dir}/${file}"
-      @ONLY
-  )
+  configure_file("docs/${file}.in" "${working_dir}/${file}" @ONLY)
 endforeach()
 
 set(mcss_script "${m.css_SOURCE_DIR}/documentation/doxygen.py")

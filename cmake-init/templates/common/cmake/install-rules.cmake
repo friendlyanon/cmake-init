@@ -7,14 +7,14 @@ include(GNUInstallDirs){type shared}
 
 install(
     DIRECTORY
-    "${PROJECT_SOURCE_DIR}/include/"
+    include/
     "${PROJECT_BINARY_DIR}/include/"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     COMPONENT %(name)s_Development
 ){end}{type header}
 
 install(
-    DIRECTORY "${PROJECT_SOURCE_DIR}/include/"
+    DIRECTORY include/
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     COMPONENT %(name)s_Development
 ){end}
@@ -50,7 +50,7 @@ mark_as_advanced(%(name)s_INSTALL_CMAKEDIR)
 
 install(
     FILES
-    "${PROJECT_SOURCE_DIR}/cmake/%(name)sConfig.cmake"
+    cmake/%(name)sConfig.cmake
     "${PROJECT_BINARY_DIR}/%(name)sConfigVersion.cmake"
     DESTINATION "${%(name)s_INSTALL_CMAKEDIR}"
     COMPONENT %(name)s_Development
