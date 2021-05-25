@@ -24,8 +24,7 @@ set_property(
 )
 
 target_include_directories(
-    %(name)s_%(name)s
-    ${%(name)s_warning_guard}
+    %(name)s_%(name)s ${%(name)s_warning_guard}
     INTERFACE
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
