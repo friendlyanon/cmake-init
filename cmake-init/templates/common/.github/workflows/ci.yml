@@ -31,17 +31,18 @@ jobs:
       run: cmake --preset=ci-coverage
 
     - name: Build
-      run: cmake --build build -j 2
+      run: cmake --build build/coverage -j 2
 
     - name: Test
-      working-directory: build
+      working-directory: build/coverage
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         PS4: "\e[36m+++\e[0m "
       run: |
         set -x
         ctest --output-on-failure -j 2
-        lcov -c -d .. -o coverage.info --include '${{ github.workspace }}/*'
+        lcov -c -d '${{ github.workspace }}' -o coverage.info \
+          --include '${{ github.workspace }}/*'
         lcov --list coverage.info
         bash <(curl -s https://codecov.io/bash) -f coverage.info
 
@@ -56,7 +57,7 @@ jobs:
       run: cmake --preset=ci-sanitize
 
     - name: Build
-      run: cmake --build build -j 2
+      run: cmake --build build/sanitize -j 2
 
     - name: Test
       env:
@@ -66,7 +67,7 @@ jobs:
           strict_init_order=1:\
           detect_leaks=1"
         UBSAN_OPTIONS: print_stacktrace=1
-      run: ctest --test-dir build --output-on-failure -j 2
+      run: ctest --test-dir build/sanitize --output-on-failure -j 2
 
   test:
     strategy:

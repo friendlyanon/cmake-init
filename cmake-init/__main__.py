@@ -211,9 +211,9 @@ build, install and test with the following commands from the project directory,
 in that order:
 
     cmake --preset=dev
-    cmake --build build{config} -j {cpus}
-    cmake --install build{config} --prefix prefix
-    ctest --test-dir build{test_cfg} -j {cpus} --output-on-failure
+    cmake --build build/dev{config} -j {cpus}
+    cmake --install build/dev{config} --prefix prefix
+    ctest --test-dir build/dev{test_cfg} -j {cpus} --output-on-failure
 """)
     extra = ["    docs - build the documentation using Doxygen and m.css"]
     if d["examples"]:
@@ -231,7 +231,7 @@ There are some convenience targets that you can run manually:
 These targets are only available in developer mode, because they are generally
 not useful for consumers. You can run these targets with the following command:
 
-    cmake --build build{config} -t <target>
+    cmake --build build/dev{config} -t <target>
 """)
 
 

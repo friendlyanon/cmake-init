@@ -40,6 +40,7 @@ the project:
   "configurePresets": [
     {
       "name": "dev",
+      "binaryDir": "${sourceDir}/build/dev",
       "inherits": ["dev-mode", "ci-<os>"]
     }
   ]
@@ -62,16 +63,16 @@ Windows:
 
 ```sh
 cmake --preset=dev
-cmake --build build --config Release
-ctest --test-dir build -C Release
+cmake --build build/dev --config Release
+ctest --test-dir build/dev -C Release
 ```
 
 And here is the same on a Unix based system (Linux, macOS):
 
 ```sh
 cmake --preset=dev
-cmake --build build
-ctest --test-dir build
+cmake --build build/dev
+ctest --test-dir build/dev
 ```
 
 [1]: https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html
