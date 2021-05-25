@@ -46,47 +46,26 @@ jobs:
         bash <(curl -s https://codecov.io/bash) -f coverage.info
 
   sanitize:
-    name: sanitize (${{ matrix.name }})
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        name: [address, undefined]
-
-        include:
-        - name: address
-          flags: -fno-common
-          options: "{ \"ASAN_OPTIONS\": \"\
-            strict_string_checks=1:\
-            detect_stack_use_after_return=1:\
-            check_initialization_order=1:\
-            strict_init_order=1:\
-            detect_leaks=1\" }"
-
-        - name: undefined
-          options: '{ "UBSAN_OPTIONS": "print_stacktrace=1" }'
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
 
     - name: Configure
-      env:
-        SANITIZER: ${{ matrix.name }}
-        EXTRA_FLAGS: ${{ matrix.flags }}
-        CXX: clang++-11
+      env: { CXX: clang++-11 }
       run: cmake --preset=ci-sanitizer
 
     - name: Build
       run: cmake --build build -j 2
 
-    - name: Add LLVM tools to PATH
-      run: echo /usr/lib/llvm-11/bin >> "$GITHUB_PATH"
-
     - name: Test
-      env: ${{ fromJSON(matrix.options || '{}') }}
+      env:
+        ASAN_OPTIONS: "strict_string_checks=1:\
+          detect_stack_use_after_return=1:\
+          check_initialization_order=1:\
+          strict_init_order=1:\
+          detect_leaks=1"
+        UBSAN_OPTIONS: print_stacktrace=1
       run: ctest --test-dir build --output-on-failure -j 2
 
   test:

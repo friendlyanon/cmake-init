@@ -78,7 +78,7 @@
       "inherits": ["ci-unix", "dev-mode"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Sanitizer",
-        "CMAKE_CXX_FLAGS_SANITIZER": "-O2 -g -fsanitize=$env{SANITIZER} -fno-omit-frame-pointer $env{EXTRA_FLAGS}"
+        "CMAKE_CXX_FLAGS_SANITIZER": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
       }
     },
     {
