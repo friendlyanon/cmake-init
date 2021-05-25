@@ -20,9 +20,9 @@ There is also an example repository showing how to integrate with vcpkg:
 
 * Be simple to use  
   The script allows you to just mash enter to get you a correctly set up
-  project for a library, which can be built as either static or shared.
-  You want a project with an executable? Just choose `e` when prompted.
-  Header-only library? Just choose `h` when prompted. Simple **and** correct!
+  project for an executable. You want a header-only library? Choose `h` when
+  prompted. Static/shared library? Just choose `s` when prompted. Simple
+  **and** correct!
 * Create [`FetchContent`][1] ready projects  
   This is important, because in the near feature this might allow CMake to
   consume other projects in a trivial fashion similar to other languages, e.g.
