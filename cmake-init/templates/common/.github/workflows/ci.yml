@@ -38,6 +38,8 @@ jobs:
       run: ctest --output-on-failure -j 2
 
     - name: Process coverage info
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         cmake --build build/coverage -t coverage
         bash <(curl -s https://codecov.io/bash) -f build/coverage/coverage.info
