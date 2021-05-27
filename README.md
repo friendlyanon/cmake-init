@@ -6,7 +6,7 @@ rules with proper relocatable CMake packages and use modern CMake (3.14+)
 
 ![Example GIF of cmake-init in action](assets/example.gif)
 
-Here are some example outputs of the script as of 0.9.0:
+Here are some example outputs of the script as of 0.14.0:
 
 * https://github.com/friendlyanon/cmake-init-executable
 * https://github.com/friendlyanon/cmake-init-header-only
@@ -124,6 +124,9 @@ be used to build the documentation into the `<binary-dir>/docs/html` directory.
 
 After Doxygen is installed, please make sure the `doxygen` executable exists in
 the `PATH`, otherwise you might get confusing error messages.
+
+This documentation can be deployed to GitHub Pages using the `docs` job in the
+generated CI workflow. Follow the comments left in the job to enable this.
 
 ### LCOV
 
