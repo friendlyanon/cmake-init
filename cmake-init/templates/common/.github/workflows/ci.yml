@@ -34,17 +34,12 @@ jobs:
       run: cmake --build build/coverage -j 2
 
     - name: Test
-      working-directory: build/coverage
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        PS4: "\e[36m+++\e[0m "
+      run: ctest --test-dir build/coverage --output-on-failure -j 2
+
+    - name: Process coverage info
       run: |
-        set -x
-        ctest --output-on-failure -j 2
-        lcov -c -d '${{ github.workspace }}' -o coverage.info \
-          --include '${{ github.workspace }}/*'
-        lcov --list coverage.info
-        bash <(curl -s https://codecov.io/bash) -f coverage.info
+        cmake --build build/coverage -t coverage
+        bash <(curl -s https://codecov.io/bash) -f build/coverage/coverage.info
 
   sanitize:
     runs-on: ubuntu-latest
