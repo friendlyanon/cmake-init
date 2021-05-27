@@ -64,7 +64,7 @@ Windows:
 ```sh
 cmake --preset=dev
 cmake --build build/dev --config Release
-ctest --test-dir build/dev -C Release
+cd build/dev && ctest -C Release
 ```
 
 And here is the same on a Unix based system (Linux, macOS):
@@ -72,7 +72,7 @@ And here is the same on a Unix based system (Linux, macOS):
 ```sh
 cmake --preset=dev
 cmake --build build/dev
-ctest --test-dir build/dev
+cd build/dev && ctest
 ```
 
 [1]: https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html

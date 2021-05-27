@@ -34,7 +34,8 @@ jobs:
       run: cmake --build build/coverage -j 2
 
     - name: Test
-      run: ctest --test-dir build/coverage --output-on-failure -j 2
+      working-directory: build/coverage
+      run: ctest --output-on-failure -j 2
 
     - name: Process coverage info
       run: |
@@ -55,6 +56,7 @@ jobs:
       run: cmake --build build/sanitize -j 2
 
     - name: Test
+      working-directory: build/sanitize
       env:
         ASAN_OPTIONS: "strict_string_checks=1:\
           detect_stack_use_after_return=1:\
@@ -62,7 +64,7 @@ jobs:
           strict_init_order=1:\
           detect_leaks=1"
         UBSAN_OPTIONS: print_stacktrace=1
-      run: ctest --test-dir build/sanitize --output-on-failure -j 2
+      run: ctest --output-on-failure -j 2
 
   test:
     strategy:
@@ -95,4 +97,5 @@ jobs:
       run: cmake --install build --config Release --prefix prefix
 
     - name: Test
-      run: ctest --test-dir build --output-on-failure -C Release -j 2
+      working-directory: build
+      run: ctest --output-on-failure -C Release -j 2

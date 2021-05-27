@@ -213,7 +213,7 @@ in that order:
     cmake --preset=dev
     cmake --build build/dev{config} -j {cpus}
     cmake --install build/dev{config} --prefix prefix
-    ctest --test-dir build/dev{test_cfg} -j {cpus} --output-on-failure
+    cd build/dev && ctest{test_cfg} -j {cpus} --output-on-failure
 """)
     extra = ["    docs - build the documentation using Doxygen and m.css"]
     if d["examples"]:
