@@ -1,6 +1,6 @@
 # ---- Dependencies ----
 
-find_package(Python3 REQUIRED)
+find_package(Python3 3.6 REQUIRED)
 
 include(FetchContent)
 FetchContent_Declare(
