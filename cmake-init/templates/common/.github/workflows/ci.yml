@@ -40,11 +40,12 @@ jobs:
       run: ctest --output-on-failure -j 2
 
     - name: Process coverage info
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      run: |
-        cmake --build build/coverage -t coverage
-        bash <(curl -s https://codecov.io/bash) -f build/coverage/coverage.info
+      run: cmake --build build/coverage -t coverage
+
+    - name: Submit to codecov.io
+      uses: codecov/codecov-action@v1
+      with:
+        file: build/coverage/coverage.info
 
   sanitize:
     runs-on: ubuntu-latest
