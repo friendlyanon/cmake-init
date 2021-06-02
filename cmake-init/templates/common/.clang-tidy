@@ -1,4 +1,10 @@
 ---
-Checks: 'clang-diagnostic-*,clang-analyzer-*'
+Checks: "\
+  clang-analyzer-*,\
+  bugprone-*,\
+  modernize-*,\
+  readability-*,\
+  performance-*,\
+  cppcoreguidelines-*"
 WarningsAsErrors: ''
 ...

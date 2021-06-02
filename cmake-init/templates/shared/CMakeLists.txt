@@ -25,7 +25,7 @@ include(GenerateExportHeader)
 generate_export_header(
     %(name)s_%(name)s
     BASE_NAME %(name)s
-    EXPORT_FILE_NAME include/%(name)s/%(name)s_export.h
+    EXPORT_FILE_NAME export/%(name)s/%(name)s_export.h
     CUSTOM_CONTENT_FROM_VARIABLE pragma_suppress_c4251
 )
 
@@ -47,7 +47,12 @@ target_include_directories(
     %(name)s_%(name)s ${%(name)s_warning_guard}
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
-    "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>"
+)
+
+target_include_directories(
+    %(name)s_%(name)s SYSTEM
+    PUBLIC
+    "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
 )
 
 target_compile_features(%(name)s_%(name)s PUBLIC cxx_std_%(std)s)

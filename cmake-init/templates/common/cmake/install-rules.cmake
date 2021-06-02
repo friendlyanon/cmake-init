@@ -8,7 +8,7 @@ include(GNUInstallDirs){type shared}
 install(
     DIRECTORY
     include/
-    "${PROJECT_BINARY_DIR}/include/"
+    "${PROJECT_BINARY_DIR}/export/"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     COMPONENT %(name)s_Development
 ){end}{type header}

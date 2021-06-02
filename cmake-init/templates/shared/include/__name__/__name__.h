@@ -61,7 +61,7 @@ public:
   /**
    * @brief Returns a non-owning pointer to the string stored in this class
    */
-  const char* name();
+  auto name() -> const char*;
 
 private:
   %(uc_name)s_SUPPRESS_C4251

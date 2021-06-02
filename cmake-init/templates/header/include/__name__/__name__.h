@@ -5,6 +5,6 @@
 /**
  * @brief Return the name of this header-only library
  */
-inline std::string name() {
+inline auto name() -> std::string {
   return "%(name)s";
 }

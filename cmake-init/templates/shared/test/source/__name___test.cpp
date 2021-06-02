@@ -2,7 +2,7 @@
 
 #include <%(name)s/%(name)s.h>
 
-int main() {
+auto main() -> int {
   exported_class e;
 
   return std::string("%(name)s") == e.name() ? 0 : 1;

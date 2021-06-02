@@ -4,6 +4,6 @@
 
 exported_class::exported_class() : name_("%(name)s") {}
 
-const char* exported_class::name() {
+auto exported_class::name() -> const char* {
   return name_.c_str();
 }
