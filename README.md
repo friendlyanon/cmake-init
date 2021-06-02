@@ -67,6 +67,7 @@ Make sure you have these programs installed:
 * [cppcheck](#cppcheck) (optional)
 * [Doxygen](#doxygen) (optional)
 * [LCOV](#lcov) (optional)
+* [clang-format](#clang-format) (optional)
 
 `cmake-init` consists of a single file that can be run using Python. Python was
 chosen for this, because it is cross-platform, convenient for this use-case and
@@ -144,6 +145,15 @@ generate a report at `<binary-dir>/coverage.info` and an HTML report at the
 **For Windows users**, the only way to get coverage reports is via the codecov
 integration in the CI workflow or by using WSL or a Linux VM.
 
+### clang-format
+
+[clang-format][14] is part of the LLVM tool suite similar to
+[clang-tidy](#clang-tidy). It's a code linter and code formatter, which can be
+used to enforce style guides.
+
+Two targets are made available to check and fix code in developer mode using
+the `format-check` and `format-fix` targets respectively.
+
 ## Usage
 
 * `cmake-init <path>`  
@@ -188,3 +198,4 @@ indirectly from the use or non-use of these files.
 [11]: https://www.doxygen.nl/
 [12]: https://mcss.mosra.cz/
 [13]: http://ltp.sourceforge.net/coverage/lcov.php
+[14]: https://clang.llvm.org/docs/ClangFormat.html

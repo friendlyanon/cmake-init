@@ -10,7 +10,18 @@ on:
     - master
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Lint
+      run: cmake -D FORMAT_COMMAND=clang-format-11 -P cmake/lint.cmake
+
   coverage:
+    needs: [lint]
+
     runs-on: ubuntu-latest
 
     # To enable coverage, go to https://codecov.io/, acquire a token, put it
@@ -48,6 +59,8 @@ jobs:
         file: build/coverage/coverage.info
 
   sanitize:
+    needs: [lint]
+
     runs-on: ubuntu-latest
 
     steps:
@@ -72,6 +85,8 @@ jobs:
       run: ctest --output-on-failure -j 2
 
   test:
+    needs: [lint]
+
     strategy:
       matrix:
         os: [macos, ubuntu, windows]{type shared}
