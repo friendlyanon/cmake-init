@@ -47,6 +47,6 @@ endforeach()
 
 if(NOT badly_formatted STREQUAL "")
   list(JOIN badly_formatted "\n" bad_list)
-  message(NOTICE "The following files are badly formatted:\n\n${bad_list}\n")
+  message("The following files are badly formatted:\n\n${bad_list}\n")
   message(FATAL_ERROR "Run again with FIX=YES to fix these files.")
 endif()
