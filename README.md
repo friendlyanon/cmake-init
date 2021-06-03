@@ -6,7 +6,7 @@ rules with proper relocatable CMake packages and use modern CMake (3.14+)
 
 ![Example GIF of cmake-init in action](assets/example.gif)
 
-Here are some example outputs of the script as of 0.14.0:
+Here are some example outputs of the script as of 0.15.0:
 
 * https://github.com/friendlyanon/cmake-init-executable
 * https://github.com/friendlyanon/cmake-init-header-only
