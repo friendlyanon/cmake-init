@@ -334,7 +334,7 @@ def vcpkg_mode():
             mapper=lambda v: v[0:1].lower(),
             predicate=lambda v: v in "sh",
         )
-    vcpkg(args.__dict__)
+    vcpkg(vars(args))
 
 
 def get_or(array, index, default):
