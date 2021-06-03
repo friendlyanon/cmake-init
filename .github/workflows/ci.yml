@@ -69,6 +69,7 @@ jobs:
     name: Package a release
 
     if: github.ref == 'refs/heads/master'
+      && github.repository_owner == 'friendlyanon'
 
     needs: test
 
