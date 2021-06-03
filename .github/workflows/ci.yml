@@ -53,6 +53,12 @@ jobs:
         python -m zipapp cmake-init -p "/usr/bin/env python3"
         python cmake-init.pyz ${{ matrix.type }} proj
 
+    - name: Test --vcpkg mode
+      working-directory: proj
+      run: |
+        python ../cmake-init.pyz --vcpkg shared -s
+        python ../cmake-init.pyz --vcpkg headeronly -h
+
     - name: Configure
       run: cmake -S proj --preset=ci-${{ matrix.os }} ${{ matrix.flag }}
 
