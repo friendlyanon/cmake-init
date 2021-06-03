@@ -59,6 +59,11 @@ jobs:
         python ../cmake-init.pyz --vcpkg shared -s
         python ../cmake-init.pyz --vcpkg headeronly -h
 
+    - name: Lint generated project
+      if: matrix.os == 'ubuntu'
+      working-directory: proj
+      run: cmake -D FORMAT_COMMAND=clang-format-11 -P cmake/lint.cmake
+
     - name: Configure
       run: cmake -S proj --preset=ci-${{ matrix.os }} ${{ matrix.flag }}
 
