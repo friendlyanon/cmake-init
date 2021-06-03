@@ -51,7 +51,8 @@
  *
  * Please see the note above for considerations when creating shared libraries.
  */
-class %(uc_name)s_EXPORT exported_class {
+class %(uc_name)s_EXPORT exported_class
+{
 public:
   /**
    * @brief Initializes the name field to the name of the project

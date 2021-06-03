@@ -1,4 +1,6 @@
 #include <lib.h>
 
-library::library() : name("%(name)s")
-{}
+library::library()
+    : name("%(name)s")
+{
+}
