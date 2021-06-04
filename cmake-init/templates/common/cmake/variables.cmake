@@ -11,7 +11,7 @@ endif()
 
 {type shared}# ---- Suppress C4251 on Windows ----
 
-# Please see include/%(name)s/%(name)s.h for more details
+# Please see include/%(name)s/%(name)s.hpp for more details
 set(pragma_suppress_c4251 "#define %(uc_name)s_SUPPRESS_C4251")
 if(MSVC)
   string(APPEND pragma_suppress_c4251 [[ _Pragma("warning(suppress:4251)")]])

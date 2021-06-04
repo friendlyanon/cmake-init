@@ -9,10 +9,10 @@ endmacro()
 default(FORMAT_COMMAND clang-format)
 default(
     PATTERNS
-    source/*.cpp source/*.h
-    include/*.h
-    test/*.cpp test/*.h{if examples}
-    example/*.cpp example/*.h{end}
+    source/*.cpp source/*.hpp
+    include/*.hpp
+    test/*.cpp test/*.hpp{if examples}
+    example/*.cpp example/*.hpp{end}
 )
 default(FIX NO)
 

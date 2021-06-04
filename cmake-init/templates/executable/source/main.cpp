@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include <lib.h>
+#include <lib.hpp>
 
 auto main() -> int
 {
