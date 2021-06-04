@@ -2,6 +2,5 @@
 builtin = clear,rare,en-GB_to_en-US
 check-filenames =
 check-hidden =
-count =
 skip = */.git,*/build
 quiet-level = 2
