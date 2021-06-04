@@ -68,6 +68,7 @@ Make sure you have these programs installed:
 * [Doxygen](#doxygen) (optional)
 * [LCOV](#lcov) (optional)
 * [clang-format](#clang-format) (optional)
+* [codespell](#codespell) (optional)
 
 ---
 **NOTE**
@@ -165,6 +166,14 @@ used to enforce style guides.
 Two targets are made available to check and fix code in developer mode using
 the `format-check` and `format-fix` targets respectively.
 
+### codespell
+
+[codespell][15] is a tool to find and fix spelling errors mainly in source
+code.
+
+Two targets are made available to check and fix spelling errors in developer
+mode using the `spell-check` and `spell-fix` targets respectively.
+
 ## Usage
 
 * `cmake-init <path>`  
@@ -210,3 +219,4 @@ indirectly from the use or non-use of these files.
 [12]: https://mcss.mosra.cz/
 [13]: http://ltp.sourceforge.net/coverage/lcov.php
 [14]: https://clang.llvm.org/docs/ClangFormat.html
+[15]: https://github.com/codespell-project/codespell

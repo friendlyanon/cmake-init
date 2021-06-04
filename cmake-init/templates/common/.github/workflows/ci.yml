@@ -16,8 +16,17 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - uses: actions/setup-python@v2
+      with: { python-version: "3.8" }
+
+    - name: Install codespell
+      run: pip3 install codespell
+
     - name: Lint
       run: cmake -D FORMAT_COMMAND=clang-format-11 -P cmake/lint.cmake
+
+    - name: Spell check
+      run: cmake -P cmake/spell.cmake
 
   coverage:
     needs: [lint]
@@ -133,7 +142,7 @@ jobs:
     #    git push -u origin gh-pages
     #
     # Edit the <name> placeholder below to your GitHub name, so this action
-    # runs only in your repository and noone else's fork. After these, delete
+    # runs only in your repository and no one else's fork. After these, delete
     # this comment and the last line in the conditional below.
     # If you do not wish to use GitHub Pages for deploying documentation, then
     # simply delete this job similarly to the coverage one.
