@@ -102,10 +102,10 @@ https://semver.org/ for more information."""
         "description": ask(*(["Short description"] * 2)),
         "homepage": ask("Homepage URL ({})", "https://example.com/"),
         "type_id": ask(
-            "Target type ([E]xecutable or [s]tatic/shared or [h]eader-only)",
+            "Target type ([E]xecutable or [h]eader-only or [s]tatic/shared)",
             cli_args.type_id or "e",
             mapper=lambda v: v[0:1].lower(),
-            predicate=lambda v: v in ["s", "h", "e"],
+            predicate=lambda v: v in ["e", "h", "s"],
             header="""\
 Type of the target this project provides. A static/shared library will be set
 up to hide every symbol by default (as it should) and use an export header to
@@ -157,7 +157,7 @@ def write_file(path, d, overwrite, zip_path):
     def replacer(match):
         query = match.group(1)
         if query == "type":
-            mapping = {"exe": "e", "shared": "s", "header": "h"}
+            mapping = {"exe": "e", "header": "h", "shared": "s"}
             if mapping[match.group(2)] == d["type_id"]:
                 return match.group(3)
         elif query == "if" and d[match.group(2)] is True:
@@ -254,7 +254,7 @@ def create(args):
     else:
         d = get_substitutes(args, os.path.basename(path))
     mkdir(path)
-    mapping = {"s": "shared/", "e": "executable/", "h": "header/"}
+    mapping = {"e": "executable/", "h": "header/", "s": "shared/"}
     zip_paths = ["templates/" + mapping[d["type_id"]], "templates/common/"]
     if args.overwrite:
         zip_paths.reverse()
@@ -332,7 +332,7 @@ def vcpkg_mode():
             "Library type ([S]tatic/shared or [h]eader-only)",
             "s",
             mapper=lambda v: v[0:1].lower(),
-            predicate=lambda v: v in "sh",
+            predicate=lambda v: v in ["s", "h"],
         )
     vcpkg(vars(args))
 
@@ -381,9 +381,9 @@ pass as the first flag to make a vcpkg port of <name> with type -s or -h",
     p.set_defaults(**{k: "" for k in create_flags})
     type_g = p.add_mutually_exclusive_group()
     mapping = {
-        "s": "omit prompts, generate a static/shared library (default)",
-        "e": "omit prompts, generate an executable",
-        "h": "omit prompts, generate a header-only library",
+        "e": "generate an executable (default)",
+        "h": "generate a header-only library",
+        "s": "generate a static/shared library",
     }
     for flag, help in mapping.items():
         type_g.add_argument(
