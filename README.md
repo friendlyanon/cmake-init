@@ -69,6 +69,17 @@ Make sure you have these programs installed:
 * [LCOV](#lcov) (optional)
 * [clang-format](#clang-format) (optional)
 
+---
+**NOTE**
+
+Some of these tools can be used on Windows as well if you want to use Visual
+Studio, but you have to install these addins:
+
+- https://clangpowertools.com/
+- https://github.com/VioletGiraffe/cppcheck-vs-addin
+
+---
+
 `cmake-init` consists of a single file that can be run using Python. Python was
 chosen for this, because it is cross-platform, convenient for this use-case and
 you likely already have it installed or the need for it will come up later
