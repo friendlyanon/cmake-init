@@ -3,11 +3,11 @@
 #include <%(name)s/%(name)s.hpp>
 
 exported_class::exported_class()
-    : name_("%(name)s")
+    : m_name("%(name)s")
 {
 }
 
 auto exported_class::name() -> const char*
 {
-  return name_.c_str();
+  return m_name.c_str();
 }

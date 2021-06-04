@@ -66,5 +66,5 @@ public:
 
 private:
   %(uc_name)s_SUPPRESS_C4251
-  std::string name_;
+  std::string m_name;
 };
