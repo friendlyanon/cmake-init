@@ -20,6 +20,12 @@ on:
 
 jobs:
   test:
+    # Don't run CI when it's a version bump commit
+    if: github.ref == 'refs/heads/master'
+      || github.event_name != 'push'
+      || github.repository_owner != 'friendlyanon'
+      || github.event.commits[0].message != 'Bump version'
+
     strategy:
       fail-fast: false
 
