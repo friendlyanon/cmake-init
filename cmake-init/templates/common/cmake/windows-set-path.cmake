@@ -20,3 +20,12 @@ function(windows_set_path TEST)
     set_property(TEST "${TEST}" PROPERTY ENVIRONMENT "PATH=${path}")
   endif()
 endfunction()
+
+# Same function as above, except this makes it cleaner to work with lists of
+# tests created by test discovery functions like gtest_discover_tests(example)
+# creating the example_TESTS list
+function(windows_set_path_for_list TESTS)
+  foreach(TEST IN LISTS TESTS)
+    windows_set_path("${TEST}" ${ARGN})
+  endforeach()
+endfunction()
