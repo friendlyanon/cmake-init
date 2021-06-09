@@ -30,13 +30,13 @@ BraceWrapping:
   AfterCaseLabel: false
   AfterClass: true
   AfterControlStatement: MultiLine
-  AfterEnum: true
+  AfterEnum: {if cpp}true{end}{if c}false{end}
   AfterFunction: true
   AfterNamespace: true
   AfterObjCDeclaration: false
-  AfterStruct: true
-  AfterUnion: true
-  AfterExternBlock: true
+  AfterStruct: {if cpp}true{end}{if c}false{end}
+  AfterUnion: {if cpp}true{end}{if c}false{end}
+  AfterExternBlock: {if cpp}true{end}{if c}false{end}
   BeforeCatch: false
   BeforeElse: false
   BeforeLambdaBody: true
@@ -71,16 +71,16 @@ ForEachMacros:
   - Q_FOREACH
   - BOOST_FOREACH
 IncludeBlocks: Regroup
-IncludeCategories:
+IncludeCategories:{if cpp}
   # Standard library headers come before anything else
   - Regex: '^<[a-z]+>'
-    Priority: -1
+    Priority: -1{end}
   - Regex: '^<.+\.h(pp)?>'
-    Priority: 1
+    Priority: 1{if cpp}
   - Regex: '^<.*'
-    Priority: 2
+    Priority: 2{end}
   - Regex: '.*'
-    Priority: 3
+    Priority: {if cpp}3{end}{if c}2{end}
 IncludeIsMainRegex: ''
 IncludeIsMainSourceRegex: ''
 IndentCaseLabels: true

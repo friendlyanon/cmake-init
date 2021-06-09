@@ -9,7 +9,7 @@ if(PROJECT_IS_TOP_LEVEL)
   option(BUILD_SHARED_LIBS "Build shared libs." OFF){end}
 endif()
 
-{type shared}# ---- Suppress C4251 on Windows ----
+{if suppress}# ---- Suppress C4251 on Windows ----
 
 # Please see include/%(name)s/%(name)s.hpp for more details
 set(pragma_suppress_c4251 "#define %(uc_name)s_SUPPRESS_C4251")

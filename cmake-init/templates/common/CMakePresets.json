@@ -17,29 +17,29 @@
       "name": "cppcheck",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_CPPCHECK": "cppcheck"
+        "CMAKE_C{if cpp}XX{end}_CPPCHECK": "cppcheck"
       }
     },
     {
       "name": "clang-tidy",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;--header-filter=${sourceDir}/*"
+        "CMAKE_C{if cpp}XX{end}_CLANG_TIDY": "clang-tidy;--header-filter=${sourceDir}/*"
       }
     },
     {
       "name": "flags-unix",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-Wall -Wextra -pedantic",
-        "CMAKE_CXX_EXTENSIONS": "OFF"
+        "CMAKE_C{if cpp}XX{end}_FLAGS": "-Wall -Wextra -pedantic",
+        "CMAKE_C{if cpp}XX{end}_EXTENSIONS": "OFF"
       }
     },
     {
       "name": "flags-windows",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "/W4 /permissive- /EHsc /volatile:iso /Zc:__cplusplus /Zc:throwingNew"
+        "CMAKE_C{if cpp}XX{end}_FLAGS": "/W4 /permissive- /volatile:iso{if cpp} /EHsc /Zc:__cplusplus /Zc:throwingNew{end}"
       }
     },
     {
@@ -65,7 +65,7 @@
       "hidden": true,
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Coverage",
-        "CMAKE_CXX_FLAGS_COVERAGE": "-Og -g --coverage -fkeep-inline-functions -fkeep-static-functions",
+        "CMAKE_C{if cpp}XX{end}_FLAGS_COVERAGE": "-Og -g --coverage -fkeep-inline-functions -fkeep-static-functions",
         "CMAKE_EXE_LINKER_FLAGS_COVERAGE": "--coverage",
         "CMAKE_SHARED_LINKER_FLAGS_COVERAGE": "--coverage"
       }
@@ -84,7 +84,7 @@
       "inherits": ["ci-unix", "dev-mode"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Sanitize",
-        "CMAKE_CXX_FLAGS_SANITIZE": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+        "CMAKE_C{if cpp}XX{end}_FLAGS_SANITIZE": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
       }
     },
     {

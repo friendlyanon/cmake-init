@@ -7,7 +7,7 @@ project(
     VERSION %(version)s
     DESCRIPTION "%(description)s"
     HOMEPAGE_URL "%(homepage)s"
-    LANGUAGES CXX
+    LANGUAGES C
 )
 
 include(cmake/project-is-top-level.cmake)
@@ -15,34 +15,37 @@ include(cmake/variables.cmake)
 
 # ---- Declare library ----
 
-add_library(%(name)s_%(name)s INTERFACE)
-add_library(%(name)s::%(name)s ALIAS %(name)s_%(name)s)
-
-set_property(
-    TARGET %(name)s_%(name)s PROPERTY
-    EXPORT_NAME %(name)s
+add_library(
+    %(name)s_lib OBJECT
+    source/lib.c
 )
 
 target_include_directories(
-    %(name)s_%(name)s ${%(name)s_warning_guard}
-    INTERFACE
+    %(name)s_lib
+    PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
 
-target_compile_features(%(name)s_%(name)s INTERFACE cxx_std_%(std)s)
+target_compile_features(%(name)s_lib PUBLIC c_std_%(std)s)
+
+# ---- Declare executable ----
+
+add_executable(%(name)s_%(name)s source/main.c)
+add_executable(%(name)s::%(name)s ALIAS %(name)s_%(name)s)
+
+set_target_properties(
+    %(name)s_%(name)s PROPERTIES
+    OUTPUT_NAME %(name)s
+    EXPORT_NAME %(name)s
+)
+
+target_compile_features(%(name)s_%(name)s PRIVATE c_std_%(std)s)
+
+target_link_libraries(%(name)s_%(name)s PRIVATE %(name)s_lib)
 
 # ---- Install rules ----
 
-include(cmake/install-rules.cmake){if cpp_examples}
-
-# ---- Examples ----
-
-if(PROJECT_IS_TOP_LEVEL)
-  option(BUILD_EXAMPLES "Build examples tree." "${%(name)s_DEVELOPER_MODE}")
-  if(BUILD_EXAMPLES)
-    add_subdirectory(example)
-  endif()
-endif(){end}
+include(cmake/install-rules.cmake)
 
 # ---- Developer mode ----
 
@@ -59,6 +62,12 @@ include(CTest)
 if(BUILD_TESTING)
   add_subdirectory(test)
 endif()
+
+add_custom_target(
+    run_exe
+    COMMAND "$<TARGET_FILE:%(name)s_%(name)s>"
+    VERBATIM
+)
 
 option(BUILD_DOCUMENTATION "Build documentation using Doxygen and m.css" OFF)
 if(BUILD_DOCUMENTATION)

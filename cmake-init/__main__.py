@@ -84,6 +84,24 @@ def get_substitutes(cli_args, name):
     def ask(*args, **kwargs):
         return prompt(*args, **kwargs, no_prompt=no_prompt)
 
+    default_std = -2
+    type_map = {
+        "e": "[E]xecutable",
+        "h": "[h]eader-only",
+        "s": "[s]tatic/shared",
+    }
+    if cli_args.c:
+        pp = ""
+        stds = ["90", "99", "11"]
+        types = ["e", "s"]
+    else:
+        pp = "++"
+        stds = ["11", "14", "17", "20"]
+        types = ["e", "h", "s"]
+
+    if not no_prompt:
+        print(f"cmake-init is going to generate a C{pp} project\n")
+
     d = {
         "name": ask(
             "Project name ({})",
@@ -102,10 +120,12 @@ https://semver.org/ for more information."""
         "description": ask(*(["Short description"] * 2)),
         "homepage": ask("Homepage URL ({})", "https://example.com/"),
         "type_id": ask(
-            "Target type ([E]xecutable or [h]eader-only or [s]tatic/shared)",
+            "Target type ({})".format(
+                " or ".join(map(lambda t: type_map[t], types))
+            ),
             cli_args.type_id or "e",
             mapper=lambda v: v[0:1].lower(),
-            predicate=lambda v: v in ["e", "h", "s"],
+            predicate=lambda v: v in types,
             header="""\
 Type of the target this project provides. A static/shared library will be set
 up to hide every symbol by default (as it should) and use an export header to
@@ -113,10 +133,10 @@ explicitly mark symbols for export/import, but only when built as a shared
 library."""
         ),
         "std": ask(
-            "C++ standard (11/14/17/20)",
-            cli_args.std or "17",
-            predicate=lambda v: v in ["11", "14", "17", "20"],
-            header="C++ standard to use. Defaults to 17.",
+            "C{} standard ({})".format(pp, "/".join(stds)),
+            cli_args.std or stds[default_std],
+            predicate=lambda v: v in stds,
+            header=f"C++ standard to use. Defaults to {stds[default_std]}.",
         ),
         "use_clang_tidy": ask(
             "Add clang-tidy to local dev preset ([Y]es/[n]o)",
@@ -132,17 +152,24 @@ library."""
             predicate=lambda v: v in ["y", "n"],
             header="This will require you to download cppcheck locally.",
         ) == "y",
-        "examples": False,
+        "c_examples": False,
+        "cpp_examples": False,
         "os": "win64" if is_windows else "unix",
+        "c": cli_args.c,
+        "cpp": not cli_args.c,
+        "suppress": False,
     }
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":
-        d["examples"] = "n" == ask(
+        key = "c_examples" if cli_args.c else "cpp_examples"
+        d[key] = "n" == ask(
             "Exclude examples ([Y]es/[n]o)",
             cli_args.examples or "y",
             mapper=lambda v: v[0:1].lower(),
             predicate=lambda v: v in ["y", "n"],
         )
+    if d["type_id"] == "s" and d["cpp"]:
+        d["suppress"] = True
     return d
 
 
@@ -170,13 +197,20 @@ def write_file(path, d, overwrite, zip_path):
         f.write(contents % d)
 
 
+def should_write_examples(d, at):
+    if d["c"]:
+        return d["c_examples"] if "/c/" in at else False
+    else:
+        return d["cpp_examples"]
+
+
 def write_dir(path, d, overwrite, zip_path):
     for entry in zip_path.iterdir():
         name = entry.name.replace("__name__", d["name"])
         next_path = os.path.join(path, name)
         if entry.is_file():
             write_file(next_path, d, overwrite, entry)
-        elif name != "example" or d["examples"]:
+        elif name != "example" or should_write_examples(d, entry.at):
             mkdir(next_path)
             write_dir(next_path, d, overwrite, entry)
 
@@ -216,7 +250,7 @@ in that order:
     cd build/dev && ctest{test_cfg} -j {cpus} --output-on-failure
 """)
     extra = ["    docs - build the documentation using Doxygen and m.css"]
-    if d["examples"]:
+    if d["c_examples"] or d["cpp_examples"]:
         extra.append("""\
     run_examples - runs all the examples created by the add_example command""")
     if d["type_id"] == "e":
@@ -255,10 +289,12 @@ def create(args):
         d = get_substitutes(args, os.path.basename(path))
     mkdir(path)
     mapping = {"e": "executable/", "h": "header/", "s": "shared/"}
-    zip_paths = ["templates/" + mapping[d["type_id"]], "templates/common/"]
+    zip_paths = [("c/" if d["c"] else "") + mapping[d["type_id"]], "common/"]
+    if d["c"]:
+        zip_paths.insert(1, "c/common/")
     if args.overwrite:
         zip_paths.reverse()
-    for zip_path in zip_paths:
+    for zip_path in (f"templates/{p}" for p in zip_paths):
         write_dir(path, d, args.overwrite, zipfile.Path(zip, zip_path))
     git_init(path)
     print_tips(d)
@@ -268,7 +304,7 @@ make use of all the nice Quality-of-Life improvements in newer releases:
 https://cmake.org/download/
 
 For more tips, like integration with package managers, please see the Wiki:
-http://github.com/friendlyanon/cmake-init/wiki
+https://github.com/friendlyanon/cmake-init/wiki
 
 You are all set. Have fun programming and create something awesome!""")
 
@@ -284,8 +320,8 @@ def vcpkg(d):
         exit(1)
     mkdir(path)
     write_dir(path, d, False, zipfile.Path(zip, "templates/vcpkg/"))
-    vcpkg_root = "%VCPKG_ROOT:\=/%" if is_windows else "$VCPKG_ROOT"
-    pwd = "%cd:\=/%" if is_windows else "$PWD"
+    vcpkg_root = r"%VCPKG_ROOT:\=/%" if is_windows else "$VCPKG_ROOT"
+    pwd = r"%cd:\=/%" if is_windows else "$PWD"
     print(f"""\
 The port has been generated in:
 
@@ -307,7 +343,7 @@ See the following example for how integration with vcpkg should look like:
 https://github.com/friendlyanon/cmake-init-vcpkg-example""")
 
 
-def vcpkg_mode():
+def vcpkg_mode(argv):
     if not os.path.isdir(".git") or not os.path.isfile("CMakeLists.txt"):
         print("Working directory is not a CMake project", file=sys.stderr)
         exit(1)
@@ -326,7 +362,7 @@ def vcpkg_mode():
             action="store_const",
             const=flag,
         )
-    args = p.parse_args()
+    args = p.parse_args(argv)
     if args.type_id == "":
         args.type_id = prompt(
             "Library type ([S]tatic/shared or [h]eader-only)",
@@ -337,19 +373,25 @@ def vcpkg_mode():
     vcpkg(vars(args))
 
 
-def get_or(array, index, default):
+def get_argv(index):
     try:
-        return array[index]
+        return sys.argv[index]
     except IndexError:
-        return default
+        return ""
 
 
 def main():
     # I guess this is similar to how cmake switches modes on the first flag in
     # the CLI, like cmake --build and cmake --install, but how to include that
     # in argparse's help output?
-    if get_or(sys.argv, 1, "") == "--vcpkg":
-        vcpkg_mode()
+    if get_argv(1) == "--vcpkg":
+        vcpkg_mode(sys.argv)
+        return
+    # In case people alias 'cmake-init --c'
+    if get_argv(1) == "--c" and get_argv(2) == "--vcpkg":
+        argv = sys.argv.copy()
+        del argv[1]
+        vcpkg_mode(argv)
         return
     p = argparse.ArgumentParser(
         prog="cmake-init",
@@ -362,7 +404,12 @@ def main():
         help="show this help message and exit",
     )
     p.add_argument("--version", action="version", version=__version__)
-    p.set_defaults(overwrite=False, dummy=False)
+    p.set_defaults(overwrite=False, dummy=False, c=False)
+    p.add_argument(
+        "--c",
+        action="store_true",
+        help="generate a C project instead of a C++ one",
+    )
     p.add_argument(
         "--vcpkg",
         dest="dummy",
@@ -395,8 +442,8 @@ pass as the first flag to make a vcpkg port of <name> with type -s or -h",
         )
     p.add_argument(
         "--std",
-        choices=["11", "14", "17", "20"],
-        help="set the C++ standard to use (default: 17)",
+        metavar="<std>",
+        help="set the language standard to use",
     )
     p.add_argument(
         "--no-clang-tidy",
@@ -426,8 +473,14 @@ pass as the first flag to make a vcpkg port of <name> with type -s or -h",
     args = p.parse_args()
     if args.dummy:
         p.print_help()
-        exit()
+        exit(1)
     flags_used = any(getattr(args, k) != "" for k in create_flags)
+    if flags_used and args.type_id == "h" and args.c:
+        print(
+            "There is no template for header-only C projects",
+            file=sys.stderr,
+        )
+        exit(1)
     setattr(args, "flags_used", flags_used)
     create(args)
 

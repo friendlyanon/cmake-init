@@ -7,7 +7,7 @@ project(
     VERSION %(version)s
     DESCRIPTION "%(description)s"
     HOMEPAGE_URL "%(homepage)s"
-    LANGUAGES CXX
+    LANGUAGES C
 )
 
 include(cmake/project-is-top-level.cmake)
@@ -17,7 +17,7 @@ include(cmake/variables.cmake)
 
 add_library(
     %(name)s_%(name)s
-    source/%(name)s.cpp
+    source/%(name)s.c
 )
 add_library(%(name)s::%(name)s ALIAS %(name)s_%(name)s)
 
@@ -26,7 +26,6 @@ generate_export_header(
     %(name)s_%(name)s
     BASE_NAME %(name)s
     EXPORT_FILE_NAME export/%(name)s/%(name)s_export.h
-    CUSTOM_CONTENT_FROM_VARIABLE pragma_suppress_c4251
 )
 
 if(NOT BUILD_SHARED_LIBS)
@@ -35,8 +34,7 @@ endif()
 
 set_target_properties(
     %(name)s_%(name)s PROPERTIES
-    CXX_VISIBILITY_PRESET hidden
-    VISIBILITY_INLINES_HIDDEN YES
+    C_VISIBILITY_PRESET hidden
     VERSION "${PROJECT_VERSION}"
     SOVERSION "${PROJECT_VERSION_MAJOR}"
     EXPORT_NAME %(name)s
@@ -55,11 +53,11 @@ target_include_directories(
     "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
 )
 
-target_compile_features(%(name)s_%(name)s PUBLIC cxx_std_%(std)s)
+target_compile_features(%(name)s_%(name)s PUBLIC c_std_%(std)s)
 
 # ---- Install rules ----
 
-include(cmake/install-rules.cmake){if cpp_examples}
+include(cmake/install-rules.cmake){if c_examples}
 
 # ---- Examples ----
 

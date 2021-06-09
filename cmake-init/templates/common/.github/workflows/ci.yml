@@ -76,7 +76,7 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: Configure
-      env: { CXX: clang++-11 }
+      env: { C{if c}C{end}{if cpp}XX{end}: clang{if cpp}++{end}-11 }
       run: cmake --preset=ci-sanitize
 
     - name: Build
