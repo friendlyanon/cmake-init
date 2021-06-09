@@ -385,13 +385,11 @@ def main():
     # the CLI, like cmake --build and cmake --install, but how to include that
     # in argparse's help output?
     if get_argv(1) == "--vcpkg":
-        vcpkg_mode(sys.argv)
+        vcpkg_mode(sys.argv[1:])
         return
     # In case people alias 'cmake-init --c'
     if get_argv(1) == "--c" and get_argv(2) == "--vcpkg":
-        argv = sys.argv.copy()
-        del argv[1]
-        vcpkg_mode(argv)
+        vcpkg_mode(sys.argv[2:])
         return
     p = argparse.ArgumentParser(
         prog="cmake-init",
