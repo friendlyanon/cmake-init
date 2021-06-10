@@ -5,8 +5,8 @@ find_package(Python3 3.6 REQUIRED)
 include(FetchContent)
 FetchContent_Declare(
     m.css
-    GIT_REPOSITORY "https://github.com/mosra/m.css.git"
-    GIT_TAG 9385194fa3392a7162e7535cc2478814e382ff8a
+    URL "https://github.com/mosra/m.css/archive/9385194fa3392a7162e7535cc2478814e382ff8a.zip"
+    URL_MD5 45C4DCFE34471402AE88C453EED098CF
     UPDATE_DISCONNECTED YES
 )
 FetchContent_MakeAvailable(m.css)
