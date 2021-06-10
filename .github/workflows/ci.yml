@@ -30,15 +30,18 @@ jobs:
       fail-fast: false
 
       matrix:
-        job: [1, 2, 3, 4]
+        job: [1, 2, 3, 4, 5, 6, 7]
 
         os: [macos, ubuntu, windows]
 
         include:
-        - { job: 1, type: "-s --examples", name: "Library: shared", flag: "-D BUILD_SHARED_LIBS=YES" }
-        - { job: 2, type: "-s --examples", name: "Library: static", flag: "" }
-        - { job: 3, type: "-h --examples", name: "Library: header-only", flag: "" }
-        - { job: 4, type: -e, name: Executable, flag: "" }
+        - { job: 1, type: "-s --examples", name: "Library (C++): shared", flag: "-D BUILD_SHARED_LIBS=YES" }
+        - { job: 2, type: "-s --examples", name: "Library (C++): static", flag: "" }
+        - { job: 3, type: "-h --examples", name: "Library (C++): header-only", flag: "" }
+        - { job: 4, type: -e, name: "Executable (C++)", flag: "" }
+        - { job: 5, type: "--c -s --examples", name: "Library (C): shared", flag: "-D BUILD_SHARED_LIBS=YES" }
+        - { job: 6, type: "--c -s --examples", name: "Library (C): static", flag: "" }
+        - { job: 7, type: "--c -e", name: "Executable (C)", flag: "" }
 
     name: ${{ matrix.name }} (${{ matrix.os }})
 
