@@ -11,7 +11,7 @@
       "binaryDir": "${sourceDir}/build/dev",
       "inherits": ["dev-mode", "ci-%(os)s"{if use_clang_tidy}, "clang-tidy"{end}{if use_cppcheck}, "cppcheck"{end}],
       "cacheVariables": {
-        "BUILD_DOCUMENTATION": "ON"
+        "BUILD_MCSS_DOCS": "ON"
       }
     },
     {
