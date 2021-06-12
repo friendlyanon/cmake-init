@@ -1,5 +1,6 @@
-#include <string.h>
 #include "%(name)s/%(name)s.h"
+
+#include <string.h>
 
 int main()
 {
