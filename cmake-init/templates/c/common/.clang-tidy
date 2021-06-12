@@ -1,0 +1,35 @@
+---
+# Enable ALL the things! Except not really
+Checks: "-*,\
+  -google-readability-todo,\
+  clang-analyzer-*,\
+  cert-*,\
+  bugprone-*,\
+  concurrency-*,\
+  misc-*,\
+  portability-*,\
+  openmp-*,\
+  readability-*"
+WarningsAsErrors: ''
+CheckOptions:
+  - key: 'bugprone-argument-comment.StrictMode'
+    value: 'true'
+  - key: 'bugprone-argument-comment.CommentBoolLiterals'
+    value: 'true'
+  - key: 'bugprone-misplaced-widening-cast.CheckImplicitCasts'
+    value: 'true'
+  - key: 'bugprone-sizeof-expression.WarnOnSizeOfIntegerExpression'
+    value: 'true'
+  - key: 'bugprone-suspicious-string-compare.WarnOnLogicalNotComparison'
+    value: 'true'
+  - key: 'readability-simplify-boolean-expr.ChainedConditionalReturn'
+    value: 'true'
+  - key: 'readability-simplify-boolean-expr.ChainedConditionalAssignment'
+    value: 'true'
+  - key: 'readability-else-after-return.WarnOnUnfixable'
+    value: 'true'
+  - key: 'readability-else-after-return.WarnOnConditionVariables'
+    value: 'true'
+  - key: 'readability-inconsistent-declaration-parameter-name.Strict'
+    value: 'true'
+...
