@@ -93,7 +93,7 @@ def get_substitutes(cli_args, name):
     if cli_args.c:
         pp = ""
         stds = ["90", "99", "11"]
-        types = ["e", "s"]
+        types = ["e", "s", "h"]
     else:
         pp = "++"
         stds = ["11", "14", "17", "20"]
@@ -136,7 +136,7 @@ library."""
             "C{} standard ({})".format(pp, "/".join(stds)),
             cli_args.std or stds[default_std],
             predicate=lambda v: v in stds,
-            header=f"C++ standard to use. Defaults to {stds[default_std]}.",
+            header=f"C{pp} standard to use. Defaults to {stds[default_std]}.",
         ),
         "use_clang_tidy": ask(
             "Add clang-tidy to local dev preset ([Y]es/[n]o)",
@@ -158,6 +158,7 @@ library."""
         "c": cli_args.c,
         "cpp": not cli_args.c,
         "suppress": False,
+        "c_header": False,
     }
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":
@@ -170,6 +171,7 @@ library."""
         )
     if d["type_id"] == "s" and d["cpp"]:
         d["suppress"] = True
+    d["c_header"] = d["c"] and d["type_id"] == "h"
     return d
 
 
@@ -473,12 +475,6 @@ pass as the first flag to make a vcpkg port of <name> with type -s or -h",
         p.print_help()
         exit(1)
     flags_used = any(getattr(args, k) != "" for k in create_flags)
-    if flags_used and args.type_id == "h" and args.c:
-        print(
-            "There is no template for header-only C projects",
-            file=sys.stderr,
-        )
-        exit(1)
     setattr(args, "flags_used", flags_used)
     create(args)
 

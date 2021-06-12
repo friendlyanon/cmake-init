@@ -75,7 +75,7 @@ IncludeCategories:{if cpp}
   # Standard library headers come before anything else
   - Regex: '^<[a-z]+>'
     Priority: -1{end}
-  - Regex: '^<.+\.h(pp)?>'
+  - Regex: '^<.+\.h{if cpp}(pp)?{end}>'
     Priority: 1{if cpp}
   - Regex: '^<.*'
     Priority: 2{end}

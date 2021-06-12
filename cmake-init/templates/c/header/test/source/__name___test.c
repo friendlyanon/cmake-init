@@ -3,5 +3,5 @@
 
 int main()
 {
-  return strcmp("%(name)s", exported_function()) == 0 ? 0 : 1;
+  return strcmp("%(name)s", header_only_name()) == 0 ? 0 : 1;
 }
