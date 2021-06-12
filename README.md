@@ -176,11 +176,12 @@ mode using the `spell-check` and `spell-fix` targets respectively.
 
 ## Usage
 
-* `cmake-init <path>`  
+* `cmake-init [--c] <path>`  
   This command will create a CMake project at the provided location and
   according to the answers given to the prompts. You may pass the `-s`, `-e` or
   `-h` flags after to quickly create a shared library, executable or a header
-  only library respectively.
+  only library respectively. The `--c` switch will set the generated project's
+  type to C instead of C++.
 * `cmake-init --vcpkg <name>`  
   Generate a vcpkg port with the provided name in the `ports` directory to make
   consuming dependencies not in any central package manager's repository
