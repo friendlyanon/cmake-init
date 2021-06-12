@@ -17,7 +17,7 @@
       "name": "cppcheck",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C{if cpp}XX{end}_CPPCHECK": "cppcheck"
+        "CMAKE_C{if cpp}XX{end}_CPPCHECK": "cppcheck;--inline-suppr"
       }
     },
     {
