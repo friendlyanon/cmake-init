@@ -1,6 +1,9 @@
 if(PROJECT_IS_TOP_LEVEL)
   set(CMAKE_INSTALL_INCLUDEDIR include/%(name)s CACHE PATH "")
-endif()
+endif(){type header}
+
+# Project is configured with no languages, so tell GNUInstallDirs the lib dir
+set(CMAKE_INSTALL_LIBDIR lib CACHE PATH "Object code libraries (lib)"){end}
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs){type shared}

@@ -7,7 +7,7 @@ project(
     VERSION %(version)s
     DESCRIPTION "%(description)s"
     HOMEPAGE_URL "%(homepage)s"
-    LANGUAGES CXX
+    LANGUAGES NONE
 )
 
 include(cmake/project-is-top-level.cmake)
