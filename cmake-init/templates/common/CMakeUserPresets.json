@@ -17,10 +17,7 @@
     {
       "name": "dev-coverage",
       "binaryDir": "${sourceDir}/build/coverage",
-      "inherits": ["dev-mode", "coverage-unix"],
-      "cacheVariables": {
-        "ENABLE_COVERAGE": "ON"
-      }
+      "inherits": ["dev-mode", "coverage-unix"]
     }
   ]
 }

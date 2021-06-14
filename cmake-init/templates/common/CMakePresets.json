@@ -64,6 +64,7 @@
       "inherits": "ci-unix",
       "hidden": true,
       "cacheVariables": {
+        "ENABLE_COVERAGE": "ON",
         "CMAKE_BUILD_TYPE": "Coverage",
         "CMAKE_C{if cpp}XX{end}_FLAGS_COVERAGE": "-Og -g --coverage -fkeep-inline-functions -fkeep-static-functions",
         "CMAKE_EXE_LINKER_FLAGS_COVERAGE": "--coverage",
@@ -74,7 +75,6 @@
       "name": "ci-coverage",
       "inherits": ["coverage-unix", "dev-mode"],
       "cacheVariables": {
-        "ENABLE_COVERAGE": "ON",
         "COVERAGE_HTML_COMMAND": ""
       }
     },
