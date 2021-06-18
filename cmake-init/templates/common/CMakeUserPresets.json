@@ -7,9 +7,16 @@
   },
   "configurePresets": [
     {
+      "name": "folders",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_PROJECT_INCLUDE": "${sourceDir}/project-include-after.cmake"
+      }
+    },
+    {
       "name": "dev",
       "binaryDir": "${sourceDir}/build/dev",
-      "inherits": ["dev-mode", "ci-%(os)s"{if use_clang_tidy}, "clang-tidy"{end}{if use_cppcheck}, "cppcheck"{end}],
+      "inherits": ["folders", "dev-mode", "ci-%(os)s"{if use_clang_tidy}, "clang-tidy"{end}{if use_cppcheck}, "cppcheck"{end}],
       "cacheVariables": {
         "BUILD_MCSS_DOCS": "ON"
       }
@@ -17,7 +24,7 @@
     {
       "name": "dev-coverage",
       "binaryDir": "${sourceDir}/build/coverage",
-      "inherits": ["dev-mode", "coverage-unix"]
+      "inherits": ["folders", "dev-mode", "coverage-unix"]
     }
   ]
 }

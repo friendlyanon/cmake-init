@@ -152,6 +152,7 @@ library."""
             predicate=lambda v: v in ["y", "n"],
             header="This will require you to download cppcheck locally.",
         ) == "y",
+        "examples": False,
         "c_examples": False,
         "cpp_examples": False,
         "os": "win64" if is_windows else "unix",
@@ -163,12 +164,14 @@ library."""
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":
         key = "c_examples" if cli_args.c else "cpp_examples"
-        d[key] = "n" == ask(
+        value = "n" == ask(
             "Exclude examples ([Y]es/[n]o)",
             cli_args.examples or "y",
             mapper=lambda v: v[0:1].lower(),
             predicate=lambda v: v in ["y", "n"],
         )
+        d[key] = value
+        d["examples"] = value
     if d["type_id"] == "s" and d["cpp"]:
         d["suppress"] = True
     d["c_header"] = d["c"] and d["type_id"] == "h"
