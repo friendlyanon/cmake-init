@@ -6,7 +6,10 @@ endif(){type header}
 set(CMAKE_INSTALL_LIBDIR lib CACHE PATH "Object code libraries (lib)"){end}
 
 include(CMakePackageConfigHelpers)
-include(GNUInstallDirs){type shared}
+include(GNUInstallDirs)
+
+# find_package(<package>) call for consumers to find this project
+set(package %(name)s){type shared}
 
 install(
     DIRECTORY
@@ -39,22 +42,27 @@ install(
 )
 
 write_basic_package_version_file(
-    %(name)sConfigVersion.cmake
+    "${package}ConfigVersion.cmake"
     COMPATIBILITY SameMajorVersion{type header}
     ARCH_INDEPENDENT{end}
 )
 
 # Allow package maintainers to freely override the path for the configs
 set(
-    %(name)s_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/%(name)s"
+    %(name)s_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/${package}"
     CACHE STRING "CMake package config location relative to the install prefix"
 )
 mark_as_advanced(%(name)s_INSTALL_CMAKEDIR)
 
 install(
-    FILES
-    cmake/%(name)sConfig.cmake
-    "${PROJECT_BINARY_DIR}/%(name)sConfigVersion.cmake"
+    FILES cmake/install-config.cmake
+    DESTINATION "${%(name)s_INSTALL_CMAKEDIR}"
+    RENAME "${package}Config.cmake"
+    COMPONENT %(name)s_Development
+)
+
+install(
+    FILES "${PROJECT_BINARY_DIR}/${package}ConfigVersion.cmake"
     DESTINATION "${%(name)s_INSTALL_CMAKEDIR}"
     COMPONENT %(name)s_Development
 )
