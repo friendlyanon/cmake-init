@@ -224,6 +224,9 @@ def git_init(cwd):
     branch = ""
     git_version_out = \
         subprocess.run("git --version", shell=True, capture_output=True)
+    if git_version_out.returncode != 0:
+        print("\nGit can't be found! Can't initialize git for the project.\n")
+        return
     git_version_str = str(git_version_out.stdout[12:], sys.stdout.encoding)
     git_version = LooseVersion(git_version_str.rstrip())
     if LooseVersion("2.28.0") <= git_version:
