@@ -33,13 +33,16 @@ endif()
 # Fetch m.css manually, so this script can be used without having to configure
 # the project
 set(commitish 9385194fa3392a7162e7535cc2478814e382ff8a)
-if(NOT EXISTS "${PROJECT_BINARY_DIR}/mcss/${commitish}.zip")
-  file(REMOVE_RECURSE "${PROJECT_BINARY_DIR}/mcss")
-  file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/mcss/_extract")
+set(mcss_root "${PROJECT_BINARY_DIR}/mcss")
+set(mcss_zip "${mcss_root}/${commitish}.zip")
+if(NOT EXISTS "${mcss_zip}")
+  file(REMOVE_RECURSE "${mcss_root}")
+  set(mcss_extract "${mcss_root}/_extract")
+  file(MAKE_DIRECTORY "${mcss_extract}")
   message(STATUS "Downloading m.css (${commitish})")
+  set(mcss_url "https://github.com/mosra/m.css/archive/${commitish}.zip")
   file(
-      DOWNLOAD "https://github.com/mosra/m.css/archive/${commitish}.zip"
-      "${PROJECT_BINARY_DIR}/mcss/${commitish}.zip"
+      DOWNLOAD "${mcss_url}" "${mcss_zip}"
       EXPECTED_HASH MD5=45C4DCFE34471402AE88C453EED098CF
       STATUS status
   )
@@ -47,16 +50,15 @@ if(NOT EXISTS "${PROJECT_BINARY_DIR}/mcss/${commitish}.zip")
     message(FATAL_ERROR "file(DOWNLOAD) returned with ${status}")
   endif()
   execute_process(
-      COMMAND "${CMAKE_COMMAND}"
-      -E tar xf "${PROJECT_BINARY_DIR}/mcss/${commitish}.zip"
-      WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/mcss/_extract"
+      COMMAND "${CMAKE_COMMAND}" -E tar xf "${mcss_zip}"
+      WORKING_DIRECTORY "${mcss_extract}"
       RESULT_VARIABLE result
   )
   if(NOT result EQUAL "0")
     message(FATAL_ERROR "Trying to extract m.css returned with ${result}")
   endif()
-  file(GLOB mcss_source "${PROJECT_BINARY_DIR}/mcss/_extract/*")
-  file(RENAME "${mcss_source}" "${PROJECT_BINARY_DIR}/mcss/src")
+  file(GLOB mcss_source "${mcss_extract}/*")
+  file(RENAME "${mcss_source}" "${mcss_root}/src")
 endif()
 
 find_package(Python3 3.6 REQUIRED)
@@ -74,7 +76,7 @@ foreach(file IN ITEMS Doxyfile conf.py)
   configure_file("docs/${file}.in" "${working_dir}/${file}" @ONLY)
 endforeach()
 
-set(mcss_script "${PROJECT_BINARY_DIR}/mcss/src/documentation/doxygen.py")
+set(mcss_script "${mcss_root}/src/documentation/doxygen.py")
 set(config "${working_dir}/conf.py")
 
 if(DEFINED CMAKE_SCRIPT_MODE_FILE)
