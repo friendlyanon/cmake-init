@@ -165,14 +165,11 @@ jobs:
       run: sudo apt-get update -q
         && sudo apt-get install doxygen -q -y
 
-    - name: Configure
-      run: cmake --preset=ci-ubuntu -D BUILD_MCSS_DOCS=ON
-
     - name: Build docs
-      run: cmake --build build -t docs
+      run: cmake -P cmake/docs.cmake
 
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build/docs/html
+        publish_dir: build/docs/html
