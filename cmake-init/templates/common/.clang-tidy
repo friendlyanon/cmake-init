@@ -145,9 +145,9 @@ CheckOptions:
   - key: 'readability-identifier-naming.UnionCase'
     value: 'lower_case'
   - key: 'readability-identifier-naming.ValueTemplateParameterCase'
-    value: 'lower_case'
-  - key: 'readability-identifier-naming.VariableCase'
     value: 'CamelCase'
+  - key: 'readability-identifier-naming.VariableCase'
+    value: 'lower_case'
   - key: 'readability-identifier-naming.VirtualMethodCase'
     value: 'lower_case'
 ...
