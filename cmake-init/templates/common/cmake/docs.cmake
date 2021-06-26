@@ -32,15 +32,15 @@ endif()
 
 # Fetch m.css manually, so this script can be used without having to configure
 # the project
-set(commitish 9385194fa3392a7162e7535cc2478814e382ff8a)
+set(committish 9385194fa3392a7162e7535cc2478814e382ff8a)
 set(mcss_root "${PROJECT_BINARY_DIR}/mcss")
-set(mcss_zip "${mcss_root}/${commitish}.zip")
+set(mcss_zip "${mcss_root}/${committish}.zip")
 if(NOT EXISTS "${mcss_zip}")
   file(REMOVE_RECURSE "${mcss_root}")
   set(mcss_extract "${mcss_root}/_extract")
   file(MAKE_DIRECTORY "${mcss_extract}")
-  message(STATUS "Downloading m.css (${commitish})")
-  set(mcss_url "https://github.com/mosra/m.css/archive/${commitish}.zip")
+  message(STATUS "Downloading m.css (${committish})")
+  set(mcss_url "https://github.com/mosra/m.css/archive/${committish}.zip")
   file(
       DOWNLOAD "${mcss_url}" "${mcss_zip}"
       EXPECTED_HASH MD5=45C4DCFE34471402AE88C453EED098CF
