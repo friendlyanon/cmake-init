@@ -23,7 +23,7 @@ add_library(
 target_include_directories(
     %(name)s_lib
     PUBLIC
-    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>"
 )
 
 target_compile_features(%(name)s_lib PUBLIC cxx_std_%(std)s)
