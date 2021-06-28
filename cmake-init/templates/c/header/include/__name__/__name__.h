@@ -7,10 +7,10 @@ extern "C" {
 /**
  * @brief Reports the name of the library
  */
-const char* header_only_name();
+const char* header_only_name(void);
 
 #ifdef %(uc_name)s_IMPLEMENTATION
-const char* header_only_name()
+const char* header_only_name(void)
 {
   return "%(name)s";
 }

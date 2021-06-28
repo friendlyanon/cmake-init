@@ -10,4 +10,4 @@ typedef struct library {
 /**
  * @brief Creates an instance of library with the name of the project
  */
-library create_library();
+library create_library(void);

@@ -9,7 +9,7 @@ extern "C" {
 /**
  * @brief Reports the name of the library
  */
-%(uc_name)s_EXPORT const char* exported_function();
+%(uc_name)s_EXPORT const char* exported_function(void);
 
 #ifdef __cplusplus
 }  // extern "C"
