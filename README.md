@@ -12,9 +12,11 @@ Here are some example outputs of the script as of 0.19.1:
 * https://github.com/friendlyanon/cmake-init-header-only
 * https://github.com/friendlyanon/cmake-init-shared-static
 
-There is also an example repository showing how to integrate with vcpkg:
+There are also example repositories showing how to integrate with package
+managers:
 
 * https://github.com/friendlyanon/cmake-init-vcpkg-example
+* https://github.com/friendlyanon/cmake-init-conan-example
 
 ## Goals
 
