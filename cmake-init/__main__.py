@@ -197,8 +197,8 @@ def write_file(path, d, overwrite, zip_path):
         return ""
 
     regex = re.compile("{(type|if) ([^}]+)}(.+?){end}", re.DOTALL)
-    contents = regex.sub(replacer, zip_path.read_text())
-    with open(path, "w", newline="\n") as f:
+    contents = regex.sub(replacer, zip_path.read_text(encoding="UTF-8"))
+    with open(path, "w", encoding="UTF-8", newline="\n") as f:
         f.write(contents % d)
 
 
