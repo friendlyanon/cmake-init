@@ -160,6 +160,7 @@ library."""
         "cpp": not cli_args.c,
         "suppress": False,
         "c_header": False,
+        "include_source": False,
     }
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":
@@ -174,6 +175,8 @@ library."""
         d["examples"] = value
     if d["type_id"] == "s" and d["cpp"]:
         d["suppress"] = True
+    if d["type_id"] == "e":
+        d["include_source"] = True
     d["c_header"] = d["c"] and d["type_id"] == "h"
     return d
 
