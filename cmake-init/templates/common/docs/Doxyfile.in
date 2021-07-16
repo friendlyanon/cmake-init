@@ -18,6 +18,7 @@ USE_MDFILE_AS_MAINPAGE = "@PROJECT_SOURCE_DIR@/README.md"
 # set relative include paths
 FULL_PATH_NAMES = YES
 STRIP_FROM_PATH = "@PROJECT_SOURCE_DIR@/include" "@PROJECT_SOURCE_DIR@"
+STRIP_FROM_INC_PATH =
 
 # We use m.css to generate the html documentation, so we only need XML output
 GENERATE_XML = YES

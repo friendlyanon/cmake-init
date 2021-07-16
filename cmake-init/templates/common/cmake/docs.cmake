@@ -34,35 +34,31 @@ endif()
 
 # ---- Dependencies ----
 
-# Fetch m.css manually, so this script can be used without having to configure
-# the project
-set(committish 9385194fa3392a7162e7535cc2478814e382ff8a)
+set(
+    mcss_url
+    https://github.com/friendlyanon/m.css/releases/download/release-1/mcss.zip
+)
 set(mcss_root "${PROJECT_BINARY_DIR}/mcss")
-set(mcss_zip "${mcss_root}/${committish}.zip")
-if(NOT EXISTS "${mcss_zip}")
-  file(REMOVE_RECURSE "${mcss_root}")
-  set(mcss_extract "${mcss_root}/_extract")
-  file(MAKE_DIRECTORY "${mcss_extract}")
-  message(STATUS "Downloading m.css (${committish})")
-  set(mcss_url "https://github.com/mosra/m.css/archive/${committish}.zip")
+if(NOT EXISTS "${mcss_root}")
+  file(MAKE_DIRECTORY "${mcss_root}")
+  message(STATUS "Downloading m.css")
   file(
-      DOWNLOAD "${mcss_url}" "${mcss_zip}"
-      EXPECTED_HASH MD5=45C4DCFE34471402AE88C453EED098CF
+      DOWNLOAD "${mcss_url}" "${mcss_root}/mcss.zip"
+      EXPECTED_HASH MD5=00cd2757ebafb9bcba7f5d399b3bec7f
       STATUS status
   )
   if(NOT status MATCHES "^0;")
     message(FATAL_ERROR "file(DOWNLOAD) returned with ${status}")
   endif()
   execute_process(
-      COMMAND "${CMAKE_COMMAND}" -E tar xf "${mcss_zip}"
-      WORKING_DIRECTORY "${mcss_extract}"
+      COMMAND "${CMAKE_COMMAND}" -E tar xf "${mcss_root}/mcss.zip"
+      WORKING_DIRECTORY "${mcss_root}"
       RESULT_VARIABLE result
   )
   if(NOT result EQUAL "0")
     message(FATAL_ERROR "Trying to extract m.css returned with ${result}")
   endif()
-  file(GLOB mcss_source "${mcss_extract}/*")
-  file(RENAME "${mcss_source}" "${mcss_root}/src")
+  file(REMOVE "${mcss_root}/mcss.zip")
 endif()
 
 find_package(Python3 3.6 REQUIRED)
@@ -80,7 +76,7 @@ foreach(file IN ITEMS Doxyfile conf.py)
   configure_file("docs/${file}.in" "${working_dir}/${file}" @ONLY)
 endforeach()
 
-set(mcss_script "${mcss_root}/src/documentation/doxygen.py")
+set(mcss_script "${mcss_root}/documentation/doxygen.py")
 set(config "${working_dir}/conf.py")
 
 if(DEFINED CMAKE_SCRIPT_MODE_FILE)
