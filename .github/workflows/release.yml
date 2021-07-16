@@ -1,0 +1,32 @@
+name: Release
+
+on: { push: { tags: [v*] } }
+
+jobs:
+  release:
+    name: Package a release
+
+    if: github.repository_owner == 'friendlyanon'
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - uses: actions/setup-python@v2
+      with: { python-version: "3.8" }
+
+    - name: Package
+      run: python -m zipapp cmake-init -p "/usr/bin/env python3"
+
+    - name: Get version
+      id: version
+      run: echo "::set-output name=version::$(python cmake-init.pyz --version)"
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+      with:
+        files: cmake-init.pyz
+        prerelease: true
+        body: Release of version ${{ steps.version.outputs.version }}

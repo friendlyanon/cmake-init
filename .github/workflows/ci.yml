@@ -3,8 +3,8 @@ name: Continuous Integration
 on:
   push:
     branches:
-    - master
     - develop
+    - feature/*
 
     paths:
     - cmake-init/**
@@ -20,12 +20,6 @@ on:
 
 jobs:
   test:
-    # Don't run CI when it's a version bump commit
-    if: github.ref == 'refs/heads/master'
-      || github.event_name != 'push'
-      || github.repository_owner != 'friendlyanon'
-      || github.event.commits[0].message != 'Bump version'
-
     strategy:
       fail-fast: false
 
@@ -85,37 +79,3 @@ jobs:
 
     - name: Test
       run: ctest --test-dir proj/build -C Release
-
-  release:
-    name: Package a release
-
-    if: github.ref == 'refs/heads/master'
-      && github.repository_owner == 'friendlyanon'
-
-    needs: test
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-
-    - uses: actions/setup-python@v2
-      with: { python-version: "3.8" }
-
-    - name: Package
-      run: python -m zipapp cmake-init -p "/usr/bin/env python3"
-
-    - name: Get version
-      id: version
-      run: echo "::set-output name=version::$(python cmake-init.pyz --version)"
-
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        files: cmake-init.pyz
-        prerelease: true
-        tag_name: v${{ steps.version.outputs.version }}
-        body: Release of version ${{ steps.version.outputs.version }}
-        name: v${{ steps.version.outputs.version }}
