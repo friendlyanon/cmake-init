@@ -22,7 +22,7 @@
  * non-exported class type.
  *
  * The exported class in our case is the class below (exported_class), which
- * has a non-static data member (name_) of a non-exported class type
+ * has a non-static data member (m_name) of a non-exported class type
  * (std::string).
  *
  * The rationale here is that the user of the exported class could attempt to
