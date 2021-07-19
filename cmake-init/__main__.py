@@ -161,6 +161,7 @@ library."""
         "suppress": False,
         "c_header": False,
         "include_source": False,
+        "has_source": True,
     }
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":
@@ -177,6 +178,8 @@ library."""
         d["suppress"] = True
     if d["type_id"] == "e":
         d["include_source"] = True
+    if d["type_id"] == "h":
+        d["has_source"] = False
     d["c_header"] = d["c"] and d["type_id"] == "h"
     return d
 
