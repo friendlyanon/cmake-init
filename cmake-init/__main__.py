@@ -33,7 +33,7 @@ import zipfile
 
 from distutils.version import LooseVersion
 
-__version__ = "0.20.0"
+__version__ = "0.20.1"
 
 zip = zipfile.ZipFile(os.path.dirname(__file__), "r")
 
