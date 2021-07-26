@@ -1,2 +1,4 @@
+package/*
+!package/setup.py
 proj/
 cmake-init.pyz
