@@ -83,19 +83,11 @@ Studio, but you have to install these addins:
 
 ---
 
-`cmake-init` consists of a single file that can be run using Python. Python was
-chosen for this, because it is cross-platform, convenient for this use-case and
-you likely already have it installed or the need for it will come up later
-anyway.
+This package is available for download from [PyPI][16]. You can install this
+package using `pip`:
 
-You have to just download the `cmake-init.pyz` script from the [releases][4],
-place it somewhere in your `PATH` and rename it to `cmake-init`. On Windows,
-you have to create a `cmake-init.bat` file to proxy to the script:
-
-```batch
-@echo off
-
-python %~dp0\cmake-init.pyz %*
+```bash
+pip install cmake-init
 ```
 
 ### clang-tidy
@@ -223,3 +215,4 @@ indirectly from the use or non-use of these files.
 [13]: http://ltp.sourceforge.net/coverage/lcov.php
 [14]: https://clang.llvm.org/docs/ClangFormat.html
 [15]: https://github.com/codespell-project/codespell
+[16]: https://pypi.org/project/cmake-init/
