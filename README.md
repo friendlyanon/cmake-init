@@ -18,6 +18,11 @@ managers:
 * https://github.com/friendlyanon/cmake-init-vcpkg-example
 * https://github.com/friendlyanon/cmake-init-conan-example
 
+Here is an additional example written in C that makes use of fuzz testing and a
+superbuild to connect the fuzz project with the library project:
+
+* https://github.com/friendlyanon/cmake-init-gif-engine
+
 ## Goals
 
 * Be simple to use  
