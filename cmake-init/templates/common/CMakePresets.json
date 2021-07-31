@@ -31,7 +31,7 @@
       "name": "flags-unix",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C{if cpp}XX{end}_FLAGS": "-Wall -Wextra -pedantic{if c} -Wstrict-prototypes{end}",
+        "CMAKE_C{if cpp}XX{end}_FLAGS": "-Wall -Wextra -Wpedantic{if c} -Wstrict-prototypes{end}",
         "CMAKE_C{if cpp}XX{end}_EXTENSIONS": "OFF"
       }
     },
