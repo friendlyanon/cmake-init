@@ -33,7 +33,7 @@ import zipfile
 
 from distutils.version import LooseVersion
 
-__version__ = "0.20.2"
+__version__ = "0.20.3"
 
 is_windows = os.name == "nt"
 
