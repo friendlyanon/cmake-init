@@ -153,8 +153,10 @@ customization. This target should be run after the tests and by default it will
 generate a report at `<binary-dir>/coverage.info` and an HTML report at the
 `<binary-dir>/coverage_html` directory.
 
-**For Windows users**, the only way to get coverage reports is via the codecov
-integration in the CI workflow or by using WSL or a Linux VM.
+**For Windows users**, you may use a similar tool called [OpenCppCoverage][17],
+for which there is an example script in the generated `cmake` directory. This
+script is left as an example, because the Linux VM launches and runs faster in
+GitHub Actions and so it is used for coverage submission.
 
 ### clang-format
 
@@ -221,3 +223,4 @@ indirectly from the use or non-use of these files.
 [14]: https://clang.llvm.org/docs/ClangFormat.html
 [15]: https://github.com/codespell-project/codespell
 [16]: https://pypi.org/project/cmake-init/
+[17]: https://github.com/OpenCppCoverage/OpenCppCoverage
