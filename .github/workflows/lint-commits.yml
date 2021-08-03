@@ -1,0 +1,24 @@
+name: Lint commits
+
+on:
+  pull_request_target:
+    branches:
+    - develop
+
+jobs:
+  lint-commits:
+    if: github.repository_owner == 'friendlyanon'
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get PR commits
+      id: commits
+      uses: IdanHo/get-pr-commits@d94b66d146a31ef91e54a2597dee4fb523157232
+      with: { token: "${{ github.token }}" }
+
+    - name: Check commits
+      run: |
+        node .github/scripts/lint-commits.js << 'JSON'
+        ${{ steps.commits.outputs.commits }}
+        JSON
