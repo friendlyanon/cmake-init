@@ -45,7 +45,9 @@ target_link_libraries(%(name)s_%(name)s PRIVATE %(name)s_lib)
 
 # ---- Install rules ----
 
-include(cmake/install-rules.cmake)
+if(NOT CMAKE_SKIP_INSTALL_RULES)
+  include(cmake/install-rules.cmake)
+endif()
 
 # ---- Developer mode ----
 

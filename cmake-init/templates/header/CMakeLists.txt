@@ -33,7 +33,9 @@ target_compile_features(%(name)s_%(name)s INTERFACE cxx_std_%(std)s)
 
 # ---- Install rules ----
 
-include(cmake/install-rules.cmake){if cpp_examples}
+if(NOT CMAKE_SKIP_INSTALL_RULES)
+  include(cmake/install-rules.cmake)
+endif(){if cpp_examples}
 
 # ---- Examples ----
 
