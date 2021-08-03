@@ -73,7 +73,7 @@ ForEachMacros:
 IncludeBlocks: Regroup
 IncludeCategories:{if cpp}
   # Standard library headers come before anything else
-  - Regex: '^<[a-z]+>'
+  - Regex: '^<[a-z_]+>'
     Priority: -1{end}
   - Regex: '^<.+\.h{if cpp}(pp)?{end}>'
     Priority: 1{if cpp}
