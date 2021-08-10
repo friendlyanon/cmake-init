@@ -19,7 +19,7 @@ if(ENABLE_COVERAGE)
   include(cmake/coverage.cmake)
 endif()
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
   include(cmake/open-cpp-coverage.cmake OPTIONAL)
 endif()
 
