@@ -458,10 +458,13 @@ pass as the first flag to make a vcpkg port of <name> with type -s or -h",
             const=flag,
             help=help,
         )
+    defaults = ", ".join(
+        map(lambda lang: f"{lang} - {lang.default}", [cpp_lang, c_lang])
+    )
     p.add_argument(
         "--std",
-        metavar="<std>",
-        help="set the language standard to use",
+        metavar="NN",
+        help=f"set the language standard to use (defaults: {defaults})",
     )
     p.add_argument(
         "--no-clang-tidy",
