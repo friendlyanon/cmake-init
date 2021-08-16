@@ -38,6 +38,22 @@ __version__ = "0.20.4"
 is_windows = os.name == "nt"
 
 
+class Language:
+    def __init__(self, name, types, options, default):
+        self.name = name
+        self.types = types
+        self.options = options
+        self.default = options[default]
+
+    def __str__(self):
+        return self.name
+
+
+c_lang = Language("C", ["e", "s", "h"], ["90", "99", "11"], 1)
+
+cpp_lang = Language("C++", ["e", "h", "s"], ["11", "14", "17", "20"], 2)
+
+
 def not_empty(value):
     return len(value) != 0
 
@@ -82,23 +98,15 @@ def get_substitutes(cli_args, name):
     def ask(*args, **kwargs):
         return prompt(*args, **kwargs, no_prompt=no_prompt)
 
-    default_std = -2
     type_map = {
         "e": "[E]xecutable",
         "h": "[h]eader-only",
         "s": "[s]tatic/shared",
     }
-    if cli_args.c:
-        pp = ""
-        stds = ["90", "99", "11"]
-        types = ["e", "s", "h"]
-    else:
-        pp = "++"
-        stds = ["11", "14", "17", "20"]
-        types = ["e", "h", "s"]
+    lang = c_lang if cli_args.c else cpp_lang
 
     if not no_prompt:
-        print(f"cmake-init is going to generate a C{pp} project\n")
+        print(f"cmake-init is going to generate a {lang} project\n")
 
     d = {
         "name": ask(
@@ -119,11 +127,11 @@ https://semver.org/ for more information."""
         "homepage": ask("Homepage URL ({})", "https://example.com/"),
         "type_id": ask(
             "Target type ({})".format(
-                " or ".join(map(lambda t: type_map[t], types))
+                " or ".join(map(lambda t: type_map[t], lang.types))
             ),
             cli_args.type_id or "e",
             mapper=lambda v: v[0:1].lower(),
-            predicate=lambda v: v in types,
+            predicate=lambda v: v in lang.types,
             header="""\
 Type of the target this project provides. A static/shared library will be set
 up to hide every symbol by default (as it should) and use an export header to
@@ -131,10 +139,10 @@ explicitly mark symbols for export/import, but only when built as a shared
 library."""
         ),
         "std": ask(
-            "C{} standard ({})".format(pp, "/".join(stds)),
-            cli_args.std or stds[default_std],
-            predicate=lambda v: v in stds,
-            header=f"C{pp} standard to use. Defaults to {stds[default_std]}.",
+            f"{lang} standard ({lang.options})",
+            cli_args.std or lang.default,
+            predicate=lambda v: v in lang.options,
+            header=f"{lang} standard to use. Defaults to {lang.default}.",
         ),
         "use_clang_tidy": ask(
             "Add clang-tidy to local dev preset ([Y]es/[n]o)",
