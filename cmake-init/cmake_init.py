@@ -127,7 +127,7 @@ https://semver.org/ for more information."""
         "homepage": ask("Homepage URL ({})", "https://example.com/"),
         "type_id": ask(
             "Target type ({})".format(
-                " or ".join(map(lambda t: type_map[t], lang.types))
+                " or ".join([type_map[t] for t in lang.types])
             ),
             cli_args.type_id or "e",
             mapper=lambda v: v[0:1].lower(),
@@ -459,7 +459,7 @@ pass as the first flag to make a vcpkg port of <name> with type -s or -h",
             help=help,
         )
     defaults = ", ".join(
-        map(lambda lang: f"{lang} - {lang.default}", [cpp_lang, c_lang])
+        [f"{lang} - {lang.default}" for lang in [cpp_lang, c_lang]]
     )
     p.add_argument(
         "--std",
