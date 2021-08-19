@@ -20,6 +20,8 @@ on:
 
 jobs:
   test:
+    if: github.event.commits[0].message != 'Bump version'
+
     strategy:
       fail-fast: false
 
