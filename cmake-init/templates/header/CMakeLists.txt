@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-include(cmake/in-source-guard.cmake)
+include(cmake/prelude.cmake)
 
 project(
     %(name)s
@@ -9,6 +9,8 @@ project(
     HOMEPAGE_URL "%(homepage)s"
     LANGUAGES NONE
 )
+
+docs_early_return()
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)

@@ -166,7 +166,8 @@ jobs:
         && sudo apt-get install doxygen -q -y
 
     - name: Build docs
-      run: cmake -P cmake/docs.cmake
+      run: cmake -B build -D "CMAKE_PROJECT_INCLUDE=$PWD/cmake/docs.cmake"
+        && cmake --build build --target docs
 
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
