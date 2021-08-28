@@ -40,6 +40,9 @@ set(config "${working_dir}/conf.py")
 
 add_custom_target(
     docs
+    COMMAND "${CMAKE_COMMAND}" -E remove_directory
+    "${DOXYGEN_OUTPUT_DIRECTORY}/html"
+    "${DOXYGEN_OUTPUT_DIRECTORY}/xml"
     COMMAND "${Python3_EXECUTABLE}" "${mcss_script}" "${config}"
     COMMENT "Building documentation using Doxygen and m.css"
     WORKING_DIRECTORY "${working_dir}"
