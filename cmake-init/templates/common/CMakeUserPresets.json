@@ -16,7 +16,7 @@
     {
       "name": "static-analyzers",
       "hidden": true,
-      "inherits": [{if use_clang_tidy}, "clang-tidy"{end}{if use_cppcheck}, "cppcheck"{end}]
+      "inherits": [{if use_clang_tidy}"clang-tidy"{end}{if both_analyzers}, {end}{if use_cppcheck}"cppcheck"{end}]
     },
     {
       "name": "dev-common",
