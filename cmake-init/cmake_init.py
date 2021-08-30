@@ -139,7 +139,7 @@ explicitly mark symbols for export/import, but only when built as a shared
 library."""
         ),
         "std": ask(
-            f"{lang} standard ({lang.options})",
+            "{} standard ({})".format(lang, "/".join(lang.options)),
             cli_args.std or lang.default,
             predicate=lambda v: v in lang.options,
             header=f"{lang} standard to use. Defaults to {lang.default}.",
