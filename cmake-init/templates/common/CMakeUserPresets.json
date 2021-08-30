@@ -14,12 +14,32 @@
       }
     },
     {
-      "name": "dev",
-      "binaryDir": "${sourceDir}/build/dev",
-      "inherits": ["folders", "dev-mode", "ci-%(os)s"{if use_clang_tidy}, "clang-tidy"{end}{if use_cppcheck}, "cppcheck"{end}],
+      "name": "static-analyzers",
+      "hidden": true,
+      "inherits": [{if use_clang_tidy}, "clang-tidy"{end}{if use_cppcheck}, "cppcheck"{end}]
+    },
+    {
+      "name": "dev-common",
+      "hidden": true,
+      "inherits": ["folders", "static-analyzers", "dev-mode"],
       "cacheVariables": {
         "BUILD_MCSS_DOCS": "ON"
       }
+    },
+    {
+      "name": "dev-unix",
+      "binaryDir": "${sourceDir}/build/dev-unix",
+      "inherits": ["dev-common", "ci-unix"]
+    },
+    {
+      "name": "dev-win64",
+      "binaryDir": "${sourceDir}/build/dev-win64",
+      "inherits": ["dev-common", "ci-win64"]
+    },
+    {
+      "name": "dev",
+      "binaryDir": "${sourceDir}/build/dev",
+      "inherits": "dev-%(os)s"
     },
     {
       "name": "dev-coverage",
