@@ -1,6 +1,6 @@
 #include <lib.h>
 
-library create_library(void)
+library create_library()
 {
   library lib;
   lib.name = "%(name)s";

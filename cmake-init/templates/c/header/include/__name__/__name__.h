@@ -10,7 +10,7 @@ extern "C" {
 const char* header_only_name(void);
 
 #ifdef %(uc_name)s_IMPLEMENTATION
-const char* header_only_name(void)
+const char* header_only_name()
 {
   return "%(name)s";
 }
