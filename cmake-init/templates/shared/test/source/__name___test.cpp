@@ -1,6 +1,6 @@
 #include <string>
 
-#include <%(name)s/%(name)s.hpp>
+#include "%(name)s/%(name)s.hpp"
 
 auto main() -> int
 {

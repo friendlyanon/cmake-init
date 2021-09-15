@@ -1,6 +1,6 @@
 #pragma once
 
-#include <%(name)s/%(name)s_export.h>
+#include "%(name)s/%(name)s_export.h"
 
 #ifdef __cplusplus
 extern "C" {

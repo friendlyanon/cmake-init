@@ -1,5 +1,6 @@
-#include <lib.h>
 #include <string.h>
+
+#include "lib.h"
 
 int main(int argc, const char* argv[])
 {

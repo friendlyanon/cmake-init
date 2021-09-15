@@ -1,4 +1,4 @@
-#include <%(name)s/%(name)s.h>
+#include "%(name)s/%(name)s.h"
 
 const char* exported_function()
 {

@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <%(name)s/%(name)s_export.h>
+#include "%(name)s/%(name)s_export.h"
 
 /**
  * A note about the MSVC warning C4251:
