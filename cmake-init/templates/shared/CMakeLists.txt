@@ -27,7 +27,7 @@ include(GenerateExportHeader)
 generate_export_header(
     %(name)s_%(name)s
     BASE_NAME %(name)s
-    EXPORT_FILE_NAME export/%(name)s/%(name)s_export.h
+    EXPORT_FILE_NAME export/%(name)s/%(name)s_export.hpp
     CUSTOM_CONTENT_FROM_VARIABLE pragma_suppress_c4251
 )
 
