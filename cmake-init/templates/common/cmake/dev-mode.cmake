@@ -5,9 +5,10 @@ endif()
 {type exe}
 add_custom_target(
     run_exe
-    COMMAND "$<TARGET_FILE:%(name)s_%(name)s>"
+    COMMAND %(name)s_%(name)s
     VERBATIM
 )
+add_dependencies(run_exe %(name)s_%(name)s)
 {end}
 option(BUILD_MCSS_DOCS "Build documentation using Doxygen and m.css" OFF)
 if(BUILD_MCSS_DOCS)
