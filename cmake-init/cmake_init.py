@@ -275,7 +275,7 @@ in that order:
     extra = ["    docs - build the documentation using Doxygen and m.css"]
     if d["c_examples"] or d["cpp_examples"]:
         extra.append("""\
-    run_examples - runs all the examples created by the add_example command""")
+    run-examples - runs all the examples created by the add_example command""")
     if d["type_id"] == "e":
         extra.append("""\
     run-exe - runs the executable built by the project""")
