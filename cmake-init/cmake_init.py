@@ -278,7 +278,7 @@ in that order:
     run_examples - runs all the examples created by the add_example command""")
     if d["type_id"] == "e":
         extra.append("""\
-    run_exe - runs the executable built by the project""")
+    run-exe - runs the executable built by the project""")
     print("""\
 There are some convenience targets that you can run manually:
 """)
