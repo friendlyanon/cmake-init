@@ -7,7 +7,7 @@ CMake (3.14+).
 
 ![Example GIF of cmake-init in action](assets/example.gif)
 
-Here are some example outputs of the script as of 0.21.2:
+Here are some example outputs of the script as of 0.21.4:
 
 * https://github.com/friendlyanon/cmake-init-executable
 * https://github.com/friendlyanon/cmake-init-header-only
