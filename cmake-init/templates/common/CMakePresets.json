@@ -28,11 +28,20 @@
       }
     },
     {
+      "name": "ci-std",
+      "description": "This preset makes sure the project actually builds with at least the specified standard",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C{if cpp}XX{end}_EXTENSIONS": "OFF",
+        "CMAKE_C{if cpp}XX{end}_STANDARD": "%(std)s",
+        "CMAKE_C{if cpp}XX{end}_STANDARD_REQUIRED": "ON"
+      }
+    },
+    {
       "name": "flags-unix",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C{if cpp}XX{end}_FLAGS": "-Wall -Wextra -Wpedantic{if c} -Wstrict-prototypes{end}",
-        "CMAKE_C{if cpp}XX{end}_EXTENSIONS": "OFF"
+        "CMAKE_C{if cpp}XX{end}_FLAGS": "-Wall -Wextra -Wpedantic{if c} -Wstrict-prototypes{end}"
       }
     },
     {
@@ -46,14 +55,14 @@
       "name": "ci-unix",
       "generator": "Unix Makefiles",
       "hidden": true,
-      "inherits": "flags-unix",
+      "inherits": ["flags-unix", "ci-std"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
       "name": "ci-win64",
-      "inherits": "flags-windows",
+      "inherits": ["flags-windows", "ci-std"],
       "generator": "Visual Studio 16 2019",
       "architecture": "x64",
       "hidden": true
