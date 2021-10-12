@@ -24,6 +24,11 @@ superbuild to connect the fuzz project with the library project:
 
 * https://github.com/friendlyanon/cmake-init-gif-engine
 
+This example shows how to handle installing internal dependencies when the
+public targets are static libraries:
+
+* https://github.com/friendlyanon/cmake-init-multi-target
+
 ## Goals
 
 * Be simple to use  
