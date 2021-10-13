@@ -31,8 +31,6 @@ import subprocess
 import sys
 import zipfile
 
-from distutils.version import LooseVersion
-
 __version__ = "0.21.5"
 
 is_windows = os.name == "nt"
@@ -235,16 +233,24 @@ def write_dir(path, d, overwrite, zip_path):
             write_dir(next_path, d, overwrite, entry)
 
 
-def git_init(cwd):
-    branch = ""
+def determine_git_version():
     git_version_out = \
         subprocess.run("git --version", shell=True, capture_output=True)
     if git_version_out.returncode != 0:
+        return None
+    git_version_str = str(git_version_out.stdout[12:], sys.stdout.encoding)
+    git_version = list(map(int, git_version_str.rstrip().split(".")[:3]))
+    if len(git_version) < 3:
+        git_version += [0] * (3 - len(git_version))
+    return tuple(git_version)
+
+def git_init(cwd):
+    git_version = determine_git_version()
+    if git_version is None:
         print("\nGit can't be found! Can't initialize git for the project.\n")
         return
-    git_version_str = str(git_version_out.stdout[12:], sys.stdout.encoding)
-    git_version = LooseVersion(git_version_str.rstrip())
-    if LooseVersion("2.28.0") <= git_version:
+    branch = ""
+    if (2, 28, 0) <= git_version:
         branch = " -b master"
     subprocess.run(f"git init{branch}", shell=True, check=True, cwd=cwd)
     print("""
