@@ -7,8 +7,24 @@
   },
   "configurePresets": [
     {
+      "name": "cmake-pedantic",
+      "hidden": true,
+      "warnings": {
+        "dev": true,
+        "deprecated": true,
+        "uninitialized": true,
+        "unusedCli": true,
+        "systemVars": false
+      },
+      "errors": {
+        "dev": true,
+        "deprecated": true
+      }
+    },
+    {
       "name": "dev-mode",
       "hidden": true,
+      "inherits": "cmake-pedantic",
       "cacheVariables": {
         "%(name)s_DEVELOPER_MODE": "ON"
       }
