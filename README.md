@@ -5,29 +5,11 @@ projects which are FetchContent ready, separate consumer and developer targets,
 provide install rules with proper relocatable CMake packages and use modern
 CMake (3.14+).
 
+Please see the [wiki][18] for example outputs of cmake-init and other pragmatic
+examples of functionality implemented for CMake, like package managers, fuzz
+testing, superbuilds, etc.
+
 ![Example GIF of cmake-init in action](assets/example.gif)
-
-Here are some example outputs of the script as of 0.21.5:
-
-* https://github.com/friendlyanon/cmake-init-executable
-* https://github.com/friendlyanon/cmake-init-header-only
-* https://github.com/friendlyanon/cmake-init-shared-static
-
-There are also example repositories showing how to integrate with package
-managers:
-
-* https://github.com/friendlyanon/cmake-init-vcpkg-example
-* https://github.com/friendlyanon/cmake-init-conan-example
-
-Here is an additional example written in C that makes use of fuzz testing and a
-superbuild to connect the fuzz project with the library project:
-
-* https://github.com/friendlyanon/cmake-init-gif-engine
-
-This example shows how to handle installing internal dependencies when the
-public targets are static libraries:
-
-* https://github.com/friendlyanon/cmake-init-multi-target
 
 ## Goals
 
@@ -230,3 +212,4 @@ indirectly from the use or non-use of these files.
 [15]: https://github.com/codespell-project/codespell
 [16]: https://pypi.org/project/cmake-init/
 [17]: https://github.com/OpenCppCoverage/OpenCppCoverage
+[18]: https://github.com/friendlyanon/cmake-init/wiki/Examples
