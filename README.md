@@ -39,6 +39,17 @@ testing, superbuilds, etc.
   should be easy to use. There is also some level of support for [vcpkg][10] to
   make consuming dependencies from git repositories easier.
 
+### Relevant conference talks
+
+* [Kenneth Hoste - How To Make Package Managers Cry
+](https://www.youtube.com/watch?v=NSemlYagjIU)
+* [Robert Schumacher - Don't package your libraries, write packagable
+libraries! (Part 1)](https://www.youtube.com/watch?v=sBP17HQAQjk)
+* [Robert Schumacher - Don't package your libraries, write packagable
+libraries! (Part 2)](https://www.youtube.com/watch?v=_5weX5mx8hc)
+* [Craig Scott - Deep CMake for Library Authors
+](https://www.youtube.com/watch?v=m0DwB4OvDXk)
+
 ## Non-goals
 
 * Cover every possible project structure  
