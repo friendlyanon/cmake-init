@@ -9,3 +9,5 @@ target_link_libraries(%(name)s_test PRIVATE %(name)s_lib)
 target_compile_features(%(name)s_test PRIVATE cxx_std_%(std)s)
 
 add_test(NAME %(name)s_test COMMAND %(name)s_test)
+
+add_folders(Test)

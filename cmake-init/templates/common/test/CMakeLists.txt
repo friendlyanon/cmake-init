@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 project(%(name)sTests LANGUAGES C{if cpp}XX{end})
 
 include(../cmake/project-is-top-level.cmake)
+include(../cmake/folders.cmake)
 include(../cmake/windows-set-path.cmake)
 
 if(PROJECT_IS_TOP_LEVEL)
@@ -20,3 +21,5 @@ set_property(
 
 add_test(NAME %(name)s_test COMMAND %(name)s_test){type shared}
 windows_set_path(%(name)s_test %(name)s::%(name)s){end}
+
+add_folders(Test)

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 project(%(name)sExamples C)
 
 include(../cmake/project-is-top-level.cmake)
+include(../cmake/folders.cmake)
 
 if(PROJECT_IS_TOP_LEVEL)
   find_package(%(name)s REQUIRED)
@@ -20,3 +21,5 @@ function(add_example NAME)
 endfunction()
 
 add_example(empty_example)
+
+add_folders(Example)
