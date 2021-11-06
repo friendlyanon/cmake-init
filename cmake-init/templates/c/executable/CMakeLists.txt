@@ -32,18 +32,18 @@ target_compile_features(%(name)s_lib PUBLIC c_std_%(std)s)
 
 # ---- Declare executable ----
 
-add_executable(%(name)s_%(name)s source/main.c)
-add_executable(%(name)s::%(name)s ALIAS %(name)s_%(name)s)
+add_executable(%(name)s_exe source/main.c)
+add_executable(%(name)s::exe ALIAS %(name)s_exe)
 
 set_target_properties(
-    %(name)s_%(name)s PROPERTIES
+    %(name)s_exe PROPERTIES
     OUTPUT_NAME %(name)s
-    EXPORT_NAME %(name)s
+    EXPORT_NAME exe
 )
 
-target_compile_features(%(name)s_%(name)s PRIVATE c_std_%(std)s)
+target_compile_features(%(name)s_exe PRIVATE c_std_%(std)s)
 
-target_link_libraries(%(name)s_%(name)s PRIVATE %(name)s_lib)
+target_link_libraries(%(name)s_exe PRIVATE %(name)s_lib)
 
 # ---- Install rules ----
 

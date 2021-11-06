@@ -5,10 +5,10 @@ endif()
 {type exe}
 add_custom_target(
     run-exe
-    COMMAND %(name)s_%(name)s
+    COMMAND %(name)s_exe
     VERBATIM
 )
-add_dependencies(run-exe %(name)s_%(name)s)
+add_dependencies(run-exe %(name)s_exe)
 {end}
 option(BUILD_MCSS_DOCS "Build documentation using Doxygen and m.css" OFF)
 if(BUILD_MCSS_DOCS)
