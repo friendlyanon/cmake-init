@@ -166,7 +166,6 @@ library."""
         "c_header": False,
         "include_source": False,
         "has_source": True,
-        "both_analyzers": False,
     }
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":
@@ -185,8 +184,6 @@ library."""
         d["include_source"] = True
     if d["type_id"] == "h":
         d["has_source"] = False
-    if d["use_clang_tidy"] and d["use_cppcheck"]:
-        d["both_analyzers"] = True
     d["c_header"] = d["c"] and d["type_id"] == "h"
     return d
 
