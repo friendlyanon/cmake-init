@@ -198,15 +198,20 @@ def write_file(path, d, overwrite, zip_path):
 
     def replacer(match):
         query = match.group(1)
+        expected = True
+        if query.endswith("_not"):
+            query = query[:-4]
+            expected = False
         if query == "type":
             mapping = {"exe": "e", "header": "h", "shared": "s"}
-            if mapping[match.group(2)] == d["type_id"]:
+            actual = mapping[match.group(2)] == d["type_id"]
+            if actual == expected:
                 return match.group(3)
-        elif query == "if" and d[match.group(2)] is True:
+        elif query == "if" and d[match.group(2)] == expected:
             return match.group(3)
         return ""
 
-    regex = re.compile("{(type|if) ([^}]+)}(.+?){end}", re.DOTALL)
+    regex = re.compile("{((?:type|if)(?:_not)?) ([^}]+)}(.+?){end}", re.DOTALL)
     contents = regex.sub(replacer, zip_path.read_text(encoding="UTF-8"))
     with open(path, "w", encoding="UTF-8", newline="\n") as f:
         f.write(contents % d)

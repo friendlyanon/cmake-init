@@ -26,7 +26,7 @@ install(
 ){end}
 
 install(
-    TARGETS %(name)s_%(name)s
+    TARGETS %(name)s_{type_not exe}%(name)s{end}{type exe}exe{end}
     EXPORT %(name)sTargets{type exe}
     RUNTIME COMPONENT %(name)s_Runtime{end}{type shared}
     RUNTIME #
