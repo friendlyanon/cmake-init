@@ -46,7 +46,7 @@ set_target_properties(
 )
 
 target_include_directories(
-    %(name)s_%(name)s ${%(name)s_warning_guard}
+    %(name)s_%(name)s ${warning_guard}
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )

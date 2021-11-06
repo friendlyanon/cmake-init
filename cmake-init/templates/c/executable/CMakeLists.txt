@@ -23,7 +23,7 @@ add_library(
 )
 
 target_include_directories(
-    %(name)s_lib ${%(name)s_warning_guard}
+    %(name)s_lib ${warning_guard}
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>"
 )
