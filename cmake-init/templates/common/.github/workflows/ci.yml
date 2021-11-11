@@ -34,10 +34,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # To enable coverage, go to https://codecov.io/, acquire a token, put it
-    # into your secrets (Settings > Secrets > New repository secret), delete
-    # the last line from the conditional below and edit the "<name>"
-    # placeholder to your GitHub name.
+    # To enable coverage, delete the last line from the conditional below and
+    # edit the "<name>" placeholder to your GitHub name.
     # If you do not wish to use codecov, then simply delete this job from the
     # workflow.
     if: github.repository_owner == '<name>'
