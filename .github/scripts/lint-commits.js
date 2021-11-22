@@ -55,33 +55,22 @@ const checkers = [{
   },
 }];
 
-async function readJsonFromStdin() {
-  const chunks = [];
-  for await (const chunk of process.stdin) {
-    chunks.push(chunk);
-  }
-
-  return Buffer.concat(chunks).toString();
-}
-
 function runChecker({ check, error }) {
   return check(this.message) ? [] : [error];
 }
 
-async function main() {
-  const commits = JSON.parse(await readJsonFromStdin());
-
-  let exitCode = 0;
+function checkCommits(commits) {
+  let success = true;
   for (const { commit, sha } of commits) {
     const errors = checkers.flatMap(runChecker, commit);
     if (errors.length === 0) {
       continue;
     }
 
-    if (exitCode !== 0) {
+    if (!success) {
       console.log("");
     }
-    exitCode = 1;
+    success = false;
 
     console.log("Commit %s failed these checks:", sha);
     for (const error of errors) {
@@ -89,10 +78,21 @@ async function main() {
     }
   }
 
-  return exitCode;
+  return success;
 }
 
-main().catch((error) => {
-  console.error(error);
-  return 1;
-}).then((code) => { process.exitCode = code; });
+async function main(github, core, context) {
+  const { repository, pull_request } = context.payload;
+  const options = github.rest.pulls.listCommits.endpoint.merge({
+    owner: repository.owner.login,
+    repo: repository.name,
+    pull_number: pull_request.number,
+  });
+  const commits = await github.paginate(options);
+  const isErrorFree = checkCommits(commits);
+  if (!isErrorFree) {
+    core.setFailed("Please check the logs for errors in commit messages.");
+  }
+}
+
+module.exports = { main };
