@@ -12,10 +12,14 @@ endif()
 {if suppress}# ---- Suppress C4251 on Windows ----
 
 # Please see include/%(name)s/%(name)s.hpp for more details
-set(pragma_suppress_c4251 "#define %(uc_name)s_SUPPRESS_C4251")
-if(MSVC)
-  string(APPEND pragma_suppress_c4251 [[ _Pragma("warning(suppress:4251)")]])
-endif()
+set(pragma_suppress_c4251 "
+/* This needs to suppress only for MSVC */
+#if defined(_MSC_VER) && !defined(__ICL)
+#  define %(uc_name)s_SUPPRESS_C4251 _Pragma(\"warning(suppress:4251)\")
+#else
+#  define %(uc_name)s_SUPPRESS_C4251
+#endif
+")
 
 {end}# ---- Warning guard ----
 
