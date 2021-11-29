@@ -73,7 +73,7 @@ Make sure you have these programs installed:
 * [cppcheck](#cppcheck) (optional)
 * [Doxygen](#doxygen) (optional)
 * [LCOV](#lcov) (optional)
-* [clang-format](#clang-format) (optional)
+* [clang-format 11](#clang-format) (optional)
 * [codespell](#codespell) (optional)
 
 ---
@@ -165,6 +165,9 @@ used to enforce style guides.
 
 Two targets are made available to check and fix code in developer mode using
 the `format-check` and `format-fix` targets respectively.
+
+**NOTE**: the project generates files that are formatted according to
+clang-format 11. Newer or older versions may format the project differently.
 
 ### codespell
 
