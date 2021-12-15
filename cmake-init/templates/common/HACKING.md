@@ -41,7 +41,10 @@ the project:
     {
       "name": "dev",
       "binaryDir": "${sourceDir}/build/dev",
-      "inherits": ["dev-mode", "ci-<os>"]
+      "inherits": ["dev-mode", "ci-<os>"],
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
     }
   ]
 }
@@ -63,8 +66,8 @@ Windows:
 
 ```sh
 cmake --preset=dev
-cmake --build build/dev --config Release
-cd build/dev && ctest -C Release
+cmake --build build/dev --config Debug
+cd build/dev && ctest -C Debug
 ```
 
 And here is the same on a Unix based system (Linux, macOS):

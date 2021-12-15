@@ -267,8 +267,8 @@ push the project with the following commands from the project directory:
 
 
 def print_tips(d):
-    config = " --config Release" if is_windows else ""
-    test_cfg = " -C Release" if is_windows else ""
+    config = " --config Debug" if is_windows else ""
+    test_cfg = " -C Debug" if is_windows else ""
     cpus = os.cpu_count()
     print(f"""\
 To get you started with the project in developer mode, you may configure,
