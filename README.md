@@ -67,7 +67,7 @@ libraries! (Part 2)](https://www.youtube.com/watch?v=_5weX5mx8hc)
 Make sure you have these programs installed:
 
 * Python 3.8 or newer
-* CMake 3.19 or newer
+* CMake 3.20 or newer
 * git
 * [clang-tidy](#clang-tidy) (optional)
 * [cppcheck](#cppcheck) (optional)

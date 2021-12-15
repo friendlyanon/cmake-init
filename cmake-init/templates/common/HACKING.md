@@ -31,7 +31,7 @@ the project:
 
 ```json
 {
-  "version": 1,
+  "version": 2,
   "cmakeMinimumRequired": {
     "major": 3,
     "minor": 14,
@@ -44,6 +44,23 @@ the project:
       "inherits": ["dev-mode", "ci-<os>"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "configuration": "Debug"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
       }
     }
   ]
@@ -62,21 +79,18 @@ in the terminal.
 
 If you followed the above instructions, then you can configure, build and test
 the project respectively with the following commands from the project root on
-Windows:
+any operating system with any build system:
 
 ```sh
 cmake --preset=dev
-cmake --build build/dev --config Debug
-cd build/dev && ctest -C Debug
+cmake --build --preset=dev
+ctest --preset=dev
 ```
 
-And here is the same on a Unix based system (Linux, macOS):
-
-```sh
-cmake --preset=dev
-cmake --build build/dev
-cd build/dev && ctest
-```
+Please note that both the build and test command accepts a `-j` flag to specify
+the number of jobs to use, which should ideally be specified to the number of
+threads your CPU has. You may also want to add that to your preset using the
+`jobs` property, see the [presets documentation][1] for more details.
 
 [1]: https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html
 [2]: https://cmake.org/download/

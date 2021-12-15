@@ -166,6 +166,7 @@ library."""
         "c_header": False,
         "include_source": False,
         "has_source": True,
+        "cpus": os.cpu_count(),
     }
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":
@@ -268,17 +269,15 @@ push the project with the following commands from the project directory:
 
 def print_tips(d):
     config = " --config Debug" if is_windows else ""
-    test_cfg = " -C Debug" if is_windows else ""
-    cpus = os.cpu_count()
     print(f"""\
 To get you started with the project in developer mode, you may configure,
 build, install and test with the following commands from the project directory,
 in that order:
 
     cmake --preset=dev
-    cmake --build build/dev{config} -j {cpus}
+    cmake --build --preset=dev
     cmake --install build/dev{config} --prefix prefix
-    cd build/dev && ctest{test_cfg} -j {cpus} --output-on-failure
+    ctest --preset=dev
 """)
     extra = ["    docs - build the documentation using Doxygen and m.css"]
     if d["c_examples"] or d["cpp_examples"]:
@@ -296,7 +295,7 @@ There are some convenience targets that you can run manually:
 These targets are only available in developer mode, because they are generally
 not useful for consumers. You can run these targets with the following command:
 
-    cmake --build build/dev{config} -t <target>
+    cmake --build --preset=dev -t <target>
 """)
 
 
@@ -330,7 +329,7 @@ def create(args, zip):
     git_init(path)
     print_tips(d)
     print("""\
-Now make sure you have at least CMake 3.19 installed for local development, to
+Now make sure you have at least CMake 3.20 installed for local development, to
 make use of all the nice Quality-of-Life improvements in newer releases:
 https://cmake.org/download/
 
