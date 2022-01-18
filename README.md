@@ -11,6 +11,18 @@ testing, superbuilds, etc.
 
 ![Example GIF of cmake-init in action](assets/example.gif)
 
+<details>
+
+<summary>VSCode integration with minimal configuration using presets:</summary>
+
+![Configuring the project in VSCode](assets/vscode-config.png)
+
+![Building the project in VSCode](assets/vscode-build.png)
+
+![Testing the project in VSCode](assets/vscode-test.png)
+
+</details>
+
 ## Goals
 
 * Be simple to use  
