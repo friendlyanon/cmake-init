@@ -23,6 +23,16 @@ testing, superbuilds, etc.
 
 </details>
 
+<details>
+
+<summary>CLion integration with minimal configuration using presets:</summary>
+
+![Selecting the dev preset in CLion](assets/clion-preset.png)
+
+![Testing the project in CLion](assets/clion-test.png)
+
+</details>
+
 ## Goals
 
 * Be simple to use  
