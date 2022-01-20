@@ -8,10 +8,3 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
       "You may need to delete 'CMakeCache.txt' and 'CMakeFiles/' first."
   )
 endif()
-
-# ---- Dummy function for docs generation ----
-
-# This function is empty here, so it can be overridden in docs.cmake and in CI
-# only the docs target is made available
-macro(docs_early_return)
-endmacro()
