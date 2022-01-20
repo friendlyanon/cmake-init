@@ -1,13 +1,3 @@
-# ---- Redefine docs_early_return ----
-
-# This function must be a macro, so the return() takes effect in the calling
-# scope. This prevents other targets from being available and potentially
-# requiring dependencies. This cuts down on the time it takes to generate
-# documentation in CI.
-macro(docs_early_return)
-  return()
-endmacro()
-
 # ---- Dependencies ----
 
 include(FetchContent)

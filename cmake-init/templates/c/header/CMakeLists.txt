@@ -8,9 +8,7 @@ project(
     DESCRIPTION "%(description)s"
     HOMEPAGE_URL "%(homepage)s"
     LANGUAGES NONE
-)
-
-docs_early_return()
+) #
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
