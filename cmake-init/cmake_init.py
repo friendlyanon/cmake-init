@@ -237,12 +237,17 @@ def write_dir(path, d, overwrite, zip_path):
 
 
 def determine_git_version():
+    search_pattern = r"\d+(\.\d+)+"
     git_version_out = \
         subprocess.run("git --version", shell=True, capture_output=True)
     if git_version_out.returncode != 0:
         return None
-    git_version_str = str(git_version_out.stdout[12:], sys.stdout.encoding)
-    git_version = list(map(int, git_version_str.rstrip().split(".")[:3]))
+    git_version_out = str(git_version_out.stdout, sys.stdout.encoding)
+    git_version_match = re.search(search_pattern, git_version_out)
+    if not git_version_match:
+        return None
+    git_version_str = git_version_match.group(0)
+    git_version = list(map(int, git_version_str.rstrip().split(".")))
     if len(git_version) < 3:
         git_version += [0] * (3 - len(git_version))
     return tuple(git_version)
