@@ -97,7 +97,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos, ubuntu, windows]{type shared}
+        os: [macos-latest, ubuntu-latest, windows-2022]{type shared}
 
         type: [shared, static]
 
@@ -105,17 +105,18 @@ jobs:
         - { type: shared, shared: YES }
         - { type: static, shared: NO }{end}
 
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Install static analyzers
-      if: matrix.os == 'ubuntu'
+      if: matrix.os == 'ubuntu-latest'
       run: sudo apt-get install clang-tidy cppcheck -y -q
 
     - name: Configure
-      run: cmake --preset=ci-${{ matrix.os }}{type shared}
+      shell: pwsh
+      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"{type shared}
         -D BUILD_SHARED_LIBS=${{ matrix.shared }}{end}
 
     - name: Build
