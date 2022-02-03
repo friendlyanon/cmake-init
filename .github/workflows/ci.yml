@@ -28,7 +28,7 @@ jobs:
       matrix:
         job: [1, 2, 3, 4, 5, 6, 7, 8]
 
-        os: [macos, ubuntu, windows]
+        os: [macos-latest, ubuntu-latest, windows-2022]
 
         include:
         - { job: 1, type: "-s --examples", name: "Library (C++): shared", flag: "-D BUILD_SHARED_LIBS=YES" }
@@ -42,13 +42,13 @@ jobs:
 
     name: ${{ matrix.name }} (${{ matrix.os }})
 
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Install static analyzers
-      if: matrix.os == 'ubuntu'
+      if: matrix.os == 'ubuntu-latest'
       run: sudo apt-get install clang-tidy cppcheck -y -q
 
     - uses: actions/setup-python@v2
@@ -66,12 +66,14 @@ jobs:
         python ../cmake-init.pyz --vcpkg headeronly -h
 
     - name: Lint generated project
-      if: matrix.os == 'ubuntu'
+      if: matrix.os == 'ubuntu-latest'
       working-directory: proj
       run: cmake -D FORMAT_COMMAND=clang-format-11 -P cmake/lint.cmake
 
     - name: Configure
-      run: cmake -S proj --preset=ci-${{ matrix.os }} ${{ matrix.flag }}
+      shell: pwsh
+      run: cmake -S proj "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
+        ${{ matrix.flag }}
 
     - name: Build
       run: cmake --build proj/build --config Release
