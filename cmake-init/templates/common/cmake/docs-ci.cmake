@@ -42,11 +42,20 @@ endif()
 # ---- Process project() call in CMakeLists.txt ----
 
 file(READ "${src}/CMakeLists.txt" content)
-string(FIND "${content}" "project(" start_index)
-string(FIND "${content}" "\n) #" end_index)
-math(EXPR length "${end_index} + 2 - ${start_index}")
-string(SUBSTRING "${content}" "${start_index}" "${length}" content)
-file(WRITE "${bin}/docs-ci.project.cmake" "docs_${content}\n")
+
+string(FIND "${content}" "project(" index)
+if(index EQUAL "-1")
+  message(FATAL_ERROR "Could not find \"project(\"")
+endif()
+string(SUBSTRING "${content}" "${index}" -1 content)
+
+string(FIND "${content}" "\n)\n" index)
+if(index EQUAL "-1")
+  message(FATAL_ERROR "Could not find \"\\n)\\n\"")
+endif()
+string(SUBSTRING "${content}" 0 "${index}" content)
+
+file(WRITE "${bin}/docs-ci.project.cmake" "docs_${content}\n)\n")
 
 macro(list_pop_front list out)
   list(GET "${list}" 0 "${out}")

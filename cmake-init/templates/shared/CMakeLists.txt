@@ -8,7 +8,7 @@ project(
     DESCRIPTION "%(description)s"
     HOMEPAGE_URL "%(homepage)s"
     LANGUAGES CXX
-) #
+)
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
