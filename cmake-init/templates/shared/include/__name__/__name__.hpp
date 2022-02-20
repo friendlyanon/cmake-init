@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "%(name)s/%(name)s_export.hpp"
+#include "{= name =}/{= name =}_export.hpp"
 
 /**
  * A note about the MSVC warning C4251:
@@ -51,7 +51,7 @@
  *
  * Please see the note above for considerations when creating shared libraries.
  */
-class %(uc_name)s_EXPORT exported_class
+class {= uc_name =}_EXPORT exported_class
 {
 public:
   /**
@@ -65,6 +65,6 @@ public:
   auto name() const -> const char*;
 
 private:
-  %(uc_name)s_SUPPRESS_C4251
+  {= uc_name =}_SUPPRESS_C4251
   std::string m_name;
 };

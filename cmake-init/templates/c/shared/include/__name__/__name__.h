@@ -1,6 +1,6 @@
 #pragma once
 
-#include "%(name)s/%(name)s_export.h"
+#include "{= name =}/{= name =}_export.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -9,7 +9,7 @@ extern "C" {
 /**
  * @brief Reports the name of the library
  */
-%(uc_name)s_EXPORT const char* exported_function(void);
+{= uc_name =}_EXPORT const char* exported_function(void);
 
 #ifdef __cplusplus
 }  // extern "C"

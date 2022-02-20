@@ -1,7 +1,7 @@
-{type header}# Header only libraries don't build anything, skip debug build
+{% if header %}# Header only libraries don't build anything, skip debug build
 set(VCPKG_BUILD_TYPE release)
 
-{end}# Please see
+{% end %}# Please see
 # https://vcpkg.readthedocs.io/en/latest/maintainers/vcpkg_from_github/ for
 # details on how to fill out the arguments
 vcpkg_from_github(
@@ -29,7 +29,7 @@ vcpkg_cmake_configure(
     "-D${name}_INSTALL_CMAKEDIR=share/${name}"
 )
 
-vcpkg_cmake_install(){type shared}
+vcpkg_cmake_install(){% if lib %}
 
 # If the port's name and the CMake package's name are different, then we can
 # pass the package name here, otherwise no arguments are necessary
@@ -37,7 +37,7 @@ vcpkg_cmake_config_fixup(PACKAGE_NAME "${name}")
 
 # Remove files that aren't just the build artifacts and empty folders
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
-file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share"){end}
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share"){% end %}
 
 # vcpkg requires a license file to be installed as well
 configure_file(

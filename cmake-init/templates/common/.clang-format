@@ -30,13 +30,13 @@ BraceWrapping:
   AfterCaseLabel: false
   AfterClass: true
   AfterControlStatement: MultiLine
-  AfterEnum: {if cpp}true{end}{if c}false{end}
+  AfterEnum: {% if cpp %}true{% else %}false{% end %}
   AfterFunction: true
   AfterNamespace: true
   AfterObjCDeclaration: false
-  AfterStruct: {if cpp}true{end}{if c}false{end}
-  AfterUnion: {if cpp}true{end}{if c}false{end}
-  AfterExternBlock: {if cpp}true{end}{if c}false{end}
+  AfterStruct: {% if cpp %}true{% else %}false{% end %}
+  AfterUnion: {% if cpp %}true{% else %}false{% end %}
+  AfterExternBlock: {% if cpp %}true{% else %}false{% end %}
   BeforeCatch: false
   BeforeElse: false
   BeforeLambdaBody: true
@@ -71,16 +71,16 @@ ForEachMacros:
   - Q_FOREACH
   - BOOST_FOREACH
 IncludeBlocks: Regroup
-IncludeCategories:{if cpp}
+IncludeCategories:{% if cpp %}
   # Standard library headers come before anything else
   - Regex: '^<[a-z_]+>'
-    Priority: -1{end}
-  - Regex: '^<.+\.h{if cpp}(pp)?{end}>'
-    Priority: 1{if cpp}
+    Priority: -1{% end %}
+  - Regex: '^<.+\.h{% if cpp %}(pp)?{% end %}>'
+    Priority: 1{% if cpp %}
   - Regex: '^<.*'
-    Priority: 2{end}
+    Priority: 2{% end %}
   - Regex: '.*'
-    Priority: {if cpp}3{end}{if c}2{end}
+    Priority: {% if cpp %}3{% else %}2{% end %}
 IncludeIsMainRegex: ''
 IncludeIsMainSourceRegex: ''
 IndentCaseLabels: true

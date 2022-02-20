@@ -3,10 +3,10 @@ cmake_minimum_required(VERSION 3.14)
 include(cmake/prelude.cmake)
 
 project(
-    %(name)s
-    VERSION %(version)s
-    DESCRIPTION "%(description)s"
-    HOMEPAGE_URL "%(homepage)s"
+    {= name =}
+    VERSION {= version =}
+    DESCRIPTION "{= description =}"
+    HOMEPAGE_URL "{= homepage =}"
     LANGUAGES C
 )
 
@@ -16,32 +16,32 @@ include(cmake/variables.cmake)
 # ---- Declare library ----
 
 add_library(
-    %(name)s_lib OBJECT
+    {= name =}_lib OBJECT
     source/lib.c
 )
 
 target_include_directories(
-    %(name)s_lib ${warning_guard}
+    {= name =}_lib ${warning_guard}
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>"
 )
 
-target_compile_features(%(name)s_lib PUBLIC c_std_%(std)s)
+target_compile_features({= name =}_lib PUBLIC c_std_{= std =})
 
 # ---- Declare executable ----
 
-add_executable(%(name)s_exe source/main.c)
-add_executable(%(name)s::exe ALIAS %(name)s_exe)
+add_executable({= name =}_exe source/main.c)
+add_executable({= name =}::exe ALIAS {= name =}_exe)
 
 set_target_properties(
-    %(name)s_exe PROPERTIES
-    OUTPUT_NAME %(name)s
+    {= name =}_exe PROPERTIES
+    OUTPUT_NAME {= name =}
     EXPORT_NAME exe
 )
 
-target_compile_features(%(name)s_exe PRIVATE c_std_%(std)s)
+target_compile_features({= name =}_exe PRIVATE c_std_{= std =})
 
-target_link_libraries(%(name)s_exe PRIVATE %(name)s_lib)
+target_link_libraries({= name =}_exe PRIVATE {= name =}_lib)
 
 # ---- Install rules ----
 
@@ -51,12 +51,12 @@ endif()
 
 # ---- Developer mode ----
 
-if(NOT %(name)s_DEVELOPER_MODE)
+if(NOT {= name =}_DEVELOPER_MODE)
   return()
 elseif(NOT PROJECT_IS_TOP_LEVEL)
   message(
       AUTHOR_WARNING
-      "Developer mode is intended for developers of %(name)s"
+      "Developer mode is intended for developers of {= name =}"
   )
 endif()
 

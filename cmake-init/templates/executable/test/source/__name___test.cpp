@@ -4,5 +4,5 @@ auto main() -> int
 {
   library lib;
 
-  return lib.name == "%(name)s" ? 0 : 1;
+  return lib.name == "{= name =}" ? 0 : 1;
 }

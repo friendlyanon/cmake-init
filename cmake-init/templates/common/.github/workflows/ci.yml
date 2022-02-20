@@ -75,7 +75,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Configure
-      env: { C{if c}C{end}{if cpp}XX{end}: clang{if cpp}++{end}-11 }
+      env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-11 }
       run: cmake --preset=ci-sanitize
 
     - name: Build
@@ -97,13 +97,13 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-2022]{type shared}
+        os: [macos-latest, ubuntu-latest, windows-2022]{% if lib %}
 
         type: [shared, static]
 
         include:
         - { type: shared, shared: YES }
-        - { type: static, shared: NO }{end}
+        - { type: static, shared: NO }{% end %}
 
     runs-on: ${{ matrix.os }}
 
@@ -116,8 +116,8 @@ jobs:
 
     - name: Configure
       shell: pwsh
-      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"{type shared}
-        -D BUILD_SHARED_LIBS=${{ matrix.shared }}{end}
+      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"{% if lib %}
+        -D BUILD_SHARED_LIBS=${{ matrix.shared }}{% end %}
 
     - name: Build
       run: cmake --build build --config Release -j 2

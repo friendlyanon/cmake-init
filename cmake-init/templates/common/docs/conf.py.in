@@ -1,6 +1,6 @@
 DOXYFILE = 'Doxyfile'
 
 LINKS_NAVBAR1 = [
-    (None, 'pages', [(None, 'about')]),{if cpp}
-    (None, 'namespaces', []),{end}
+    (None, 'pages', [(None, 'about')]),{% if cpp %}
+    (None, 'namespaces', []),{% end %}
 ]

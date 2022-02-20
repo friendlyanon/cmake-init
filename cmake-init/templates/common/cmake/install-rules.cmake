@@ -1,77 +1,77 @@
 if(PROJECT_IS_TOP_LEVEL)
-  set(CMAKE_INSTALL_INCLUDEDIR include/%(name)s CACHE PATH "")
-endif(){type header}
+  set(CMAKE_INSTALL_INCLUDEDIR include/{= name =} CACHE PATH "")
+endif(){% if header %}
 
 # Project is configured with no languages, so tell GNUInstallDirs the lib dir
-set(CMAKE_INSTALL_LIBDIR lib CACHE PATH ""){end}
+set(CMAKE_INSTALL_LIBDIR lib CACHE PATH ""){% end %}
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
 # find_package(<package>) call for consumers to find this project
-set(package %(name)s){type shared}
+set(package {= name =}){% if lib %}
 
 install(
     DIRECTORY
     include/
     "${PROJECT_BINARY_DIR}/export/"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-    COMPONENT %(name)s_Development
-){end}{type header}
+    COMPONENT {= name =}_Development
+){% end %}{% if header %}
 
 install(
     DIRECTORY include/
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-    COMPONENT %(name)s_Development
-){end}
+    COMPONENT {= name =}_Development
+){% end %}
 
 install(
-    TARGETS %(name)s_{type_not exe}%(name)s{end}{type exe}exe{end}
-    EXPORT %(name)sTargets{type exe}
-    RUNTIME COMPONENT %(name)s_Runtime{end}{type shared}
+    TARGETS {= name =}_{% if not exe %}{= name =}{% else %}exe{% end %}
+    EXPORT {= name =}Targets{% if exe %}
+    RUNTIME COMPONENT {= name =}_Runtime{% end %}{% if lib %}
     RUNTIME #
-    COMPONENT %(name)s_Runtime
+    COMPONENT {= name =}_Runtime
     LIBRARY #
-    COMPONENT %(name)s_Runtime
-    NAMELINK_COMPONENT %(name)s_Development
+    COMPONENT {= name =}_Runtime
+    NAMELINK_COMPONENT {= name =}_Development
     ARCHIVE #
-    COMPONENT %(name)s_Development
+    COMPONENT {= name =}_Development
     INCLUDES #
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"{end}{type header}
-    INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"{end}
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"{% end %}{% if header %}
+    INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"{% end %}
 )
 
 write_basic_package_version_file(
     "${package}ConfigVersion.cmake"
-    COMPATIBILITY SameMajorVersion{type header}
-    ARCH_INDEPENDENT{end}
+    COMPATIBILITY SameMajorVersion{% if header %}
+    ARCH_INDEPENDENT{% end %}
 )
 
 # Allow package maintainers to freely override the path for the configs
 set(
-    %(name)s_INSTALL_CMAKEDIR "${CMAKE_INSTALL_DATADIR}/${package}"
+    {= name =}_INSTALL_CMAKEDIR "${CMAKE_INSTALL_DATADIR}/${package}"
     CACHE PATH "CMake package config location relative to the install prefix"
 )
-mark_as_advanced(%(name)s_INSTALL_CMAKEDIR)
+mark_as_advanced({= name =}_INSTALL_CMAKEDIR)
 
 install(
     FILES cmake/install-config.cmake
-    DESTINATION "${%(name)s_INSTALL_CMAKEDIR}"
+    DESTINATION "${{= name =}_INSTALL_CMAKEDIR}"
     RENAME "${package}Config.cmake"
-    COMPONENT %(name)s_Development
+    COMPONENT {= name =}_Development
 )
 
 install(
     FILES "${PROJECT_BINARY_DIR}/${package}ConfigVersion.cmake"
-    DESTINATION "${%(name)s_INSTALL_CMAKEDIR}"
-    COMPONENT %(name)s_Development
+    DESTINATION "${{= name =}_INSTALL_CMAKEDIR}"
+    COMPONENT {= name =}_Development
 )
 
 install(
-    EXPORT %(name)sTargets
-    NAMESPACE %(name)s::
-    DESTINATION "${%(name)s_INSTALL_CMAKEDIR}"
-    COMPONENT %(name)s_Development
+    EXPORT {= name =}Targets
+    NAMESPACE {= name =}::
+    DESTINATION "${{= name =}_INSTALL_CMAKEDIR}"
+    COMPONENT {= name =}_Development
 )
 
 if(PROJECT_IS_TOP_LEVEL)

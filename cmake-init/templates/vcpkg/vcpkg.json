@@ -1,14 +1,14 @@
 {
-  "name": "%(name)s",
+  "name": "{= name =}",
   "version-semver": "<semver>",
   "dependencies": [
     {
       "name": "vcpkg-cmake",
       "host": true
-    }{type shared},
+    }{% if lib %},
     {
       "name": "vcpkg-cmake-config",
       "host": true
-    }{end}
+    }{% end %}
   ]
 }

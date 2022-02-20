@@ -2,12 +2,12 @@
 # depends on being added from it, i.e. the testing is done only from the build
 # tree and is not feasible from an install location
 
-project(%(name)sTests LANGUAGES C)
+project({= name =}Tests LANGUAGES C)
 
-add_executable(%(name)s_test source/%(name)s_test.c)
-target_link_libraries(%(name)s_test PRIVATE %(name)s_lib)
-target_compile_features(%(name)s_test PRIVATE c_std_%(std)s)
+add_executable({= name =}_test source/{= name =}_test.c)
+target_link_libraries({= name =}_test PRIVATE {= name =}_lib)
+target_compile_features({= name =}_test PRIVATE c_std_{= std =})
 
-add_test(NAME %(name)s_test COMMAND %(name)s_test)
+add_test(NAME {= name =}_test COMMAND {= name =}_test)
 
 add_folders(Test)

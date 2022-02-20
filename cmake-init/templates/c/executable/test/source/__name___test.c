@@ -9,5 +9,5 @@ int main(int argc, const char* argv[])
 
   library lib = create_library();
 
-  return strcmp(lib.name, "%(name)s") == 0 ? 0 : 1;
+  return strcmp(lib.name, "{= name =}") == 0 ? 0 : 1;
 }

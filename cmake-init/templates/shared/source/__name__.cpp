@@ -1,9 +1,9 @@
 #include <string>
 
-#include "%(name)s/%(name)s.hpp"
+#include "{= name =}/{= name =}.hpp"
 
 exported_class::exported_class()
-    : m_name("%(name)s")
+    : m_name("{= name =}")
 {
 }
 

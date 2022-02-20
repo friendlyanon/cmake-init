@@ -4,14 +4,14 @@ include(CTest)
 if(BUILD_TESTING)
   add_subdirectory(test)
 endif()
-{type exe}
+{% if exe %}
 add_custom_target(
     run-exe
-    COMMAND %(name)s_exe
+    COMMAND {= name =}_exe
     VERBATIM
 )
-add_dependencies(run-exe %(name)s_exe)
-{end}
+add_dependencies(run-exe {= name =}_exe)
+{% end %}
 option(BUILD_MCSS_DOCS "Build documentation using Doxygen and m.css" OFF)
 if(BUILD_MCSS_DOCS)
   include(cmake/docs.cmake)

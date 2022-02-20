@@ -3,6 +3,6 @@
 library create_library()
 {
   library lib;
-  lib.name = "%(name)s";
+  lib.name = "{= name =}";
   return lib;
 }

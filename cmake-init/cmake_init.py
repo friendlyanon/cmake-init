@@ -31,6 +31,8 @@ import subprocess
 import sys
 import zipfile
 
+from template import compile_template
+
 __version__ = "0.25.0"
 
 is_windows = os.name == "nt"
@@ -162,7 +164,6 @@ library."""
         "os": "win64" if is_windows else "unix",
         "c": cli_args.c,
         "cpp": not cli_args.c,
-        "suppress": False,
         "c_header": False,
         "include_source": False,
         "has_source": True,
@@ -179,13 +180,14 @@ library."""
         )
         d[key] = value
         d["examples"] = value
-    if d["type_id"] == "s" and d["cpp"]:
-        d["suppress"] = True
     if d["type_id"] == "e":
         d["include_source"] = True
     if d["type_id"] == "h":
         d["has_source"] = False
     d["c_header"] = d["c"] and d["type_id"] == "h"
+    d["exe"] = d["type_id"] == "e"
+    d["lib"] = d["type_id"] == "s"
+    d["header"] = d["type_id"] == "h"
     return d
 
 
@@ -194,28 +196,16 @@ def mkdir(path):
 
 
 def write_file(path, d, overwrite, zip_path):
-    if not overwrite and os.path.exists(path):
-        return
-
-    def replacer(match):
-        query = match.group(1)
-        expected = True
-        if query.endswith("_not"):
-            query = query[:-4]
-            expected = False
-        if query == "type":
-            mapping = {"exe": "e", "header": "h", "shared": "s"}
-            actual = mapping[match.group(2)] == d["type_id"]
-            if actual == expected:
-                return match.group(3)
-        elif query == "if" and d[match.group(2)] == expected:
-            return match.group(3)
-        return ""
-
-    regex = re.compile("{((?:type|if)(?:_not)?) ([^}]+)}(.+?){end}", re.DOTALL)
-    contents = regex.sub(replacer, zip_path.read_text(encoding="UTF-8"))
-    with open(path, "w", encoding="UTF-8", newline="\n") as f:
-        f.write(contents % d)
+    if overwrite or not os.path.exists(path):
+        renderer = compile_template(zip_path.read_text(encoding="UTF-8"), d)
+        # noinspection PyBroadException
+        try:
+            contents = renderer()
+        except Exception:
+            print(f"Error while rendering {path}", file=sys.stderr)
+            raise
+        with open(path, "w", encoding="UTF-8", newline="\n") as f:
+            f.write(contents)
 
 
 def should_write_examples(d, at):
@@ -354,6 +344,8 @@ def vcpkg(d, zip):
         print(f"""'{d["name"]}' already exists""", file=sys.stderr)
         exit(1)
     mkdir(path)
+    d["lib"] = d["type_id"] == "s"
+    d["header"] = d["type_id"] == "h"
     write_dir(path, d, False, zipfile.Path(zip, "templates/vcpkg/"))
     vcpkg_root = r"%VCPKG_ROOT:\=/%" if is_windows else "$VCPKG_ROOT"
     pwd = r"%cd:\=/%" if is_windows else "$PWD"

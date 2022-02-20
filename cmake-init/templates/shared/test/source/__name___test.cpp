@@ -1,10 +1,10 @@
 #include <string>
 
-#include "%(name)s/%(name)s.hpp"
+#include "{= name =}/{= name =}.hpp"
 
 auto main() -> int
 {
   exported_class e;
 
-  return std::string("%(name)s") == e.name() ? 0 : 1;
+  return std::string("{= name =}") == e.name() ? 0 : 1;
 }

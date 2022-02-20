@@ -1,6 +1,6 @@
-# %(name)s
+# {= name =}
 
-This is the %(name)s project.
+This is the {= name =} project.
 
 # Building and installing
 

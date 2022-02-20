@@ -3,10 +3,10 @@ cmake_minimum_required(VERSION 3.14)
 include(cmake/prelude.cmake)
 
 project(
-    %(name)s
-    VERSION %(version)s
-    DESCRIPTION "%(description)s"
-    HOMEPAGE_URL "%(homepage)s"
+    {= name =}
+    VERSION {= version =}
+    DESCRIPTION "{= description =}"
+    HOMEPAGE_URL "{= homepage =}"
     LANGUAGES CXX
 )
 
@@ -16,70 +16,70 @@ include(cmake/variables.cmake)
 # ---- Declare library ----
 
 add_library(
-    %(name)s_%(name)s
-    source/%(name)s.cpp
+    {= name =}_{= name =}
+    source/{= name =}.cpp
 )
-add_library(%(name)s::%(name)s ALIAS %(name)s_%(name)s)
+add_library({= name =}::{= name =} ALIAS {= name =}_{= name =})
 
 include(GenerateExportHeader)
 generate_export_header(
-    %(name)s_%(name)s
-    BASE_NAME %(name)s
-    EXPORT_FILE_NAME export/%(name)s/%(name)s_export.hpp
+    {= name =}_{= name =}
+    BASE_NAME {= name =}
+    EXPORT_FILE_NAME export/{= name =}/{= name =}_export.hpp
     CUSTOM_CONTENT_FROM_VARIABLE pragma_suppress_c4251
 )
 
 if(NOT BUILD_SHARED_LIBS)
-  target_compile_definitions(%(name)s_%(name)s PUBLIC %(uc_name)s_STATIC_DEFINE)
+  target_compile_definitions({= name =}_{= name =} PUBLIC {= uc_name =}_STATIC_DEFINE)
 endif()
 
 set_target_properties(
-    %(name)s_%(name)s PROPERTIES
+    {= name =}_{= name =} PROPERTIES
     CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN YES
     VERSION "${PROJECT_VERSION}"
     SOVERSION "${PROJECT_VERSION_MAJOR}"
-    EXPORT_NAME %(name)s
-    OUTPUT_NAME %(name)s
+    EXPORT_NAME {= name =}
+    OUTPUT_NAME {= name =}
 )
 
 target_include_directories(
-    %(name)s_%(name)s ${warning_guard}
+    {= name =}_{= name =} ${warning_guard}
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
 
 target_include_directories(
-    %(name)s_%(name)s SYSTEM
+    {= name =}_{= name =} SYSTEM
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
 )
 
-target_compile_features(%(name)s_%(name)s PUBLIC cxx_std_%(std)s)
+target_compile_features({= name =}_{= name =} PUBLIC cxx_std_{= std =})
 
 # ---- Install rules ----
 
 if(NOT CMAKE_SKIP_INSTALL_RULES)
   include(cmake/install-rules.cmake)
-endif(){if cpp_examples}
+endif(){% if cpp_examples %}
 
 # ---- Examples ----
 
 if(PROJECT_IS_TOP_LEVEL)
-  option(BUILD_EXAMPLES "Build examples tree." "${%(name)s_DEVELOPER_MODE}")
+  option(BUILD_EXAMPLES "Build examples tree." "${{= name =}_DEVELOPER_MODE}")
   if(BUILD_EXAMPLES)
     add_subdirectory(example)
   endif()
-endif(){end}
+endif(){% end %}
 
 # ---- Developer mode ----
 
-if(NOT %(name)s_DEVELOPER_MODE)
+if(NOT {= name =}_DEVELOPER_MODE)
   return()
 elseif(NOT PROJECT_IS_TOP_LEVEL)
   message(
       AUTHOR_WARNING
-      "Developer mode is intended for developers of %(name)s"
+      "Developer mode is intended for developers of {= name =}"
   )
 endif()
 

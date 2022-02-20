@@ -19,8 +19,8 @@ add_custom_target(
     --modules "${binary_dir}\\test"
     # This command is for the developer, so export as html instead of cobertura
     --export_type "html:${binary_dir}\\opencppcoverage"
-    # Source (not header) file locations{if has_source}
-    --sources "${source_dir}\\source"{end}
+    # Source (not header) file locations{% if has_source %}
+    --sources "${source_dir}\\source"{% end %}
     --sources "${source_dir}\\test\\source"
     # Working directory for CTest, which should be the binary directory
     --working_dir "${binary_dir}"
