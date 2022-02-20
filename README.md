@@ -93,7 +93,7 @@ Make sure you have these programs installed:
 * git
 * [clang-tidy](#clang-tidy) (optional)
 * [cppcheck](#cppcheck) (optional)
-* [Doxygen](#doxygen) (optional)
+* [Doxygen < 1.9](#doxygen) (optional)
 * [LCOV](#lcov) (optional)
 * [clang-format 11](#clang-format) (optional)
 * [codespell](#codespell) (optional)
@@ -160,6 +160,9 @@ the `PATH`, otherwise you might get confusing error messages.
 
 This documentation can be deployed to GitHub Pages using the `docs` job in the
 generated CI workflow. Follow the comments left in the job to enable this.
+
+**NOTE**: m.css does not work with Doxygen >= 1.9. You can install 1.8.20 to
+use the `docs` target. See issues [#41][19] and [#48][20].
 
 ### LCOV
 
@@ -249,3 +252,5 @@ indirectly from the use or non-use of these files.
 [16]: https://pypi.org/project/cmake-init/
 [17]: https://github.com/OpenCppCoverage/OpenCppCoverage
 [18]: https://github.com/friendlyanon/cmake-init/wiki/Examples
+[19]: https://github.com/friendlyanon/cmake-init/issues/41
+[20]: https://github.com/friendlyanon/cmake-init/issues/48
