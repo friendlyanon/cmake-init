@@ -3,7 +3,8 @@
 .vscode/
 build/
 cmake/open-cpp-coverage.cmake
-cmake-build-*/
+cmake-build-*/{% if conan %}
+conan/{% end %}
 prefix/
 CMakeLists.txt.user
 CMakeUserPresets.json

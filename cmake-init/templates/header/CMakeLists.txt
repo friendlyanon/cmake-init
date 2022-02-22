@@ -29,7 +29,10 @@ target_include_directories(
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
 
-target_compile_features({= name =}_{= name =} INTERFACE cxx_std_{= std =})
+target_compile_features({= name =}_{= name =} INTERFACE cxx_std_{= std =}){% if pm %}
+
+find_package(fmt REQUIRED)
+target_link_libraries({= name =}_{= name =} INTERFACE fmt::fmt){% end %}
 
 # ---- Install rules ----
 

@@ -1,9 +1,11 @@
 #include <string>
 
+#include <fmt/core.h>
+
 #include "{= name =}/{= name =}.hpp"
 
 exported_class::exported_class()
-    : m_name("{= name =}")
+    : m_name(fmt::format("{}", "{= name =}"))
 {
 }
 

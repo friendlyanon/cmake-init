@@ -1,4 +1,8 @@
-# Building with CMake
+# Building with CMake{% if pm %}
+
+## Dependencies
+
+For a list of dependencies, please refer to {% if vcpkg %}[vcpkg.json](vcpkg.json){% else %}[conanfile.txt](conanfile.txt){% end %}.{% end %}
 
 ## Build
 

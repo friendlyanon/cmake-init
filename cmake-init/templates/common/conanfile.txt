@@ -1,0 +1,13 @@
+[requires]
+fmt/8.1.1
+
+# Testing only dependencies below
+catch2/2.13.8
+
+[generators]
+CMakeDeps
+CMakeToolchain
+virtualrunenv
+
+[options]
+catch2:with_main=True

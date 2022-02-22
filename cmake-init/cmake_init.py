@@ -168,7 +168,22 @@ library."""
         "include_source": False,
         "has_source": True,
         "cpus": os.cpu_count(),
+        "pm_name": "",
     }
+    package_manager = ask(
+        "Package manager to use ([N]one/[c]onan/[v]cpkg)",
+        cli_args.package_manager or "n",
+        mapper=lambda v: v[0:1].lower(),
+        predicate=lambda v: v in ["n", "c", "v"],
+        header="""\
+Choosing Conan requires it to be installed. Choosing vcpkg requires the
+VCPKG_ROOT environment variable to be setup to vcpkg's root directory.""",
+    )
+    d["vcpkg"] = package_manager == "v"
+    d["conan"] = package_manager == "c"
+    d["pm"] = package_manager != "n"
+    if d["pm"]:
+        d["pm_name"] = "conan" if d["conan"] else "vcpkg"
     d["uc_name"] = d["name"].upper().replace("-", "_")
     if d["type_id"] != "e":
         key = "c_examples" if cli_args.c else "cpp_examples"
@@ -216,11 +231,23 @@ def should_write_examples(d, at):
 
 
 def should_install_file(name, d):
-    if name == "install-config.cmake" and d["type_id"] == "e":
+    if name == "vcpkg.json" and not d["vcpkg"]:
         return False
-    if name == "install-script.cmake" and d["type_id"] != "e":
+    if name == "conanfile.txt" and not d["conan"]:
+        return False
+    if name == "install-config.cmake" and d["exe"]:
+        return False
+    if name == "windows-set-path.cmake" and d["pm"]:
+        return False
+    if name == "install-script.cmake" and not d["exe"]:
         return False
     return True
+
+
+def transform_path(path, d):
+    if not d["exe"] and d["pm"] and path.endswith("install-config.cmake"):
+        return f"{path}.in"
+    return path
 
 
 def write_dir(path, d, overwrite, zip_path):
@@ -229,7 +256,7 @@ def write_dir(path, d, overwrite, zip_path):
         next_path = os.path.join(path, name)
         if entry.is_file():
             if should_install_file(name, d):
-                write_file(next_path, d, overwrite, entry)
+                write_file(transform_path(next_path, d), d, overwrite, entry)
         elif name != "example" or should_write_examples(d, entry.at):
             mkdir(next_path)
             write_dir(next_path, d, overwrite, entry)
@@ -273,11 +300,15 @@ push the project with the following commands from the project directory:
 
 def print_tips(d):
     config = " --config Debug" if is_windows else ""
+    conan = ""
+    if d["conan"]:
+        conan = """
+    conan install . -if conan -s build_type=Debug -b missing"""
     print(f"""\
 To get you started with the project in developer mode, you may configure,
 build, install and test with the following commands from the project directory,
 in that order:
-
+{conan}
     cmake --preset=dev
     cmake --build --preset=dev
     cmake --install build/dev{config} --prefix prefix
@@ -506,6 +537,12 @@ pass as the first flag to make a vcpkg port of <name> with type -s or -h",
         action="store_const",
         const="n",
         help="generate examples for a library",
+    )
+    p.add_argument(
+        "-p",
+        metavar="pm",
+        dest="package_manager",
+        help="package manager to use (Options are: conan, vcpkg)",
     )
     args = p.parse_args()
     if args.dummy:

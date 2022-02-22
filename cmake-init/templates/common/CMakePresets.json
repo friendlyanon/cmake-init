@@ -5,7 +5,7 @@
     "minor": 14,
     "patch": 0
   },
-  "configurePresets": [
+  "configurePresets": [{% if not vcpkg %}
     {
       "name": "cmake-pedantic",
       "hidden": true,
@@ -20,15 +20,37 @@
         "dev": true,
         "deprecated": true
       }
-    },
+    },{% end %}
     {
       "name": "dev-mode",
-      "hidden": true,
-      "inherits": "cmake-pedantic",
+      "hidden": true,{% if not vcpkg %}
+      "inherits": "cmake-pedantic",{% end %}
       "cacheVariables": {
-        "{= name =}_DEVELOPER_MODE": "ON"
+        "{= name =}_DEVELOPER_MODE": "ON"{% if vcpkg %},
+        "VCPKG_MANIFEST_FEATURES": "test"{% end %}
+      }
+    },{% if vcpkg %}
+    {
+      "name": "vcpkg",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
       }
     },
+    {
+      "name": "vcpkg-win64-static",
+      "hidden": true,
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static-md"
+      }
+    },{% end %}{% if conan %}
+    {
+      "name": "conan",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/conan_toolchain.cmake"
+      }
+    },{% end %}
     {
       "name": "cppcheck",
       "hidden": true,
@@ -93,12 +115,13 @@
         "CMAKE_BUILD_TYPE": "Coverage",
         "CMAKE_C{% if cpp %}XX{% end %}_FLAGS_COVERAGE": "-Og -g --coverage -fkeep-inline-functions -fkeep-static-functions",
         "CMAKE_EXE_LINKER_FLAGS_COVERAGE": "--coverage",
-        "CMAKE_SHARED_LINKER_FLAGS_COVERAGE": "--coverage"
+        "CMAKE_SHARED_LINKER_FLAGS_COVERAGE": "--coverage"{% if pm %},
+        "CMAKE_MAP_IMPORTED_CONFIG_SANITIZE": "Coverage;RelWithDebInfo;Release;Debug;"{% end %}
       }
     },
     {
       "name": "ci-coverage",
-      "inherits": ["coverage-unix", "dev-mode"],
+      "inherits": ["coverage-unix", "dev-mode"{% if pm %}, "{= pm_name =}"{% end %}],
       "cacheVariables": {
         "COVERAGE_HTML_COMMAND": ""
       }
@@ -106,10 +129,11 @@
     {
       "name": "ci-sanitize",
       "binaryDir": "${sourceDir}/build/sanitize",
-      "inherits": ["ci-unix", "dev-mode"],
+      "inherits": ["ci-unix", "dev-mode"{% if pm %}, "{= pm_name =}"{% end %}],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Sanitize",
-        "CMAKE_C{% if cpp %}XX{% end %}_FLAGS_SANITIZE": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"
+        "CMAKE_C{% if cpp %}XX{% end %}_FLAGS_SANITIZE": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"{% if pm %},
+        "CMAKE_MAP_IMPORTED_CONFIG_SANITIZE": "Sanitize;RelWithDebInfo;Release;Debug;"{% end %}
       }
     },
     {
@@ -119,15 +143,15 @@
     },
     {
       "name": "ci-macos",
-      "inherits": ["ci-build", "ci-unix", "dev-mode"]
+      "inherits": ["ci-build", "ci-unix", "dev-mode"{% if pm %}, "{= pm_name =}"{% end %}]
     },
     {
       "name": "ci-ubuntu",
-      "inherits": ["ci-build", "ci-unix", "clang-tidy", "cppcheck", "dev-mode"]
+      "inherits": ["ci-build", "ci-unix", "clang-tidy"{% if pm %}, "{= pm_name =}"{% end %}, "cppcheck", "dev-mode"]
     },
     {
       "name": "ci-windows",
-      "inherits": ["ci-build", "ci-win64", "dev-mode"]
+      "inherits": ["ci-build", "ci-win64", "dev-mode"{% if pm %}, "{= pm_name =}"{% if vcpkg %}, "vcpkg-win64-static"{% end %}{% end %}]
     }
   ]
 }
