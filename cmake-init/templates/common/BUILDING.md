@@ -42,26 +42,32 @@ multi-configuration generator, like the Visual Studio ones:
 
 ```sh
 cmake --install build --config Release
-```{% if not exe %}
+```
 
 ### CMake package
 
 This project exports a CMake package to be used with the [`find_package`][2]
 command of CMake:
 
-* Package name: `{= name =}`
-* Target name: `{= name =}::{= name =}
+* Package name: `{= name =}`{% if not exe %}
+* Target name: `{= name =}::{= name =}`{% else %}
+* Cache variable: `{= uc_name =}_EXECUTABLE`{% end %}
 
 Example usage:
 
 ```cmake
-find_package({= name =} REQUIRED)
+find_package({= name =} REQUIRED){% if not exe %}
 # Declare the imported target as a build requirement using PRIVATE
 target_link_libraries(
     project_target PRIVATE
     {= name =}::{= name =}
-)
-```{% end %}
+){% else %}
+# Use the executable in some command
+execute_process(
+    COMMAND "${{= uc_name =}_EXECUTABLE}" ...
+    ...
+){% end %}
+```
 
-[1]: https://cmake.org/cmake/help/latest/manual/cmake.1.html#install-a-project{% if not exe %}
-[2]: https://cmake.org/cmake/help/latest/command/find_package.html{% end %}
+[1]: https://cmake.org/cmake/help/latest/manual/cmake.1.html#install-a-project
+[2]: https://cmake.org/cmake/help/latest/command/find_package.html

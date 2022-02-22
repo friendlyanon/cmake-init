@@ -215,12 +215,21 @@ def should_write_examples(d, at):
         return d["cpp_examples"]
 
 
+def should_install_file(name, d):
+    if name == "install-config.cmake" and d["type_id"] == "e":
+        return False
+    if name == "install-script.cmake" and d["type_id"] != "e":
+        return False
+    return True
+
+
 def write_dir(path, d, overwrite, zip_path):
     for entry in zip_path.iterdir():
         name = entry.name.replace("__name__", d["name"])
         next_path = os.path.join(path, name)
         if entry.is_file():
-            write_file(next_path, d, overwrite, entry)
+            if should_install_file(name, d):
+                write_file(next_path, d, overwrite, entry)
         elif name != "example" or should_write_examples(d, entry.at):
             mkdir(next_path)
             write_dir(next_path, d, overwrite, entry)
