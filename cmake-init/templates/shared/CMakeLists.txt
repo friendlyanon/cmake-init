@@ -55,7 +55,10 @@ target_include_directories(
     "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
 )
 
-target_compile_features({= name =}_{= name =} PUBLIC cxx_std_{= std =})
+target_compile_features({= name =}_{= name =} PUBLIC cxx_std_{= std =}){% if pm %}
+
+find_package(fmt REQUIRED)
+target_link_libraries({= name =}_{= name =} PRIVATE fmt::fmt){% end %}
 
 # ---- Install rules ----
 

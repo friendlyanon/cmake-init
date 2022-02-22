@@ -7,7 +7,10 @@ on:
 
   pull_request:
     branches:
-    - master
+    - master{% if vcpkg %}
+
+env:
+  VCPKG_COMMIT: 5cf60186a241e84e8232641ee973395d4fde90e1{% end %}
 
 jobs:
   lint:
@@ -46,7 +49,21 @@ jobs:
 
     - name: Install LCov
       run: sudo apt-get update -q
-        && sudo apt-get install lcov -q -y
+        && sudo apt-get install lcov -q -y{% if conan %}
+
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with: { python-version: "3.8" }
+
+    - name: Install dependencies
+      run: pip3 install conan
+        && conan profile new default --detect
+        && conan profile update settings.compiler.libcxx=libstdc++11 default
+        && conan install . -if conan -b missing{% elif vcpkg %}
+
+    - name: Install vcpkg
+      uses: friendlyanon/setup-vcpkg@v1
+      with: { committish: ${{ env.VCPKG_COMMIT }} }{% end %}
 
     - name: Configure
       run: cmake --preset=ci-coverage
@@ -72,10 +89,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2{% if conan %}
+
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with: { python-version: "3.8" }
+
+    - name: Install dependencies
+      run: pip3 install conan
+        && conan profile new default --detect
+        && cp .github/clang-11.profile ~/.conan/profiles/default
+        && conan install . -if conan -b missing{% elif vcpkg %}
+
+    - name: Install vcpkg
+      uses: friendlyanon/setup-vcpkg@v1
+      with: { committish: ${{ env.VCPKG_COMMIT }} }{% end %}
 
     - name: Configure
-      env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-11 }
+      env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-11{% if c and pm %}, CXX: clang++-11{% end %} }
       run: cmake --preset=ci-sanitize
 
     - name: Build
@@ -112,7 +143,25 @@ jobs:
 
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-latest'
-      run: sudo apt-get install clang-tidy cppcheck -y -q
+      run: sudo apt-get install clang-tidy cppcheck -y -q{% if conan %}
+
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with: { python-version: "3.8" }
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        pip3 install conan
+        conan profile new default --detect
+        if [ ${{ matrix.os }} = ubuntu-latest ]; then
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+        fi
+        conan install . -if conan -b missing{% elif vcpkg %}
+
+    - name: Install vcpkg
+      uses: friendlyanon/setup-vcpkg@v1
+      with: { committish: ${{ env.VCPKG_COMMIT }} }{% end %}
 
     - name: Configure
       shell: pwsh
@@ -123,7 +172,11 @@ jobs:
       run: cmake --build build --config Release -j 2
 
     - name: Install
-      run: cmake --install build --config Release --prefix prefix
+      run: cmake --install build --config Release --prefix prefix{% if lib and pm %}
+
+    - name: Setup PATH
+      if: matrix.os == 'windows-2022' && matrix.type == 'shared'
+      run: Add-Content "$env:GITHUB_PATH" "$(Get-Location)\build\Release"{% end %}
 
     - name: Test
       working-directory: build

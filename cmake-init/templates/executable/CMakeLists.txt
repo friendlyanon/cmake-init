@@ -26,7 +26,10 @@ target_include_directories(
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>"
 )
 
-target_compile_features({= name =}_lib PUBLIC cxx_std_{= std =})
+target_compile_features({= name =}_lib PUBLIC cxx_std_{= std =}){% if pm %}
+
+find_package(fmt REQUIRED)
+target_link_libraries({= name =}_lib PRIVATE fmt::fmt){% end %}
 
 # ---- Declare executable ----
 

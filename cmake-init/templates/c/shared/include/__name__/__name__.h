@@ -7,7 +7,7 @@ extern "C" {
 #endif
 
 /**
- * @brief Reports the name of the library
+ * @brief Reports the name of the library{% if pm %} that must be freed by the caller{% end %}
  */
 {= uc_name =}_EXPORT const char* exported_function(void);
 

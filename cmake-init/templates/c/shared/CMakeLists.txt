@@ -53,7 +53,10 @@ target_include_directories(
     "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
 )
 
-target_compile_features({= name =}_{= name =} PUBLIC c_std_{= std =})
+target_compile_features({= name =}_{= name =} PUBLIC c_std_{= std =}){% if pm %}
+
+find_package(json-c REQUIRED)
+target_link_libraries({= name =}_{= name =} PRIVATE json-c::json-c){% end %}
 
 # ---- Install rules ----
 

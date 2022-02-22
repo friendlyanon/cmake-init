@@ -28,6 +28,8 @@ jobs:
       matrix:
         job: [1, 2, 3, 4, 5, 6, 7, 8]
 
+        pm: [none, conan, vcpkg]
+
         os: [macos-latest, ubuntu-latest, windows-2022]
 
         include:
@@ -40,7 +42,7 @@ jobs:
         - { job: 7, type: "--c -h --examples", name: "Library (C): header-only", flag: "" }
         - { job: 8, type: "--c -e", name: "Executable (C)", flag: "" }
 
-    name: ${{ matrix.name }} (${{ matrix.os }})
+    name: "${{ matrix.name }} (${{ matrix.os }}) (PM: ${{ matrix.pm }})"
 
     runs-on: ${{ matrix.os }}
 
@@ -57,7 +59,7 @@ jobs:
     - name: Create project
       run: |
         python -m zipapp cmake-init -p "/usr/bin/env python3"
-        python cmake-init.pyz ${{ matrix.type }} proj
+        python cmake-init.pyz ${{ matrix.type }} -p ${{ matrix.pm }} proj
 
     - name: Test --vcpkg mode
       working-directory: proj
@@ -70,6 +72,25 @@ jobs:
       working-directory: proj
       run: cmake -D FORMAT_COMMAND=clang-format-11 -P cmake/lint.cmake
 
+    - name: Install Conan
+      if: matrix.pm == 'conan'
+      working-directory: proj
+      shell: bash
+      run: |
+        pip3 install conan
+        conan profile new default --detect
+        if [ ${{ matrix.os }} = ubuntu-latest ]; then
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+        fi
+        conan install . -if conan -b missing
+
+    - name: Install vcpkg
+      if: matrix.pm == 'vcpkg'
+      uses: friendlyanon/setup-vcpkg@v1
+      with:
+        committish: "5cf60186a241e84e8232641ee973395d4fde90e1"
+        ignore-reserve-cache-error: true
+
     - name: Configure
       shell: pwsh
       run: cmake -S proj "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
@@ -80,6 +101,10 @@ jobs:
 
     - name: Install
       run: cmake --install proj/build --config Release --prefix proj/prefix
+
+    - name: Setup PATH
+      if: matrix.os == 'windows-2022' && matrix.pm != 'none'
+      run: Add-Content "$env:GITHUB_PATH" "$(Get-Location)\proj\build\Release"
 
     - name: Test
       run: ctest --test-dir proj/build -C Release
