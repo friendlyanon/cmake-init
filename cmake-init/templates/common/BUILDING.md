@@ -57,7 +57,8 @@ Example usage:
 
 ```cmake
 find_package({= name =} REQUIRED){% if not exe %}
-# Declare the imported target as a build requirement using PRIVATE
+# Declare the imported target as a build requirement using PRIVATE, where
+# project_target is a target created in the consuming project
 target_link_libraries(
     project_target PRIVATE
     {= name =}::{= name =}
