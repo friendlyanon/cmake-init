@@ -2,6 +2,6 @@
 builtin = clear,rare,en-GB_to_en-US,names,informal,code
 check-filenames =
 check-hidden =
-skip = */.git,*/build{% if c %},*/.codespellrc{% end %}
+skip = */.git,*/build,*/prefix{% if c %},*/.codespellrc{% end %}
 quiet-level = 2{% if c %}
 ignore-regex = ^#include <(?:stdio)\.h>${% end %}
