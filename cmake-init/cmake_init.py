@@ -33,7 +33,7 @@ import zipfile
 
 from template import compile_template
 
-__version__ = "0.25.0"
+__version__ = "0.26.0"
 
 is_windows = os.name == "nt"
 
