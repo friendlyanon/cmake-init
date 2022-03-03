@@ -97,6 +97,7 @@ Make sure you have these programs installed:
 * [LCOV](#lcov) (optional)
 * [clang-format 11](#clang-format) (optional)
 * [codespell](#codespell) (optional)
+* [Package managers](#package-managers): Conan or vcpkg (optional)
 
 ---
 **NOTE**
@@ -202,6 +203,24 @@ code.
 Two targets are made available to check and fix spelling errors in developer
 mode using the `spell-check` and `spell-fix` targets respectively.
 
+### Package managers
+
+The `-p` flag can be used to select a package manager for the project.
+Arguments for the flag can be:
+
+* `none`: no package manager integration (default)
+* `conan`: [Conan][21] integration
+* `vcpkg`: [vcpkg][22] integration
+
+When using a package manager, the following packages are used in the generated
+project:
+
+* [fmt][23] for C++ and [json-c][24] for C projects
+* [Catch2][25] as a dev dependency for C++ and C projects
+
+Make sure to read the generated HACKING document to see what needs to be done
+to fetch dependencies.
+
 ## Usage
 
 * `cmake-init [--c] <path>`  
@@ -254,3 +273,8 @@ indirectly from the use or non-use of these files.
 [18]: https://github.com/friendlyanon/cmake-init/wiki/Examples
 [19]: https://github.com/friendlyanon/cmake-init/issues/41
 [20]: https://github.com/friendlyanon/cmake-init/issues/48
+[21]: https://conan.io/
+[22]: https://github.com/microsoft/vcpkg
+[23]: https://github.com/fmtlib/fmt
+[24]: https://github.com/json-c/json-c
+[25]: https://github.com/catchorg/Catch2
