@@ -1,7 +1,7 @@
 #include <string>
 
-#include "{= name =}/{= name =}.hpp"{% if pm %}
-
+#include "{= name =}/{= name =}.hpp"
+{% if pm %}
 #include <catch2/catch.hpp>
 
 TEST_CASE("Name is {= name =}", "[library]")
