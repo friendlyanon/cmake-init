@@ -353,6 +353,8 @@ def vcpkg(d, zip):
         print(f"""'{d["name"]}' already exists""", file=sys.stderr)
         exit(1)
     mkdir(path)
+    for key in ["c", "pm", "exe", "conan", "vcpkg", "c_header"]:
+        d[key] = False
     d["lib"] = d["type_id"] == "s"
     d["header"] = d["type_id"] == "h"
     write_dir(path, d, False, zipfile.Path(zip, "templates/vcpkg/"))
