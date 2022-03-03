@@ -22,6 +22,7 @@ shutil.make_archive(
 )
 
 shutil.copy("../cmake-init/cmake_init.py", "cmake_init_lib")
+shutil.copy("../cmake-init/template.py", "cmake_init_lib")
 
 with open("cmake_init_lib/__init__.py", "w") as f:
     f.write("""\
