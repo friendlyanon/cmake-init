@@ -30,6 +30,7 @@ import os
 import zipfile
 
 from .cmake_init import main
+from .template import compile_template
 
 def pypi_main():
     zip = zipfile.ZipFile(
@@ -39,7 +40,7 @@ def pypi_main():
     try:
         # open a dummy fd to keep the zip from being closed
         with zip.open("templates/common/.gitignore") as dummy_fp:
-            main(zip)
+            main(zip, compile_template)
     except KeyboardInterrupt:
         pass
 """)

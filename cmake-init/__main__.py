@@ -20,12 +20,13 @@ import os
 import zipfile
 
 from cmake_init import main
+from template import compile_template
 
 if __name__ == "__main__":
     zip = zipfile.ZipFile(os.path.dirname(__file__), "r")
     try:
         # open a dummy fd to keep the zip from being closed
         with zip.open("__main__.py") as dummy_fp:
-            main(zip)
+            main(zip, compile_template)
     except KeyboardInterrupt:
         pass

@@ -31,11 +31,11 @@ import subprocess
 import sys
 import zipfile
 
-from template import compile_template
-
 __version__ = "0.26.1"
 
 is_windows = os.name == "nt"
+
+compile_template = None
 
 
 class Language:
@@ -455,7 +455,10 @@ def get_argv(index):
         return ""
 
 
-def main(zip):
+def main(zip, template_compiler):
+    global compile_template
+    compile_template = template_compiler
+
     # I guess this is similar to how cmake switches modes on the first flag in
     # the CLI, like cmake --build and cmake --install, but how to include that
     # in argparse's help output?
