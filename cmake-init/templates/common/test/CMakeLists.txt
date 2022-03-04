@@ -30,7 +30,7 @@ target_link_libraries({% if pm %}
    {% end %} {= name =}{% if exe %}_lib{% else %}::{= name =}{% end %}{% if pm %}
     Catch2::Catch2WithMain
 {% end %})
-target_compile_features({= name =}_test PRIVATE {% if c and pm %}cxx_std_11{% else %}c{% if cpp %}xx{% end %}_std_{= std =}{% end %})
+target_compile_features({= name =}_test PRIVATE {% if c and pm %}{% if header %}c_std_{= std =} {% end %}cxx_std_11{% else %}c{% if cpp %}xx{% end %}_std_{= std =}{% end %})
 {% if pm %}
 catch_discover_tests({= name =}_test){% else %}
 add_test(NAME {= name =}_test COMMAND {= name =}_test){% if lib %}
