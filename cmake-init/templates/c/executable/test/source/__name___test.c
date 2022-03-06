@@ -7,22 +7,11 @@
 {% end %}#include "lib.h"
 {% if pm %}}
 
-namespace {
-
-struct library_delete
-{
-  void operator()(void* p) const
-  {
-    destroy_library(static_cast<library*>(p));
-  }
-};
-
-} // namespace
-
 TEST_CASE("Name is {= name =}", "[library]")
 {
   library lib = create_library();
-  auto ptr = std::unique_ptr<library, library_delete>(&lib, {});
+  auto ptr =
+      std::unique_ptr<library, void(*)(library*)>(&lib, &destroy_library);
 
   REQUIRE(std::string("{= name =}") == lib.name);
 }{% else %}
