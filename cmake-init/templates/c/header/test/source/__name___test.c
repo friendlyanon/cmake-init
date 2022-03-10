@@ -1,13 +1,23 @@
-{% if pm %}#include <memory>
+{% if pm %}#include <cstdlib>
+#include <memory>
 #include <string>
+#include <type_traits>
 
 #include <catch2/catch.hpp>
 
 {% end %}#include "{= name =}/{= name =}.h"
 {% if pm %}
+template<typename T>
+static void c_free(T* ptr)
+{
+  using U = typename std::remove_cv<T>::type;
+  std::free(static_cast<void*>(const_cast<U*>(ptr)));
+}
+
 TEST_CASE("Name is {= name =}", "[library]")
 {
-  auto name_ptr = std::unique_ptr<const char>(header_only_name());
+  using c_string_ptr = std::unique_ptr<const char, void(*)(const char*)>;
+  auto name_ptr = c_string_ptr(header_only_name(), &c_free<const char>);
 
   REQUIRE(std::string("{= name =}") == name_ptr.get());
 }{% else %}
