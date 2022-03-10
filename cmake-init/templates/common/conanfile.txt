@@ -1,5 +1,6 @@
 [requires]
-{% if c %}json-c/0.15{% else %}fmt/8.1.1{% end %}
+{% if c %}{% if exe %}hedley/15
+{% end %}json-c/0.15{% else %}fmt/8.1.1{% end %}
 
 # Testing only dependencies below
 catch2/2.13.8

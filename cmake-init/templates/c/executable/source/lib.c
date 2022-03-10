@@ -1,5 +1,6 @@
 #include "lib.h"{% if pm %}
 
+#include <hedley.h>
 #include <json-c/json_object.h>
 #include <json-c/json_tokener.h>
 #include <stddef.h>
@@ -57,7 +58,10 @@ exit:
   return lib;
 }{% if pm %}
 
+HEDLEY_DIAGNOSTIC_PUSH
+HEDLEY_DIAGNOSTIC_DISABLE_CAST_QUAL
 void destroy_library(library* lib)
 {
   free((void*)lib->name);
-}{% end %}
+}
+HEDLEY_DIAGNOSTIC_POP{% end %}

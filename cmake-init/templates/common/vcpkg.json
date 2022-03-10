@@ -5,7 +5,11 @@
     {
       "name": "{% if c %}json-c{% else %}fmt{% end %}",
       "version>=": "{% if c %}2019-09-10{% else %}8.1.1{% end %}"
-    }
+    }{% if c and exe %},
+    {
+      "name": "hedley",
+      "version>=": "15"
+    }{% end %}
   ],
   "default-features": [],
   "features": {
