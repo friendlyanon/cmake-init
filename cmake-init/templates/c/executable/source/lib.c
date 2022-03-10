@@ -58,10 +58,7 @@ exit:
   return lib;
 }{% if pm %}
 
-HEDLEY_DIAGNOSTIC_PUSH
-HEDLEY_DIAGNOSTIC_DISABLE_CAST_QUAL
 void destroy_library(library* lib)
 {
-  free((void*)lib->name);
-}
-HEDLEY_DIAGNOSTIC_POP{% end %}
+  free(HEDLEY_CONST_CAST(void*, lib->name));
+}{% end %}
