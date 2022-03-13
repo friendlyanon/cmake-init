@@ -33,7 +33,7 @@ install(
     INCLUDES #
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"{% end %}{% if header %}
     INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"{% end %}
-){% if not exe and pm %}
+){% if lib and pm %}
 
 configure_file(
     cmake/install-config.cmake.in "${package}Config.cmake"
@@ -51,7 +51,7 @@ set(
     {= name =}_INSTALL_CMAKEDIR "${CMAKE_INSTALL_DATADIR}/${package}"
     CACHE PATH "CMake package config location relative to the install prefix"
 )
-mark_as_advanced({= name =}_INSTALL_CMAKEDIR){% if not exe %}{% if not pm %}
+mark_as_advanced({= name =}_INSTALL_CMAKEDIR){% if not exe %}{% if not pm or header %}
 
 install(
     FILES cmake/install-config.cmake
@@ -61,7 +61,7 @@ install(
 ){% end %}
 
 install(
-    FILES{% if pm %}
+    FILES{% if pm and lib %}
     "${PROJECT_BINARY_DIR}/${package}Config.cmake"
    {% end %} "${PROJECT_BINARY_DIR}/${package}ConfigVersion.cmake"
     DESTINATION "${{= name =}_INSTALL_CMAKEDIR}"
