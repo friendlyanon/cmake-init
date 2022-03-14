@@ -231,20 +231,20 @@ def should_write_examples(d, at):
 
 
 def should_install_file(name, d):
-    if name == "vcpkg.json" and not d["vcpkg"]:
-        return False
-    if name == "conanfile.txt" and not d["conan"]:
-        return False
-    if name == "install-config.cmake" and d["exe"]:
-        return False
-    if name == "windows-set-path.cmake" and d["pm"]:
-        return False
-    if name == "install-script.cmake" and not d["exe"]:
-        return False
-    if name == "header_impl.c" and (not d["c_header"] or not d["pm"]):
-        return False
-    if name == "clang-11.profile" and not d["conan"]:
-        return False
+    if name == "vcpkg.json":
+        return d["vcpkg"]
+    if name == "conanfile.txt":
+        return d["conan"]
+    if name == "install-config.cmake":
+        return not d["exe"]
+    if name == "windows-set-path.cmake":
+        return not d["pm"]
+    if name == "install-script.cmake":
+        return d["exe"]
+    if name == "header_impl.c":
+        return d["c_header"] and d["pm"]
+    if name == "clang-11.profile":
+        return d["conan"]
     return True
 
 
