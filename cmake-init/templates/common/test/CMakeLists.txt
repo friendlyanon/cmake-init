@@ -8,13 +8,19 @@ include(../cmake/project-is-top-level.cmake)
 include(../cmake/folders.cmake){% if not pm %}
 include(../cmake/windows-set-path.cmake){% end %}
 
+# ---- Dependencies ----
+
 if(PROJECT_IS_TOP_LEVEL)
   find_package({= name =} REQUIRED)
   enable_testing()
-endif(){% end %}{% if pm %}
+endif(){% end %}{% if pm %}{% if exe %}
+
+# ---- Dependencies ----{% end %}
 
 find_package(Catch2 REQUIRED)
 include(Catch){% end %}
+
+# ---- Tests ----
 
 add_executable({% if c_header and pm %}
     {% end %}{= name =}_test{% if c_header and pm %}
@@ -35,5 +41,7 @@ target_compile_features({= name =}_test PRIVATE {% if c and pm %}{% if header %}
 catch_discover_tests({= name =}_test){% else %}
 add_test(NAME {= name =}_test COMMAND {= name =}_test){% if lib %}
 windows_set_path({= name =}_test {= name =}::{= name =}){% end %}{% end %}
+
+# ---- End-of-file commands ----
 
 add_folders(Test)
