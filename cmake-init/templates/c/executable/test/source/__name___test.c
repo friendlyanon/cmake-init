@@ -17,7 +17,7 @@ TEST_CASE("Name is {= name =}", "[library]")
 }{% else %}
 int main(int argc, const char* argv[])
 {
-  library lib = create_library();
+  struct library lib = create_library();
 
   (void)argc;
   (void)argv;

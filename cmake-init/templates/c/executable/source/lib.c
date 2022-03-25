@@ -9,9 +9,9 @@
 
 static const char json[] = "{\"name\":\"{= name =}\"}";{% end %}
 
-library create_library()
+struct library create_library()
 {
-  library lib;{% if pm %}
+  struct library lib;{% if pm %}
   struct json_tokener* tokener = NULL;
   struct json_object* object = NULL;
   struct json_object* name_object = NULL;
@@ -58,7 +58,7 @@ exit:
   return lib;
 }{% if pm %}
 
-void destroy_library(library* lib)
+void destroy_library(struct library* lib)
 {
   free(HEDLEY_CONST_CAST(void*, lib->name));
 }{% end %}
