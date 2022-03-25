@@ -215,7 +215,7 @@ Arguments for the flag can be:
 When using a package manager, the following packages are used in the generated
 project:
 
-* [fmt][23] for C++ and [json-c][24] for C projects
+* [fmt][23] for C++, [json-c][24] and [hedley][26] (exe only) for C projects
 * [Catch2][25] as a dev dependency for C++ and C projects
 
 Make sure to read the generated HACKING document to see what needs to be done
@@ -278,3 +278,4 @@ indirectly from the use or non-use of these files.
 [23]: https://github.com/fmtlib/fmt
 [24]: https://github.com/json-c/json-c
 [25]: https://github.com/catchorg/Catch2
+[26]: https://github.com/nemequ/hedley
