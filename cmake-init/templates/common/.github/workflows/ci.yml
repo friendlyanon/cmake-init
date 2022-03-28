@@ -26,7 +26,7 @@ jobs:
       run: pip3 install codespell
 
     - name: Lint
-      run: cmake -D FORMAT_COMMAND=clang-format-11 -P cmake/lint.cmake
+      run: cmake -D FORMAT_COMMAND=clang-format-12 -P cmake/lint.cmake
 
     - name: Spell check
       if: always()
@@ -98,7 +98,7 @@ jobs:
     - name: Install dependencies
       run: pip3 install conan
         && conan profile new default --detect
-        && cp .github/clang-11.profile ~/.conan/profiles/default
+        && cp .github/clang-12.profile ~/.conan/profiles/default
         && conan install . -if conan -b missing{% elif vcpkg %}
 
     - name: Install vcpkg
@@ -106,7 +106,7 @@ jobs:
       with: { committish: ${{ env.VCPKG_COMMIT }} }{% end %}
 
     - name: Configure
-      env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-11{% if c and pm %}, CXX: clang++-11{% end %} }
+      env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-12{% if c and pm %}, CXX: clang++-12{% end %} }
       run: cmake --preset=ci-sanitize
 
     - name: Build

@@ -243,7 +243,7 @@ def should_install_file(name, d):
         return d["exe"]
     if name == "header_impl.c":
         return d["c_header"] and d["pm"]
-    if name == "clang-11.profile":
+    if name == "clang-12.profile":
         return d["conan"]
     return True
 

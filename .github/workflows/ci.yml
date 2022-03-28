@@ -70,7 +70,7 @@ jobs:
     - name: Lint generated project
       if: matrix.os == 'ubuntu-latest'
       working-directory: proj
-      run: cmake -D FORMAT_COMMAND=clang-format-11 -P cmake/lint.cmake
+      run: cmake -D FORMAT_COMMAND=clang-format-12 -P cmake/lint.cmake
 
     - name: Install Conan
       if: matrix.pm == 'conan'
