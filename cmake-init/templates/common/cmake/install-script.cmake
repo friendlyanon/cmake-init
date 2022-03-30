@@ -20,3 +20,4 @@ set(
     CACHE FILEPATH \"Path to the {= name =} executable\"
 )
 ")
+list(APPEND CMAKE_INSTALL_MANIFEST_FILES "${config_file}")
