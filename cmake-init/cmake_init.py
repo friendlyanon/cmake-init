@@ -304,42 +304,6 @@ push the project with the following commands from the project directory:
 """)
 
 
-def print_tips(d):
-    config = " --config Debug" if is_windows else ""
-    conan = ""
-    if d["conan"]:
-        conan = """
-    conan install . -if conan -s build_type=Debug -b missing"""
-    print(f"""\
-To get you started with the project in developer mode, you may configure,
-build, install and test with the following commands from the project directory,
-in that order:
-{conan}
-    cmake --preset=dev
-    cmake --build --preset=dev
-    cmake --install build/dev{config} --prefix prefix
-    ctest --preset=dev
-""")
-    extra = ["    docs - build the documentation using Doxygen and m.css"]
-    if d["c_examples"] or d["cpp_examples"]:
-        extra.append("""\
-    run-examples - runs all the examples created by the add_example command""")
-    if d["type_id"] == "e":
-        extra.append("""\
-    run-exe - runs the executable built by the project""")
-    print("""\
-There are some convenience targets that you can run manually:
-""")
-    for msg in extra:
-        print(msg)
-    print(f"""
-These targets are only available in developer mode, because they are generally
-not useful for consumers. You can run these targets with the following command:
-
-    cmake --build --preset=dev -t <target>
-""")
-
-
 def create(args, zip):
     """Create a CMake project according to the provided information
     """
@@ -368,8 +332,12 @@ def create(args, zip):
     for zip_path in (f"templates/{p}" for p in zip_paths):
         write_dir(path, d, args.overwrite, zipfile.Path(zip, zip_path))
     git_init(path)
-    print_tips(d)
     print("""\
+To get started with developing the project, make sure you read the generated
+HACKING.md and BUILDING.md files for how to build the project as a developer or
+as a user respectively. There are also some details you may want to fill in in
+the README.md, CONTRIBUTING.md and .github/workflows/ci.yml files.
+
 Now make sure you have at least CMake 3.20 installed for local development, to
 make use of all the nice Quality-of-Life improvements in newer releases:
 https://cmake.org/download/
