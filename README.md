@@ -33,6 +33,11 @@ testing, superbuilds, etc.
 
 </details>
 
+If you wish to contact me for anything CMake related, then you may find me in
+the `#cmake` channel of [the C++ Slack][27]. If what you wish to know is
+cmake-init specific, then you may also ask questions in this repository's
+[Discussions][28].
+
 ## Goals
 
 * Be simple to use  
@@ -279,3 +284,5 @@ indirectly from the use or non-use of these files.
 [24]: https://github.com/json-c/json-c
 [25]: https://github.com/catchorg/Catch2
 [26]: https://github.com/nemequ/hedley
+[27]: https://cppalliance.org/slack/
+[28]: https://github.com/friendlyanon/cmake-init/discussions
