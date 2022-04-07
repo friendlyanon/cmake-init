@@ -31,6 +31,8 @@ target_compile_features({= name =}_lib PUBLIC c_std_{= std =}){% if pm %}
 find_package(json-c REQUIRED)
 target_link_libraries({= name =}_lib PRIVATE json-c::json-c)
 
+# Unfortunately, hedley provides no CMake package to be found trivially using
+# find_package, so it has to be found manually
 find_path(HEDLEY_INCLUDE_DIR hedley.h)
 if(NOT HEDLEY_INCLUDE_DIR)
   message(FATAL_ERROR "Couldn't find hedley.h (${HEDLEY_INCLUDE_DIR})")
