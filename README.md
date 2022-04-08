@@ -100,7 +100,7 @@ Make sure you have these programs installed:
 * [cppcheck](#cppcheck) (optional)
 * [Doxygen < 1.9](#doxygen) (optional)
 * [LCOV](#lcov) (optional)
-* [clang-format 11](#clang-format) (optional)
+* [clang-format 12](#clang-format) (optional)
 * [codespell](#codespell) (optional)
 * [Package managers](#package-managers): Conan or vcpkg (optional)
 
@@ -198,7 +198,7 @@ Two targets are made available to check and fix code in developer mode using
 the `format-check` and `format-fix` targets respectively.
 
 **NOTE**: the project generates files that are formatted according to
-clang-format 11. Newer or older versions may format the project differently.
+clang-format 12. Newer or older versions may format the project differently.
 
 ### codespell
 
