@@ -120,7 +120,7 @@ additional `-t <target>` flag:
 #### `coverage`
 
 Available if `ENABLE_COVERAGE` is enabled. This target processes the output of
-the previously run tests when build with coverage configuration. The commands
+the previously run tests when built with coverage configuration. The commands
 this target runs can be found in the `COVERAGE_TRACE_COMMAND` and
 `COVERAGE_HTML_COMMAND` cache variables. The trace command produces an info
 file by default, which can be submitted to services with CI integration. The
