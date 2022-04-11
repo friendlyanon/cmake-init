@@ -107,6 +107,10 @@ cmake --build --preset=dev
 ctest --preset=dev
 ```
 
+If you are using a compatible editor (e.g. VSCode) or IDE (e.g. CLion, VS), you
+will also be able to select the above created user presets for automatic
+integration.
+
 Please note that both the build and test command accepts a `-j` flag to specify
 the number of jobs to use, which should ideally be specified to the number of
 threads your CPU has. You may also want to add that to your preset using the
