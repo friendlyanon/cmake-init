@@ -7,16 +7,26 @@ on:
     - feature/*
 
     paths:
-    - cmake-init/**
+    - "!cmake-init/templates/common/.github/**"
+    - "!cmake-init/templates/common/docs/**"
+    - "!cmake-init/templates/common/*.md"
+    - "!cmake-init/templates/common/.gitignore"
+    - "!cmake-init/templates/common/CMakeUserPresets.json"
     - .github/workflows/*
+    - cmake-init/**
 
   pull_request:
     branches:
     - develop
 
     paths:
-    - cmake-init/**
+    - "!cmake-init/templates/common/.github/**"
+    - "!cmake-init/templates/common/docs/**"
+    - "!cmake-init/templates/common/*.md"
+    - "!cmake-init/templates/common/.gitignore"
+    - "!cmake-init/templates/common/CMakeUserPresets.json"
     - .github/workflows/*
+    - cmake-init/**
 
 jobs:
   test:
