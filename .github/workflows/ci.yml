@@ -92,7 +92,7 @@ jobs:
         if [ ${{ matrix.os }} = ubuntu-latest ]; then
           conan profile update settings.compiler.libcxx=libstdc++11 default
         fi
-        conan install . -if conan -b missing
+        conan install . -b missing
 
     - name: Install vcpkg
       if: matrix.pm == 'vcpkg'

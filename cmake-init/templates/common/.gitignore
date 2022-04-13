@@ -7,4 +7,6 @@ cmake-build-*/{% if conan %}
 conan/{% end %}
 prefix/
 CMakeLists.txt.user
-CMakeUserPresets.json
+CMakeUserPresets.json{% if conan %}
+conanbuildinfo.txt
+conaninfo.txt{% end %}

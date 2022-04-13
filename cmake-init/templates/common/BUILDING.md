@@ -2,7 +2,7 @@
 
 ## Dependencies
 
-For a list of dependencies, please refer to {% if vcpkg %}[vcpkg.json](vcpkg.json){% else %}[conanfile.txt](conanfile.txt){% end %}.{% end %}
+For a list of dependencies, please refer to {% if vcpkg %}[vcpkg.json](vcpkg.json){% else %}[conanfile.py](conanfile.py){% end %}.{% end %}
 
 ## Build
 

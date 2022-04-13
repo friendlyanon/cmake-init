@@ -59,7 +59,7 @@ jobs:
       run: pip3 install conan
         && conan profile new default --detect
         && conan profile update settings.compiler.libcxx=libstdc++11 default
-        && conan install . -if conan -b missing{% elif vcpkg %}
+        && conan install . -b missing{% elif vcpkg %}
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
@@ -99,7 +99,7 @@ jobs:
       run: pip3 install conan
         && conan profile new default --detect
         && cp .github/clang-12.profile ~/.conan/profiles/default
-        && conan install . -if conan -b missing{% elif vcpkg %}
+        && conan install . -b missing{% elif vcpkg %}
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
@@ -157,7 +157,7 @@ jobs:
         if [ ${{ matrix.os }} = ubuntu-latest ]; then
           conan profile update settings.compiler.libcxx=libstdc++11 default
         fi
-        conan install . -if conan -b missing{% elif vcpkg %}
+        conan install . -b missing{% elif vcpkg %}
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1

@@ -233,7 +233,7 @@ def should_write_examples(d, at):
 def should_install_file(name, d):
     if name == "vcpkg.json":
         return d["vcpkg"]
-    if name == "conanfile.txt":
+    if name == "conanfile.py":
         return d["conan"]
     if name == "install-config.cmake":
         return not d["exe"]

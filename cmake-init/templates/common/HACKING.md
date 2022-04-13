@@ -86,11 +86,12 @@ to setup `PATH` to run tests.{% else %}download the dependencies and generate th
 files by running this command in the project root:
 
 ```sh
-conan install . -if conan -s build_type=Debug -b missing
+conan install . -s build_type=Debug -b missing
 ```
 
-Note that if your conan profile does not find the same compiler as CMake,
-then it could cause conflicts. See the [conan docs][profile] on profiles.{% end %}
+Note that if your conan profile does not specify the same compiler as CMake
+uses, then that could potentially cause issues. See the [conan docs][profile]
+on profiles.{% end %}
 
 [{= pm_name =}]: {% if vcpkg %}https://github.com/microsoft/vcpkg{% else %}https://conan.io/
 [profile]: https://docs.conan.io/en/latest/using_packages/using_profiles.html{% end %}{% end %}
