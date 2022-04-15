@@ -8,6 +8,7 @@ TEST_CASE("Name is {= name =}", "[library]")
 }{% else %}
 auto main() -> int
 {
-  auto result = name();
+  auto const result = name();
+
   return result == "{= name =}" ? 0 : 1;
 }{% end %}

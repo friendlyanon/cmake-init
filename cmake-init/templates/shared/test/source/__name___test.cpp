@@ -6,12 +6,12 @@
 
 TEST_CASE("Name is {= name =}", "[library]")
 {
-  exported_class e;
-  REQUIRE(std::string("{= name =}") == e.name());
+  auto const exported = exported_class {};
+  REQUIRE(std::string("{= name =}") == exported.name());
 }{% else %}
 auto main() -> int
 {
-  exported_class e;
+  auto const exported = exported_class {};
 
-  return std::string("{= name =}") == e.name() ? 0 : 1;
+  return std::string("{= name =}") == exported.name() ? 0 : 1;
 }{% end %}

@@ -9,7 +9,7 @@
 
 TEST_CASE("Name is {= name =}", "[library]")
 {
-  library lib = create_library();
+  auto lib = create_library();
   auto ptr =
       std::unique_ptr<library, void(*)(library*)>(&lib, &destroy_library);
 

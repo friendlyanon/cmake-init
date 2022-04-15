@@ -4,12 +4,12 @@
 {% if pm %}
 TEST_CASE("Name is {= name =}", "[library]")
 {
-  library lib;
+  auto const lib = library {};
   REQUIRE(lib.name == "{= name =}");
 }{% else %}
 auto main() -> int
 {
-  library lib;
+  auto const lib = library {};
 
   return lib.name == "{= name =}" ? 0 : 1;
 }{% end %}

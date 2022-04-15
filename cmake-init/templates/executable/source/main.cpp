@@ -5,8 +5,8 @@
 
 auto main() -> int
 {
-  library lib;
-  std::string message = "Hello from " + lib.name + "!";
+  auto const lib = library {};
+  auto const message = "Hello from " + lib.name + "!";
   std::cout << message << '\n';
   return 0;
 }
