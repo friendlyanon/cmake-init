@@ -89,8 +89,8 @@ files by running this command in the project root:
 conan install . -s build_type=Debug -b missing
 ```
 
-Note that if your conan profile does not specify the same compiler as CMake
-uses, then that could potentially cause issues. See the [conan docs][profile]
+Note that if your conan profile does not specify the same compiler used by
+CMake, then that could potentially cause issues. See the [conan docs][profile]
 on profiles.{% end %}
 
 [{= pm_name =}]: {% if vcpkg %}https://github.com/microsoft/vcpkg{% else %}https://conan.io/
@@ -112,7 +112,7 @@ If you are using a compatible editor (e.g. VSCode) or IDE (e.g. CLion, VS), you
 will also be able to select the above created user presets for automatic
 integration.
 
-Please note that both the build and test command accepts a `-j` flag to specify
+Please note that both the build and test commands accept a `-j` flag to specify
 the number of jobs to use, which should ideally be specified to the number of
 threads your CPU has. You may also want to add that to your preset using the
 `jobs` property, see the [presets documentation][1] for more details.
