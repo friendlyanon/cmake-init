@@ -84,6 +84,12 @@
           </x:call-template>
         </x:attribute>
 
+        <x:comment>
+          <x:text>&#x20;Start test time:&#x20;</x:text>
+          <x:value-of select="Testing/StartTestTime" />
+          <x:text>&#x20;</x:text>
+        </x:comment>
+
         <properties>
           <property name="BuildName" value="{@BuildName}" />
           <property name="BuildStamp" value="{@BuildStamp}" />
