@@ -33,12 +33,7 @@ install(
     INCLUDES #
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"{% end %}{% if header %}
     INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"{% end %}
-){% if lib and pm %}
-
-configure_file(
-    cmake/install-config.cmake.in "${package}Config.cmake"
-    @ONLY
-){% end %}
+)
 
 write_basic_package_version_file(
     "${package}ConfigVersion.cmake"
@@ -51,19 +46,17 @@ set(
     {= name =}_INSTALL_CMAKEDIR "${CMAKE_INSTALL_DATADIR}/${package}"
     CACHE PATH "CMake package config location relative to the install prefix"
 )
-mark_as_advanced({= name =}_INSTALL_CMAKEDIR){% if not exe %}{% if not pm or header %}
+mark_as_advanced({= name =}_INSTALL_CMAKEDIR){% if not exe %}
 
 install(
     FILES cmake/install-config.cmake
     DESTINATION "${{= name =}_INSTALL_CMAKEDIR}"
     RENAME "${package}Config.cmake"
     COMPONENT {= name =}_Development
-){% end %}
+)
 
 install(
-    FILES{% if pm and lib %}
-    "${PROJECT_BINARY_DIR}/${package}Config.cmake"
-   {% end %} "${PROJECT_BINARY_DIR}/${package}ConfigVersion.cmake"
+    FILES "${PROJECT_BINARY_DIR}/${package}ConfigVersion.cmake"
     DESTINATION "${{= name =}_INSTALL_CMAKEDIR}"
     COMPONENT {= name =}_Development
 )

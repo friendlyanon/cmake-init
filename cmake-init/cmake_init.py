@@ -249,8 +249,6 @@ def should_install_file(name, d):
 
 
 def transform_path(path, d):
-    if d["lib"] and d["pm"] and path.endswith("install-config.cmake"):
-        return f"{path}.in"
     if d["c"] and d["pm"] and path.endswith("_test.c"):
         return f"{path}pp"
     return path
