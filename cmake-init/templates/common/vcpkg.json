@@ -4,7 +4,7 @@
   "dependencies": [
     {
       "name": "{% if c %}json-c{% else %}fmt{% end %}",
-      "version>=": "{% if c %}2019-09-10{% else %}8.1.1{% end %}"
+      "version>=": "{% if c %}2019-09-10{% else %}8.1.1#1{% end %}"
     }{% if c and exe %},
     {
       "name": "hedley",
@@ -18,10 +18,10 @@
       "dependencies": [
         {
           "name": "catch2",
-          "version>=": "2.13.8"
+          "version>=": "2.13.9"
         }
       ]
     }
   },
-  "builtin-baseline": "c37cc7836a0e1cfd55747be8ec472eafa8055276"
+  "builtin-baseline": "bae8f8c7d837c631ca72daec4b14e243824135a5"
 }
