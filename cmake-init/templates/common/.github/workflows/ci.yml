@@ -63,7 +63,7 @@ jobs:
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
-      with: { committish: ${{ env.VCPKG_COMMIT }} }{% end %}
+      with: { committish: "${{ env.VCPKG_COMMIT }}" }{% end %}
 
     - name: Configure
       run: cmake --preset=ci-coverage
@@ -103,7 +103,7 @@ jobs:
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
-      with: { committish: ${{ env.VCPKG_COMMIT }} }{% end %}
+      with: { committish: "${{ env.VCPKG_COMMIT }}" }{% end %}
 
     - name: Configure
       env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-12{% if c and pm %}, CXX: clang++-12{% end %} }
@@ -161,7 +161,7 @@ jobs:
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
-      with: { committish: ${{ env.VCPKG_COMMIT }} }{% end %}
+      with: { committish: "${{ env.VCPKG_COMMIT }}" }{% end %}
 
     - name: Configure
       shell: pwsh
