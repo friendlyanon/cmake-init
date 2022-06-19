@@ -43,7 +43,7 @@ write_basic_package_version_file(
 
 # Allow package maintainers to freely override the path for the configs
 set(
-    {= name =}_INSTALL_CMAKEDIR "${CMAKE_INSTALL_DATADIR}/${package}"
+    {= name =}_INSTALL_CMAKEDIR "{% if lib %}${CMAKE_INSTALL_LIBDIR}/cmake{% else %}${CMAKE_INSTALL_DATADIR}{% end %}/${package}"
     CACHE PATH "CMake package config location relative to the install prefix"
 )
 mark_as_advanced({= name =}_INSTALL_CMAKEDIR)
