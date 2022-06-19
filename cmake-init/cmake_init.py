@@ -239,8 +239,6 @@ def should_install_file(name, d):
         return not d["exe"]
     if name == "windows-set-path.cmake":
         return not d["pm"]
-    if name == "install-script.cmake":
-        return d["exe"]
     if name == "header_impl.c":
         return d["c_header"] and d["pm"]
     if name == "clang-12.profile":
