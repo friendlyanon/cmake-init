@@ -1,4 +1,4 @@
-{% if pm %}#include <catch2/catch.hpp>
+{% if pm %}#include <catch2/catch{% if catch3 %}_test_macros{% end %}.hpp>
 
 {% end %}#include "lib.hpp"
 {% if pm %}

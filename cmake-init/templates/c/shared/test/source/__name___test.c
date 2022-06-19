@@ -3,7 +3,7 @@
 #include <string>
 #include <type_traits>
 
-#include <catch2/catch.hpp>
+#include <catch2/catch{% if catch3 %}_test_macros{% end %}.hpp>
 
 {% end %}#include "{= name =}/{= name =}.h"
 {% if pm %}

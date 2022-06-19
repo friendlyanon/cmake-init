@@ -1,7 +1,7 @@
 {% if pm %}#include <memory>
 #include <string>
 
-#include <catch2/catch.hpp>{% else %}#include <string.h>{% end %}
+#include <catch2/catch{% if catch3 %}_test_macros{% end %}.hpp>{% else %}#include <string.h>{% end %}
 
 {% if pm %}extern "C" {
 {% end %}#include "lib.h"

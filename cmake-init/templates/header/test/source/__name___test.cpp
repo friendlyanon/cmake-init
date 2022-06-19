@@ -1,6 +1,6 @@
 #include "{= name =}/{= name =}.hpp"
 {% if pm %}
-#include <catch2/catch.hpp>
+#include <catch2/catch{% if catch3 %}_test_macros{% end %}.hpp>
 
 TEST_CASE("Name is {= name =}", "[library]")
 {

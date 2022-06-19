@@ -169,6 +169,7 @@ library."""
         "has_source": True,
         "cpus": os.cpu_count(),
         "pm_name": "",
+        "catch3": False,
     }
     package_manager = ask(
         "Package manager to use ([N]one/[c]onan/[v]cpkg)",
@@ -203,6 +204,7 @@ VCPKG_ROOT environment variable to be setup to vcpkg's root directory.""",
     d["exe"] = d["type_id"] == "e"
     d["lib"] = d["type_id"] == "s"
     d["header"] = d["type_id"] == "h"
+    d["catch3"] = d["cpp"] and d["std"] != "11" and d["pm"]
     return d
 
 
