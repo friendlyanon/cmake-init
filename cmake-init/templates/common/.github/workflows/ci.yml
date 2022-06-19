@@ -166,17 +166,17 @@ jobs:
     - name: Configure
       shell: pwsh
       run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"{% if lib %}
-        -D BUILD_SHARED_LIBS=${{ matrix.shared }}{% end %}
+        -D BUILD_SHARED_LIBS=${{ matrix.shared }}{% if pm %}
+
+    - name: Setup PATH
+      if: matrix.os == 'windows-2022' && matrix.type == 'shared'
+      run: Add-Content "$env:GITHUB_PATH" "$(Get-Location)\build\Release"{% end %}{% end %}
 
     - name: Build
       run: cmake --build build --config Release -j 2
 
     - name: Install
-      run: cmake --install build --config Release --prefix prefix{% if lib and pm %}
-
-    - name: Setup PATH
-      if: matrix.os == 'windows-2022' && matrix.type == 'shared'
-      run: Add-Content "$env:GITHUB_PATH" "$(Get-Location)\build\Release"{% end %}
+      run: cmake --install build --config Release --prefix prefix
 
     - name: Test
       working-directory: build

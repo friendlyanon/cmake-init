@@ -107,15 +107,15 @@ jobs:
       run: cmake -S proj "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
         ${{ matrix.flag }}
 
+    - name: Setup PATH
+      if: matrix.os == 'windows-2022' && matrix.pm != 'none'
+      run: Add-Content "$env:GITHUB_PATH" "$(Get-Location)\proj\build\Release"
+
     - name: Build
       run: cmake --build proj/build --config Release
 
     - name: Install
       run: cmake --install proj/build --config Release --prefix proj/prefix
-
-    - name: Setup PATH
-      if: matrix.os == 'windows-2022' && matrix.pm != 'none'
-      run: Add-Content "$env:GITHUB_PATH" "$(Get-Location)\proj\build\Release"
 
     - name: Test
       run: ctest --test-dir proj/build -C Release
