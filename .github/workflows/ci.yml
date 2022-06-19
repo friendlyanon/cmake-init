@@ -87,7 +87,7 @@ jobs:
       working-directory: proj
       shell: bash
       run: |
-        pip3 install "conan<2"
+        pip3 install "conan<2,!=1.49.0"
         conan profile new default --detect
         if [ ${{ matrix.os }} = ubuntu-latest ]; then
           conan profile update settings.compiler.libcxx=libstdc++11 default
