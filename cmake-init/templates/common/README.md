@@ -13,6 +13,7 @@ See the [CONTRIBUTING](CONTRIBUTING.md) document.
 # Licensing
 
 <!--
-Please go to https://choosealicense.com/ and choose a license that fits your
-needs. GNU GPLv3 is a pretty nice option ;-)
+Please go to https://choosealicense.com/licenses/ and choose a license that
+fits your needs. The recommended license for a project of this type is the
+{% if exe %}GNU AGPLv3{% else %}Boost Software License 1.0{% end %}.
 -->
