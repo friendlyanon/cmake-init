@@ -1,5 +1,10 @@
 # ---- Dependencies ----
 
+set(extract_timestamps "")
+if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24")
+  set(extract_timestamps DOWNLOAD_EXTRACT_TIMESTAMP YES)
+endif()
+
 include(FetchContent)
 FetchContent_Declare(
     mcss URL
@@ -7,6 +12,7 @@ FetchContent_Declare(
     URL_MD5 00cd2757ebafb9bcba7f5d399b3bec7f
     SOURCE_DIR "${PROJECT_BINARY_DIR}/mcss"
     UPDATE_DISCONNECTED YES
+    ${extract_timestamps}
 )
 FetchContent_MakeAvailable(mcss)
 
