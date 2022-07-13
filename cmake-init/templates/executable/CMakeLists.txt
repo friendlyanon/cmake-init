@@ -36,11 +36,7 @@ target_link_libraries({= name =}_lib PRIVATE fmt::fmt){% end %}
 add_executable({= name =}_exe source/main.cpp)
 add_executable({= name =}::exe ALIAS {= name =}_exe)
 
-set_target_properties(
-    {= name =}_exe PROPERTIES
-    OUTPUT_NAME {= name =}
-    EXPORT_NAME exe
-)
+set_property(TARGET {= name =}_exe PROPERTY OUTPUT_NAME {= name =})
 
 target_compile_features({= name =}_exe PRIVATE cxx_std_{= std =})
 
