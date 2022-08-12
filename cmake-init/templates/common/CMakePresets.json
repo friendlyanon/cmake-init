@@ -64,8 +64,8 @@
       "name": "clang-tidy",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C{% if cpp %}XX{% end %}_CLANG_TIDY": "clang-tidy;--header-filter=${sourceDir}/*"{% if c and pm %},
-        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;--header-filter=${sourceDir}/*"{% end %}
+        "CMAKE_C{% if cpp %}XX{% end %}_CLANG_TIDY": "clang-tidy;--header-filter=^${sourceDir}/"{% if c and pm %},
+        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;--header-filter=^${sourceDir}/"{% end %}
       }
     },
     {
