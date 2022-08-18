@@ -5,7 +5,7 @@
     "minor": 14,
     "patch": 0
   },
-  "configurePresets": [{% if not vcpkg %}
+  "configurePresets": [{% if not pm %}
     {
       "name": "cmake-pedantic",
       "hidden": true,
@@ -23,7 +23,7 @@
     },{% end %}
     {
       "name": "dev-mode",
-      "hidden": true,{% if not vcpkg %}
+      "hidden": true,{% if not pm %}
       "inherits": "cmake-pedantic",{% end %}
       "cacheVariables": {
         "{= name =}_DEVELOPER_MODE": "ON"{% if vcpkg %},
