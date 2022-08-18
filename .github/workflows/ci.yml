@@ -98,7 +98,7 @@ jobs:
       if: matrix.pm == 'vcpkg'
       uses: friendlyanon/setup-vcpkg@v1
       with:
-        committish: "b49b2bdf22559c89eddbf29a29621a1dc6929320"
+        committish: "4217fee510d4c592d3e45564d3ee116ae301189f"
         cache-version: "1"
         ignore-reserve-cache-error: true
 
