@@ -16,6 +16,6 @@ class Recipe(ConanFile):
         self.requires("json-c/0.15"){% else %}
         self.requires("fmt/9.0.0"){% end %}
 
-        # Testing only dependencies below{% if catch3 %}
-        self.requires("catch2/3.0.1"){% else %}
-        self.requires("catch2/2.13.9"){% end %}
+    def build_requirements(self):{% if catch3 %}
+        self.test_requires("catch2/3.0.1"){% else %}
+        self.test_requires("catch2/2.13.9"){% end %}
