@@ -24,7 +24,7 @@
     }
   },{% if not catch3 %}
   "overrides": [
-    { "name": "catch2", "version-semver": "2.13.9" }
+    { "name": "catch2", "version": "2.13.9#1" }
   ],{% end %}
   "builtin-baseline": "4217fee510d4c592d3e45564d3ee116ae301189f"
 }
