@@ -19,7 +19,8 @@
       "binaryDir": "${sourceDir}/build/dev-unix",
       "inherits": ["dev-common", "ci-unix"],
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       }
     },
     {
