@@ -1,7 +1,3 @@
-{% if not exe %}if(PROJECT_IS_TOP_LEVEL)
-  set(CMAKE_INSTALL_INCLUDEDIR include/{= name =} CACHE PATH "")
-endif(){% if header %}
-
 # Project is configured with no languages, so tell GNUInstallDirs the lib dir
 set(CMAKE_INSTALL_LIBDIR lib CACHE PATH ""){% end %}
 
