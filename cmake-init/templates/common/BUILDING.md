@@ -79,6 +79,37 @@ target_link_libraries(
     {= name =}::{= name =}
 )
 ```
+
+### Creating a VCPKG port
+If you wish to expose your package on vcpkg the following `portfile.cmake`
+
+```cmake
+vcpkg_from_github(
+  OUT_SOURCE_PATH SOURCE_PATH
+  REPO <org_name/repo_name>
+  REF <insert git ref here>
+  HEAD_REF master
+  SHA512 <insert sha here>
+)
+
+vcpkg_cmake_configure(
+  SOURCE_PATH "${SOURCE_PATH}"
+  OPTIONS
+  "-DCMAKE_INSTALL_INCLUDEDIR=${CURRENT_PACKAGES_DIR}/include"
+)
+
+vcpkg_cmake_build()
+
+vcpkg_cmake_install()
+
+vcpkg_cmake_config_fixup()
+
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share")
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
+
+file(INSTALL "${SOURCE_PATH}/LICENSE" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}" RENAME copyright)
+```
+
 {% end %}
 [1]: https://cmake.org/download/
 [2]: https://cmake.org/cmake/help/latest/manual/cmake.1.html#install-a-project{% if not exe %}
