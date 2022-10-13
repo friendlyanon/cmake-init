@@ -1,6 +1,7 @@
 {% if not exe %}if(PROJECT_IS_TOP_LEVEL)
-  # CMAKE_INSTALL_INCLUDEDIR is nested in one more ${PROJECT_VERSION} directory to prevent inclusion of all other headers in the install prefix directory.
-  #   See https://github.com/friendlyanon/cmake-init/issues/43 for more info
+  # CMAKE_INSTALL_INCLUDEDIR is nested in one more "{= name =}-${PROJECT_VERSION}"
+  # directory to prevent direct inclusion of headers from other libraries 
+  # which share the prefix directory.
   set(CMAKE_INSTALL_INCLUDEDIR "include/{= name =}-${PROJECT_VERSION}" CACHE PATH "")
 endif(){% if header %}
 
