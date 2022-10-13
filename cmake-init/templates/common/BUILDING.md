@@ -80,7 +80,12 @@ target_link_libraries(
 )
 ```
 
-### Creating a VCPKG port
+### Note to packagers
+If you wish to expose your library as a package, you should carefully review how 
+`CMAKE_INSTALL_INCLUDEDIR` is set, as the default behavior might not match your
+package mangagers expectations.
+
+#### Creating a vcpkg port
 If you wish to expose your package on vcpkg the following `portfile.cmake`
 
 ```cmake
@@ -107,7 +112,9 @@ vcpkg_cmake_config_fixup()
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share")
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
 
-file(INSTALL "${SOURCE_PATH}/LICENSE" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}" RENAME copyright)
+file(INSTALL "${SOURCE_PATH}/LICENSE" 
+     DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}" 
+     RENAME copyright)
 ```
 
 {% end %}
