@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Check commits
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6
       with:
         script: await require(".github/scripts/lint-commits.js")
           .main(github, core, context)
