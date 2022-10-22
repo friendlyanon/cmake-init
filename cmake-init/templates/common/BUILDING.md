@@ -79,6 +79,14 @@ target_link_libraries(
     {= name =}::{= name =}
 )
 ```
+
+### Note to packagers
+
+The `CMAKE_INSTALL_INCLUDEDIR` is set to a path other than just `include` if
+the project is configured as a top level project to avoid indirectly including
+other libraries when installed to a common prefix. Please review the
+[install-rules.cmake](cmake/install-rules.cmake) file for the full set of
+install rules.
 {% end %}
 [1]: https://cmake.org/download/
 [2]: https://cmake.org/cmake/help/latest/manual/cmake.1.html#install-a-project{% if not exe %}
