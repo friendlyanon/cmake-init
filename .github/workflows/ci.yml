@@ -61,7 +61,12 @@ jobs:
 
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-latest'
-      run: sudo apt-get install clang-tidy cppcheck -y -q
+      run: >-
+        sudo apt-get install clang-tidy-12 cppcheck -y -q
+
+        sudo update-alternatives --install
+        /usr/bin/clang-tidy clang-tidy
+        /usr/bin/clang-tidy-12 120
 
     - uses: actions/setup-python@v4
       with: { python-version: "3.8" }
