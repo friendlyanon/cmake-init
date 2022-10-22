@@ -9,4 +9,5 @@ prefix/
 CMakeLists.txt.user
 CMakeUserPresets.json{% if conan %}
 conanbuildinfo.txt
-conaninfo.txt{% end %}
+conaninfo.txt
+graph_info.json{% end %}

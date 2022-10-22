@@ -87,7 +87,7 @@ jobs:
       working-directory: proj
       shell: bash
       run: |
-        pip3 install "conan<2,!=1.49.0"
+        pip3 install "conan<2"
         conan profile new default --detect
         if [ ${{ matrix.os }} = ubuntu-latest ]; then
           conan profile update settings.compiler.libcxx=libstdc++11 default
@@ -98,7 +98,7 @@ jobs:
       if: matrix.pm == 'vcpkg'
       uses: friendlyanon/setup-vcpkg@v1
       with:
-        committish: "4217fee510d4c592d3e45564d3ee116ae301189f"
+        committish: "94ce0dab56f4d8ba6bd631ba59ed682b02d45c46"
         cache-version: "1"
         ignore-reserve-cache-error: true
 
