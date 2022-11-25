@@ -14,7 +14,7 @@ env:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v3
@@ -35,7 +35,7 @@ jobs:
   coverage:
     needs: [lint]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     # To enable coverage, delete the last line from the conditional below and
     # edit the "<name>" placeholder to your GitHub name.
@@ -86,7 +86,7 @@ jobs:
   sanitize:
     needs: [lint]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v3{% if conan %}
@@ -128,7 +128,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-2022]{% if lib %}
+        os: [macos-12, ubuntu-22.04, windows-2022]{% if lib %}
 
         type: [shared, static]
 
@@ -159,7 +159,7 @@ jobs:
       run: |
         pip3 install "conan<2"
         conan profile new default --detect
-        if [ ${{ matrix.os }} = ubuntu-latest ]; then
+        if [ ${{ matrix.os }} = ubuntu-22.04 ]; then
           conan profile update settings.compiler.libcxx=libstdc++11 default
         fi
         conan install . -b missing{% elif vcpkg %}
@@ -191,7 +191,7 @@ jobs:
     # Deploy docs only when builds succeed
     needs: [sanitize, test]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     # To enable, first you have to create an orphaned gh-pages branch:
     #
