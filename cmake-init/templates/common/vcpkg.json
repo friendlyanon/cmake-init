@@ -26,5 +26,5 @@
   "overrides": [
     { "name": "catch2", "version": "2.13.9#1" }
   ],{% end %}
-  "builtin-baseline": "94ce0dab56f4d8ba6bd631ba59ed682b02d45c46"
+  "builtin-baseline": "62d01b70df227850b728f5050418b917ad6d2b32"
 }
