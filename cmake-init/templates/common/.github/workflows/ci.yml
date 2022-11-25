@@ -26,7 +26,7 @@ jobs:
       run: pip3 install codespell
 
     - name: Lint
-      run: cmake -D FORMAT_COMMAND=clang-format-12 -P cmake/lint.cmake
+      run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
 
     - name: Spell check
       if: always()
@@ -97,8 +97,8 @@ jobs:
 
     - name: Install dependencies
       run: pip3 install "conan<2"
-        && conan profile new default --detect
-        && cp .github/clang-12.profile ~/.conan/profiles/default
+        && conan profile new default
+        && cp .github/clang-14.profile "$(conan config home)/profiles/default"
         && conan install . -b missing{% elif vcpkg %}
 
     - name: Install vcpkg
@@ -106,7 +106,7 @@ jobs:
       with: { committish: "${{ env.VCPKG_COMMIT }}" }{% end %}
 
     - name: Configure
-      env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-12{% if c and pm %}, CXX: clang++-12{% end %} }
+      env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-14{% if c and pm %}, CXX: clang++-14{% end %} }
       run: cmake --preset=ci-sanitize
 
     - name: Build
@@ -142,13 +142,13 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install static analyzers
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-22.04'
       run: >-
-        sudo apt-get install clang-tidy-12 cppcheck -y -q
+        sudo apt-get install clang-tidy-14 cppcheck -y -q
 
         sudo update-alternatives --install
         /usr/bin/clang-tidy clang-tidy
-        /usr/bin/clang-tidy-12 120{% if conan %}
+        /usr/bin/clang-tidy-14 140{% if conan %}
 
     - name: Install Python
       uses: actions/setup-python@v4

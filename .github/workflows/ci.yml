@@ -62,11 +62,11 @@ jobs:
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-22.04'
       run: >-
-        sudo apt-get install clang-tidy-12 cppcheck -y -q
+        sudo apt-get install clang-tidy-14 cppcheck -y -q
 
         sudo update-alternatives --install
         /usr/bin/clang-tidy clang-tidy
-        /usr/bin/clang-tidy-12 120
+        /usr/bin/clang-tidy-14 140
 
     - uses: actions/setup-python@v4
       with: { python-version: "3.8" }
@@ -85,7 +85,7 @@ jobs:
     - name: Lint generated project
       if: matrix.os == 'ubuntu-22.04'
       working-directory: proj
-      run: cmake -D FORMAT_COMMAND=clang-format-12 -P cmake/lint.cmake
+      run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
 
     - name: Install Conan
       if: matrix.pm == 'conan'
