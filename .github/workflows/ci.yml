@@ -87,6 +87,12 @@ jobs:
       working-directory: proj
       run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
 
+    - name: Setup MultiToolTask
+      if: matrix.os == 'windows-2022'
+      run: |
+        Add-Content "$env:GITHUB_ENV" 'UseMultiToolTask=true'
+        Add-Content "$env:GITHUB_ENV" 'EnforceProcessCountAcrossBuilds=true'
+
     - name: Install Conan
       if: matrix.pm == 'conan'
       working-directory: proj

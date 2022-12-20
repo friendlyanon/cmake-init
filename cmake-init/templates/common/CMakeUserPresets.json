@@ -26,7 +26,11 @@
     {
       "name": "dev-win64",
       "binaryDir": "${sourceDir}/build/dev-win64",
-      "inherits": ["dev-common", "ci-win64"{% if vcpkg %}, "vcpkg-win64-static"{% end %}]
+      "inherits": ["dev-common", "ci-win64"{% if vcpkg %}, "vcpkg-win64-static"{% end %}],
+      "environment": {
+        "UseMultiToolTask": "true",
+        "EnforceProcessCountAcrossBuilds": "true"
+      }
     },
     {
       "name": "dev",

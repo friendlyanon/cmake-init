@@ -168,6 +168,12 @@ jobs:
       uses: friendlyanon/setup-vcpkg@v1
       with: { committish: "${{ env.VCPKG_COMMIT }}" }{% end %}
 
+    - name: Setup MultiToolTask
+      if: matrix.os == 'windows-2022'
+      run: |
+        Add-Content "$env:GITHUB_ENV" 'UseMultiToolTask=true'
+        Add-Content "$env:GITHUB_ENV" 'EnforceProcessCountAcrossBuilds=true'
+
     - name: Configure
       shell: pwsh
       run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"{% if lib %}
