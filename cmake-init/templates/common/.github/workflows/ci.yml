@@ -56,10 +56,11 @@ jobs:
       with: { python-version: "3.8" }
 
     - name: Install dependencies
-      run: pip3 install "conan<2"
-        && conan profile new default --detect
-        && conan profile update settings.compiler.libcxx=libstdc++11 default
-        && conan install . -b missing{% elif vcpkg %}
+      run: |
+        pip3 install "conan<2"
+        conan profile new default --detect
+        conan profile update settings.compiler.libcxx=libstdc++11 default
+        conan install . -b missing{% elif vcpkg %}
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
@@ -96,10 +97,11 @@ jobs:
       with: { python-version: "3.8" }
 
     - name: Install dependencies
-      run: pip3 install "conan<2"
-        && conan profile new default
-        && cp .github/clang-14.profile "$(conan config home)/profiles/default"
-        && conan install . -b missing{% elif vcpkg %}
+      run: |
+        pip3 install "conan<2"
+        conan profile new default
+        cp .github/clang-14.profile "$(conan config home)/profiles/default"
+        conan install . -b missing{% elif vcpkg %}
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
