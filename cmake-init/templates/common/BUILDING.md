@@ -4,6 +4,17 @@
 
 For a list of dependencies, please refer to {% if vcpkg %}[vcpkg.json](vcpkg.json){% else %}[conanfile.py](conanfile.py){% end %}.{% end %}
 
+{% if pm_name=="conan" %}
+### Installing Conan Dependencies
+From the project root, run the following command:
+
+```sh
+conan install . -sbuild_type=<BUILD_TYPE> --build=missing
+```
+
+Where `<BUILD_TYPE>` is either `Release` or `Debug`.
+{% end %}
+
 ## Build
 
 This project doesn't require any special command-line flags to build to keep
