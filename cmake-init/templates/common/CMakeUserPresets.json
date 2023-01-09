@@ -9,7 +9,25 @@
     {
       "name": "dev-common",
       "hidden": true,
-      "inherits": ["dev-mode"{% if pm %}, "{= pm_name =}"{% end %}{% if use_clang_tidy %}, "clang-tidy"{% end %}{% if use_cppcheck %}, "cppcheck"{% end %}],
+      "inherits": [
+        "dev-mode"{% if pm %},
+        "{= pm_name =}{% if pm_name=="conan" %}-dev{% end %}"{% end %}{% if use_clang_tidy %},
+        "clang-tidy"{% end %}{% if use_cppcheck %},
+        "cppcheck"{% end %}
+      ],
+      "cacheVariables": {
+        "BUILD_MCSS_DOCS": "ON"
+      }
+    },
+    {
+      "name": "rel-common",
+      "hidden": true,
+      "inherits": [
+        "ci-unix"{% if pm %},
+        "{= pm_name =}{% if pm_name=="conan" %}-rel{% end %}"{% end %}{% if use_clang_tidy %},
+        "clang-tidy"{% end %}{% if use_cppcheck %},
+        "cppcheck"{% end %}
+      ],
       "cacheVariables": {
         "BUILD_MCSS_DOCS": "ON"
       }
@@ -41,6 +59,15 @@
       "name": "dev-coverage",
       "binaryDir": "${sourceDir}/build/coverage",
       "inherits": ["dev-mode", "coverage-unix"{% if pm %}, "{= pm_name =}"{% end %}]
+    },
+    {
+      "name": "rel",
+      "binaryDir": "${sourceDir}/build/rel",
+      "inherits": "rel-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
     }
   ],
   "buildPresets": [

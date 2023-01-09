@@ -9,7 +9,10 @@ class Recipe(ConanFile):
     }{% end %}
 
     def layout(self):
-        self.folders.generators = "conan"
+        if (self.settings.build_type == "Release"):
+            self.folders.generators = "conan/release"
+        else:
+            self.folders.generators = "conan/debug"
 
     def requirements(self):{% if c %}{% if exe %}
         self.requires("hedley/15"){% end %}

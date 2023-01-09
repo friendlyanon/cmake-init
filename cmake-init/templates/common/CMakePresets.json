@@ -45,10 +45,18 @@
       }
     },{% end %}{% if conan %}
     {
-      "name": "conan",
+      "name": "conan-dev",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/conan_toolchain.cmake",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/debug/conan_toolchain.cmake",
+        "CMAKE_POLICY_DEFAULT_CMP0091": "NEW"
+      }
+    },
+    {
+      "name": "conan-rel",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/release/conan_toolchain.cmake",
         "CMAKE_POLICY_DEFAULT_CMP0091": "NEW"
       }
     },{% end %}
@@ -131,7 +139,11 @@
     },
     {
       "name": "ci-coverage",
-      "inherits": ["coverage-unix", "dev-mode"{% if pm %}, "{= pm_name =}"{% end %}],
+      "inherits": [
+        "coverage-unix",
+        "dev-mode"{% if pm %},
+        "{= pm_name =}{% if pm_name=="conan" %}-dev{% end %}"{% end %}
+      ],
       "cacheVariables": {
         "COVERAGE_HTML_COMMAND": ""
       }
@@ -139,7 +151,11 @@
     {
       "name": "ci-sanitize",
       "binaryDir": "${sourceDir}/build/sanitize",
-      "inherits": ["ci-unix", "dev-mode"{% if pm %}, "{= pm_name =}"{% end %}],
+      "inherits": [
+        "ci-unix",
+        "dev-mode"{% if pm %},
+        "{= pm_name =}{% if pm_name=="conan" %}-dev{% end %}"{% end %}
+      ],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Sanitize",
         "CMAKE_C{% if cpp %}XX{% end %}_FLAGS_SANITIZE": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"{% if c and pm %},
@@ -154,15 +170,32 @@
     },
     {
       "name": "ci-macos",
-      "inherits": ["ci-build", "ci-unix", "dev-mode"{% if pm %}, "{= pm_name =}"{% end %}]
+      "inherits": [
+        "ci-build",
+        "ci-unix",
+        "dev-mode"{% if pm %},
+        "{= pm_name =}{% if pm_name=="conan" %}-dev{% end %}"{% end %}
+      ]
     },
     {
       "name": "ci-ubuntu",
-      "inherits": ["ci-build", "ci-unix", "clang-tidy"{% if pm %}, "{= pm_name =}"{% end %}, "cppcheck", "dev-mode"]
+      "inherits": [
+        "ci-build",
+        "ci-unix",
+        "clang-tidy"{% if pm %},
+        "{= pm_name =}{% if pm_name=="conan" %}-dev{% end %}"{% end %},
+        "cppcheck",
+        "dev-mode"]
     },
     {
       "name": "ci-windows",
-      "inherits": ["ci-build", "ci-win64", "dev-mode"{% if pm %}, "{= pm_name =}"{% if vcpkg %}, "vcpkg-win64-static"{% end %}{% end %}]
+      "inherits": [
+        "ci-build",
+        "ci-win64",
+        "dev-mode"{% if pm %},
+        "{= pm_name =}{% if pm_name=="conan" %}-dev{% end %}"{% if vcpkg %},
+        "vcpkg-win64-static"{% end %}{% end %}
+      ]
     }
   ]
 }
