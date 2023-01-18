@@ -251,7 +251,7 @@ will. Specifically you can redistribute and/or modify it under the terms of the
 [GNU General Public License][3] as published by the Free Software Foundation,
 either version 3 of the License, or (at your option) any later version.
 
-The the contents of the directory `cmake-init/templates` are licensed using the
+The contents of the directory `cmake-init/templates` are licensed using the
 [Unlicense][29] license. See the license in that directory for further details.
 
 [1]: https://cmake.org/cmake/help/latest/module/FetchContent.html
