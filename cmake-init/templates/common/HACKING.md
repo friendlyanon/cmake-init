@@ -68,8 +68,9 @@ the project:
 ```
 
 You should replace `<os>` in your newly created presets file with the name of
-the operating system you have, which may be `win64` or `unix`. You can see what
-these correspond to in the [`CMakePresets.json`](CMakePresets.json) file.
+the operating system you have, which may be `win64`, `linux` or `darwin`. You
+can see what these correspond to in the
+[`CMakePresets.json`](CMakePresets.json) file.
 
 `CMakeUserPresets.json` is also the perfect place in which you can put all
 sorts of things that you would otherwise want to pass to the configure command

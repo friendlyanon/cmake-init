@@ -26,6 +26,7 @@ import argparse
 import contextlib
 import io
 import os
+import platform
 import re
 import subprocess
 import sys
@@ -104,6 +105,11 @@ def get_substitutes(cli_args, name):
         "s": "[s]tatic/shared",
     }
     lang = c_lang if cli_args.c else cpp_lang
+    os_map = {
+        "Windows": "win64",
+        "Linux": "linux",
+        "Darwin": "darwin",
+    }
 
     if not no_prompt:
         print(f"cmake-init is going to generate a {lang} project\n")
@@ -161,7 +167,7 @@ library."""
         "examples": False,
         "c_examples": False,
         "cpp_examples": False,
-        "os": "win64" if is_windows else "unix",
+        "os": os_map.get(platform.system(), "unknown"),
         "c": cli_args.c,
         "cpp": not cli_args.c,
         "c_header": False,
