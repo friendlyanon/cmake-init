@@ -16,15 +16,15 @@
     "test": {
       "description": "Dependencies for testing",
       "dependencies": [
-        {
+        {% if catch3 %}{
           "name": "catch2",
-          "version>=": {% if catch3 %}"3.2.1"{% else %}"2.13.9#1"{% end %}
-        }
+          "version>=": "3.3.1"
+        }{% else %}"catch2"{% end %}
       ]
     }
   },{% if not catch3 %}
   "overrides": [
     { "name": "catch2", "version": "2.13.9#1" }
   ],{% end %}
-  "builtin-baseline": "d40547583e959e3e25b3dc5b5adc52cabe5face9"
+  "builtin-baseline": "93895b28ea7bc8cda10f156c5d336f3fc070f8b1"
 }

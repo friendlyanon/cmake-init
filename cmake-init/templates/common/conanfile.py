@@ -17,5 +17,5 @@ class Recipe(ConanFile):
         self.requires("fmt/9.1.0"){% end %}
 
     def build_requirements(self):{% if catch3 %}
-        self.test_requires("catch2/3.2.1"){% else %}
+        self.test_requires("catch2/3.3.1"){% else %}
         self.test_requires("catch2/2.13.9"){% end %}
