@@ -105,6 +105,10 @@ jobs:
         fi
         conan install . -b missing
 
+    - name: Install pkg-config
+      if: matrix.pm == 'vcpkg' && matrix.os == 'macos-12'
+      run: brew install pkg-config
+
     - name: Install vcpkg
       if: matrix.pm == 'vcpkg'
       uses: friendlyanon/setup-vcpkg@v1
