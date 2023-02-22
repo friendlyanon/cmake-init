@@ -129,4 +129,4 @@ jobs:
       run: cmake --install proj/build --config Release --prefix proj/prefix
 
     - name: Test
-      run: ctest --test-dir proj/build -C Release
+      run: ctest --test-dir proj/build -C Release --no-tests=error

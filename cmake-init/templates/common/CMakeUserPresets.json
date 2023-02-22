@@ -69,7 +69,8 @@
         "outputOnFailure": true
       },
       "execution": {
-        "jobs": {= cpus =}
+        "jobs": {= cpus =},
+        "noTestsAction": "error"
       }
     }
   ]

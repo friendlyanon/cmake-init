@@ -74,7 +74,7 @@ jobs:
 
     - name: Test
       working-directory: build/coverage
-      run: ctest --output-on-failure -j 2
+      run: ctest --output-on-failure --no-tests=error -j 2
 
     - name: Process coverage info
       run: cmake --build build/coverage -t coverage
@@ -123,7 +123,7 @@ jobs:
           strict_init_order=1:\
           detect_leaks=1"
         UBSAN_OPTIONS: print_stacktrace=1
-      run: ctest --output-on-failure -j 2
+      run: ctest --output-on-failure --no-tests=error -j 2
 
   test:
     needs: [lint]
@@ -193,7 +193,7 @@ jobs:
 
     - name: Test
       working-directory: build
-      run: ctest --output-on-failure -C Release -j 2
+      run: ctest --output-on-failure --no-tests=error -C Release -j 2
 
   docs:
     # Deploy docs only when builds succeed
