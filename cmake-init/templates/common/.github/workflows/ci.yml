@@ -162,10 +162,6 @@ jobs:
         bash < .github/scripts/conan-profile.sh
         conan install . -b missing{% elif vcpkg %}
 
-    - name: Install pkg-config
-      if: matrix.os == 'macos-12'
-      run: brew install pkg-config
-
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
       with: { committish: "${{ env.VCPKG_COMMIT }}" }{% end %}
