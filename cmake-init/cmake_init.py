@@ -176,6 +176,8 @@ library."""
         "cpus": os.cpu_count(),
         "pm_name": "",
         "catch3": False,
+        "cpp_std": "",
+        "msvc_cpp_std": "",
     }
     package_manager = ask(
         "Package manager to use ([N]one/[c]onan/[v]cpkg)",
@@ -211,6 +213,13 @@ VCPKG_ROOT environment variable to be setup to vcpkg's root directory.""",
     d["lib"] = d["type_id"] == "s"
     d["header"] = d["type_id"] == "h"
     d["catch3"] = d["cpp"] and d["std"] != "11" and d["pm"]
+    if d["conan"]:
+        if d["c"]:
+            d["cpp_std"] = "11"
+            d["msvc_cpp_std"] = "14"
+        else:
+            d["cpp_std"] = d["std"]
+            d["msvc_cpp_std"] = d["std"] if d["std"] != "11" else "14"
     return d
 
 
@@ -231,13 +240,6 @@ def write_file(path, d, overwrite, zip_path):
             f.write(contents)
 
 
-def should_write_examples(d, at):
-    if d["c"]:
-        return d["c_examples"] if "/c/" in at else False
-    else:
-        return d["cpp_examples"]
-
-
 def should_install_file(name, d):
     if name == "vcpkg.json":
         return d["vcpkg"]
@@ -250,6 +252,17 @@ def should_install_file(name, d):
     if name == "header_impl.c":
         return d["c_header"] and d["pm"]
     if name == "clang-14.profile":
+        return d["conan"]
+    return True
+
+
+def should_install_dir(at, d):
+    if at.endswith("/example/"):
+        if d["c"]:
+            return d["c_examples"] if "/c/" in at else False
+        else:
+            return d["cpp_examples"]
+    if at.endswith("/scripts/"):
         return d["conan"]
     return True
 
@@ -267,7 +280,7 @@ def write_dir(path, d, overwrite, zip_path):
         if entry.is_file():
             if should_install_file(name, d):
                 write_file(transform_path(next_path, d), d, overwrite, entry)
-        elif name != "example" or should_write_examples(d, entry.at):
+        elif should_install_dir(entry.at, d):
             mkdir(next_path)
             write_dir(next_path, d, overwrite, entry)
 

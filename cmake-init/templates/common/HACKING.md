@@ -83,19 +83,20 @@ installing it, {% if vcpkg %}make sure the `VCPKG_ROOT` environment variable is 
 the directory where the vcpkg executable is. On Windows, you might also want
 to inherit from the `vcpkg-win64-static` preset, which will make vcpkg install
 the dependencies as static libraries. This is only necessary if you don't want
-to setup `PATH` to run tests.{% else %}download the dependencies and generate the necessary CMake
-files by running this command in the project root:
+to setup `PATH` to run tests.{% else %}make sure you have a [Conan profile][profile] setup, then
+download the dependencies and generate the necessary CMake files by running
+this command in the project root:
 
 ```sh
 conan install . -s build_type=Debug -b missing
 ```
 
-Note that if your conan profile does not specify the same compiler used by
-CMake, then that could potentially cause issues. See the [conan docs][profile]
-on profiles.{% end %}
+Note that if your conan profile does not specify the same compiler, standard
+level, build type and runtime library as CMake, then that could potentially
+cause issues. See the link above for profiles documentation.{% end %}
 
 [{= pm_name =}]: {% if vcpkg %}https://github.com/microsoft/vcpkg{% else %}https://conan.io/
-[profile]: https://docs.conan.io/en/latest/using_packages/using_profiles.html{% end %}{% end %}
+[profile]: https://docs.conan.io/2/reference/config_files/profiles.html{% end %}{% end %}
 
 ### Configure, build and test
 

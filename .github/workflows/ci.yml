@@ -98,11 +98,8 @@ jobs:
       working-directory: proj
       shell: bash
       run: |
-        pip3 install "conan<2"
-        conan profile new default --detect
-        if [ ${{ matrix.os }} = ubuntu-22.04 ]; then
-          conan profile update settings.compiler.libcxx=libstdc++11 default
-        fi
+        pip3 install conan
+        bash < .github/scripts/conan-profile.sh
         conan install . -b missing
 
     - name: Install pkg-config
