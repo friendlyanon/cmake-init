@@ -48,7 +48,7 @@ jobs:
 
     - name: Get version
       id: version
-      run: echo "::set-output name=version::$(python cmake-init.pyz --version)"
+      run: echo "version=$(python cmake-init.pyz --version)" >> $GITHUB_OUTPUT
 
     - name: Release
       uses: softprops/action-gh-release@v1
