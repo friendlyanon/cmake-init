@@ -6,6 +6,7 @@ cmake/open-cpp-coverage.cmake
 cmake-build-*/{% if conan %}
 conan/{% end %}
 prefix/
+.DS_Store
 CMakeLists.txt.user
 CMakeUserPresets.json{% if conan %}
 conanbuildinfo.txt
