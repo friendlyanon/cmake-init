@@ -2,13 +2,9 @@
 .vs/
 .vscode/
 build/
-cmake/open-cpp-coverage.cmake
 cmake-build-*/{% if conan %}
 conan/{% end %}
 prefix/
-.DS_Store
+**/.DS_Store
 CMakeLists.txt.user
-CMakeUserPresets.json{% if conan %}
-conanbuildinfo.txt
-conaninfo.txt
-graph_info.json{% end %}
+CMakeUserPresets.json
