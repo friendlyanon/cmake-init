@@ -301,6 +301,7 @@ def determine_git_version():
         git_version += [0] * (3 - len(git_version))
     return tuple(git_version)
 
+
 def git_init(cwd):
     git_version = determine_git_version()
     if git_version is None:
