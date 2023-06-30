@@ -1,3 +1,4 @@
+**/.DS_Store
 .idea/
 .vs/
 .vscode/
@@ -5,6 +6,7 @@ build/
 cmake-build-*/{% if conan %}
 conan/{% end %}
 prefix/
-**/.DS_Store
+.clangd
 CMakeLists.txt.user
 CMakeUserPresets.json
+compile_commands.json
