@@ -116,7 +116,7 @@ jobs:
         ${{ matrix.flag }}
 
     - name: Setup PATH
-      if: matrix.os == 'windows-2022' && matrix.pm != 'none'
+      if: matrix.os == 'windows-2022'
       run: Add-Content "$env:GITHUB_PATH" "$(Get-Location)\proj\build\Release"
 
     - name: Build

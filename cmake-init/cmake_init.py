@@ -253,6 +253,8 @@ def should_install_file(name, d):
         return d["c_header"] and d["pm"]
     if name == "clang-14.profile":
         return d["conan"]
+    if name == "env.ps1" or name == "env.bat":
+        return d["lib"] and not d["pm"]
     return True
 
 

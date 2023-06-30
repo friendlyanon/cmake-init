@@ -9,4 +9,6 @@ prefix/
 .clangd
 CMakeLists.txt.user
 CMakeUserPresets.json
-compile_commands.json
+compile_commands.json{% if lib and not pm %}
+env.bat
+env.ps1{% end %}

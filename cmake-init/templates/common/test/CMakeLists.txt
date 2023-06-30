@@ -5,8 +5,7 @@
 project({= name =}Tests LANGUAGES C{% if cpp or pm %}{% if c_header %} C{% end %}XX{% end %}){% if not exe %}
 
 include(../cmake/project-is-top-level.cmake)
-include(../cmake/folders.cmake){% if not pm %}
-include(../cmake/windows-set-path.cmake){% end %}
+include(../cmake/folders.cmake)
 
 # ---- Dependencies ----
 
@@ -39,8 +38,7 @@ target_link_libraries({% if pm %}
 target_compile_features({= name =}_test PRIVATE {% if c and pm %}{% if header %}c_std_{= std =} {% end %}cxx_std_11{% else %}c{% if cpp %}xx{% end %}_std_{= std =}{% end %})
 {% if pm %}
 catch_discover_tests({= name =}_test){% else %}
-add_test(NAME {= name =}_test COMMAND {= name =}_test){% if lib %}
-windows_set_path({= name =}_test {= name =}::{= name =}){% end %}{% end %}
+add_test(NAME {= name =}_test COMMAND {= name =}_test){% end %}
 
 # ---- End-of-file commands ----
 
