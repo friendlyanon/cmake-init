@@ -38,7 +38,7 @@
  * accessed by the members of the exported class itself.
  *
  * The name() method below returns a pointer to the stored null-terminated
- * string as a fundamental type (const char), so this is safe to use anywhere.
+ * string as a fundamental type (char const), so this is safe to use anywhere.
  * The only downside is that you can have dangling pointers if the pointer
  * outlives the class instance which stored the string.
  *
@@ -62,7 +62,7 @@ public:
   /**
    * @brief Returns a non-owning pointer to the string stored in this class
    */
-  auto name() const -> const char*;
+  auto name() const -> char const*;
 
 private:
   {= uc_name =}_SUPPRESS_C4251

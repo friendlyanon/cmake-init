@@ -6,14 +6,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const char json[] = "{\"name\":\"{= name =}\"}";{% end %}
+static char const json[] = "{\"name\":\"{= name =}\"}";{% end %}
 
-const char* exported_function()
+char const* exported_function()
 {{% if pm %}
   struct json_tokener* tokener = NULL;
   struct json_object* object = NULL;
   struct json_object* name_object = NULL;
-  const char* json_name = NULL;
+  char const* json_name = NULL;
   size_t name_size = 0;
   char* name = NULL;
 

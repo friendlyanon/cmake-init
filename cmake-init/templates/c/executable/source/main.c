@@ -3,7 +3,7 @@
 
 #include "lib.h"
 
-int main(int argc, const char* argv[])
+int main(int argc, char const* argv[])
 {
   struct library lib = create_library();
 

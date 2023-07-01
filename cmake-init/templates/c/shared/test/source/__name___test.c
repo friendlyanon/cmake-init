@@ -7,23 +7,27 @@
 
 {% end %}#include "{= name =}/{= name =}.h"
 {% if pm %}
+namespace {
+
 template<typename T>
-static void c_free(T* ptr)
+void c_free(T* ptr)
 {
   using U = typename std::remove_cv<T>::type;
   std::free(static_cast<void*>(const_cast<U*>(ptr)));
 }
 
+}
+
 TEST_CASE("Name is {= name =}", "[library]")
 {
-  using c_string_ptr = std::unique_ptr<const char, void(*)(const char*)>;
-  auto name_ptr = c_string_ptr(exported_function(), &c_free<const char>);
+  using c_string_ptr = std::unique_ptr<char const, void(*)(char const*)>;
+  auto name_ptr = c_string_ptr(exported_function(), &c_free<char const>);
 
   REQUIRE(std::string("{= name =}") == name_ptr.get());
 }{% else %}
 #include <string.h>
 
-int main(int argc, const char* argv[])
+int main(int argc, char const* argv[])
 {
   (void)argc;
   (void)argv;

@@ -16,14 +16,14 @@ static void c_free(T* ptr)
 
 TEST_CASE("Name is {= name =}", "[library]")
 {
-  using c_string_ptr = std::unique_ptr<const char, void(*)(const char*)>;
-  auto name_ptr = c_string_ptr(header_only_name(), &c_free<const char>);
+  using c_string_ptr = std::unique_ptr<char const, void(*)(char const*)>;
+  auto name_ptr = c_string_ptr(header_only_name(), &c_free<char const>);
 
   REQUIRE(std::string("{= name =}") == name_ptr.get());
 }{% else %}
 #include <string.h>
 
-int main(int argc, const char* argv[])
+int main(int argc, char const* argv[])
 {
   (void)argc;
   (void)argv;

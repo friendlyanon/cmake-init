@@ -15,7 +15,7 @@ TEST_CASE("Name is {= name =}", "[library]")
 
   REQUIRE(std::string("{= name =}") == lib.name);
 }{% else %}
-int main(int argc, const char* argv[])
+int main(int argc, char const* argv[])
 {
   struct library lib = create_library();
 

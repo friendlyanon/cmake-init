@@ -9,7 +9,7 @@ extern "C" {
 /**
  * @brief Reports the name of the library{% if pm %} that must be freed by the caller{% end %}
  */
-{= uc_name =}_EXPORT const char* exported_function(void);
+{= uc_name =}_EXPORT char const* exported_function(void);
 
 #ifdef __cplusplus
 }  // extern "C"
