@@ -7,11 +7,15 @@
 
 {% end %}#include "{= name =}/{= name =}.h"
 {% if pm %}
+namespace {
+
 template<typename T>
-static void c_free(T* ptr)
+void c_free(T* ptr)
 {
   using U = typename std::remove_cv<T>::type;
   std::free(static_cast<void*>(const_cast<U*>(ptr)));
+}
+
 }
 
 TEST_CASE("Name is {= name =}", "[library]")

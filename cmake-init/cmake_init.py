@@ -178,6 +178,7 @@ library."""
         "catch3": False,
         "cpp_std": "",
         "msvc_cpp_std": "",
+        "c99": False,
     }
     package_manager = ask(
         "Package manager to use ([N]one/[c]onan/[v]cpkg)",
@@ -220,6 +221,8 @@ VCPKG_ROOT environment variable to be setup to vcpkg's root directory.""",
         else:
             d["cpp_std"] = d["std"]
             d["msvc_cpp_std"] = d["std"] if d["std"] != "11" else "14"
+    if d["c"] and d["std"] != "90":
+        d["c99"] = True
     return d
 
 
