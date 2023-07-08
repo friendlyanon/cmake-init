@@ -1,6 +1,7 @@
 #pragma once{% if pm %}
 
 #ifdef {= uc_name =}_IMPLEMENTATION
+#  include <assert.h>
 #  include <json-c/json_object.h>
 #  include <json-c/json_tokener.h>
 #  include <stddef.h>
@@ -60,7 +61,9 @@ char const* header_only_name()
   (void)memcpy(name, json_name, name_size);
 
 cleanup_object:
-  (void)json_object_put(object);
+  if (json_object_put(object) != 1) {
+    assert(0);
+  }
 
 cleanup_tokener:
   json_tokener_free(tokener);

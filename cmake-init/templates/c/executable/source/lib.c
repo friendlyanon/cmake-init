@@ -1,5 +1,6 @@
 #include "lib.h"{% if pm %}
 
+#include <assert.h>
 #include <hedley.h>
 #include <json-c/json_object.h>
 #include <json-c/json_tokener.h>
@@ -49,7 +50,9 @@ struct library create_library()
   (void)memcpy(name, json_name, name_size);
 
 cleanup_object:
-  (void)json_object_put(object);
+  if (json_object_put(object) != 1) {
+    assert(0);
+  }
 
 cleanup_tokener:
   json_tokener_free(tokener);
