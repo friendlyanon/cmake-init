@@ -5,17 +5,28 @@
 
 int main(int argc, char const* argv[])
 {
-  struct library lib = create_library();
+  struct library lib = create_library();{% if pm %}
+  int result = 0;{% end %}
 
   (void)argc;
   (void)argv;
-{% if not pm %}
-  (void)printf("Hello from %s!", lib.name);{% else %}
+{% if pm %}
   if (lib.name == NULL) {
-    (void)puts("Hello from unknown! (JSON parsing failed in library)");
+    if (puts("Hello from unknown! (JSON parsing failed in library)") == EOF) {
+      result = 1;
+    }
   } else {
-    (void)printf("Hello from %s!", lib.name);
+    if (printf("Hello from %s!", lib.name) < 0) {
+      result = 1;
+    }
   }
-  destroy_library(&lib);{% end %}
+
+  destroy_library(&lib);
+  return result;
+{% else %}
+  if (printf("Hello from %s!", lib.name) < 0) {
+    return 1;
+  }
+
   return 0;
-}
+{% end %}}
