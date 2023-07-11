@@ -5,7 +5,6 @@
 #include <json-c/json_object.h>
 #include <json-c/json_tokener.h>
 #include <limits.h>
-#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
