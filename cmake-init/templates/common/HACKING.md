@@ -74,7 +74,18 @@ can see what these correspond to in the
 
 `CMakeUserPresets.json` is also the perfect place in which you can put all
 sorts of things that you would otherwise want to pass to the configure command
-in the terminal.{% if pm %}
+in the terminal.
+
+> **Note**
+> Some editors are pretty greedy with how they open projects with presets.
+> Some just randomly pick a preset and start configuring without your consent,
+> which can be confusing. Make sure that your editor configures when you
+> actually want it to, for example in CLion you have to make sure only the
+> `dev-dev preset` has `Enable profile` ticked in
+> `File > Settings... > Build, Execution, Deployment > CMake` and in Visual
+> Studio you have to set the option `Never run configure step automatically`
+> in `Tools > Options > CMake` **prior to opening the project**, after which
+> you can manually configure using `Project > Configure Cache`.{% if pm %}
 
 ### Dependency manager
 
