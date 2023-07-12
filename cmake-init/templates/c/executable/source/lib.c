@@ -4,7 +4,6 @@
 #include <hedley.h>
 #include <json-c/json_object.h>
 #include <json-c/json_tokener.h>
-#include <limits.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -36,16 +35,12 @@ struct library create_library()
     goto cleanup_object;
   }
 
-  {% if c99 %}int {% end %}name_size = json_object_get_string_len(name_object);
-  if (name_size == INT_MAX) {
-    goto cleanup_object;
-  }
-
   {% if c99 %}char const* {% end %}json_name = json_object_get_string(name_object);
   if (json_name == NULL) {
     goto cleanup_object;
   }
 
+  {% if c99 %}int {% end %}name_size = json_object_get_string_len(name_object);
   name = malloc((size_t)name_size + 1);
   if (name == NULL) {
     goto cleanup_object;
