@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @brief Simply initializes the name member to the name of the project
+ * @brief Contains the name of the project
  */
 struct library {
   char const* name;

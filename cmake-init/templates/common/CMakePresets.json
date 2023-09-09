@@ -85,7 +85,7 @@
       "name": "flags-linux",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C{% if cpp %}XX{% end %}_FLAGS": "-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fcf-protection=full -fstack-clash-protection -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough {% if c %}-Werror=strict-prototypes -Wwrite-strings{% else %}-Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast{% end %}",{% if c and pm %}
+        "CMAKE_C{% if cpp %}XX{% end %}_FLAGS": "-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fcf-protection=full -fstack-clash-protection -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough {% if c %}-Werror=strict-prototypes -Wwrite-strings{% if c90 %} -Werror=declaration-after-statement{% end %}{% else %}-Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast{% end %}",{% if c and pm %}
         "CMAKE_CXX_FLAGS": "-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fcf-protection=full -fstack-clash-protection -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast",{% end %}
         "CMAKE_EXE_LINKER_FLAGS": "-Wl,--allow-shlib-undefined,--as-needed,-z,noexecstack,-z,relro,-z,now",
         "CMAKE_SHARED_LINKER_FLAGS": "-Wl,--allow-shlib-undefined,--as-needed,-z,noexecstack,-z,relro,-z,now"
@@ -95,7 +95,7 @@
       "name": "flags-darwin",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C{% if cpp %}XX{% end %}_FLAGS": "-fstack-protector-strong -fcf-protection=full -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough {% if c %}-Werror=strict-prototypes -Wwrite-strings{% else %}-Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast{% end %}"{% if c and pm %},
+        "CMAKE_C{% if cpp %}XX{% end %}_FLAGS": "-fstack-protector-strong -fcf-protection=full -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough {% if c %}-Werror=strict-prototypes -Wwrite-strings{% if c90 %} -Werror=declaration-after-statement{% end %}{% else %}-Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast{% end %}"{% if c and pm %},
         "CMAKE_CXX_FLAGS": "-fstack-protector-strong -fcf-protection=full -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast"{% end %}
       }
     },
