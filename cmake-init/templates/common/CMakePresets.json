@@ -82,7 +82,8 @@
       }
     },
     {
-      "name": "flags-linux",
+      "name": "flags-gcc-clang",
+      "description": "These flags are supported by both GCC and Clang",
       "hidden": true,
       "cacheVariables": {
         "CMAKE_C{% if cpp %}XX{% end %}_FLAGS": "-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fcf-protection=full -fstack-clash-protection -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough {% if c %}-Werror=strict-prototypes -Wwrite-strings{% if c90 %} -Werror=declaration-after-statement{% end %}{% else %}-Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast{% end %}",{% if c and pm %}
@@ -92,7 +93,7 @@
       }
     },
     {
-      "name": "flags-darwin",
+      "name": "flags-appleclang",
       "hidden": true,
       "cacheVariables": {
         "CMAKE_C{% if cpp %}XX{% end %}_FLAGS": "-fstack-protector-strong -fcf-protection=full -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough {% if c %}-Werror=strict-prototypes -Wwrite-strings{% if c90 %} -Werror=declaration-after-statement{% end %}{% else %}-Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast{% end %}"{% if c and pm %},
@@ -100,7 +101,7 @@
       }
     },
     {
-      "name": "flags-windows",
+      "name": "flags-msvc",
       "description": "Note that all the flags after /W4 are required for MSVC to conform to the language standard",
       "hidden": true,
       "cacheVariables": {
@@ -114,7 +115,7 @@
       "name": "ci-linux",
       "generator": "Unix Makefiles",
       "hidden": true,
-      "inherits": ["flags-linux", "ci-std"],
+      "inherits": ["flags-gcc-clang", "ci-std"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
@@ -123,14 +124,14 @@
       "name": "ci-darwin",
       "generator": "Unix Makefiles",
       "hidden": true,
-      "inherits": ["flags-darwin", "ci-std"],
+      "inherits": ["flags-appleclang", "ci-std"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
       "name": "ci-win64",
-      "inherits": ["flags-windows", "ci-std"],
+      "inherits": ["flags-msvc", "ci-std"],
       "generator": "Visual Studio 17 2022",
       "architecture": "x64",
       "hidden": true
@@ -163,8 +164,8 @@
       "inherits": ["ci-linux", "dev-mode"{% if pm %}, "{= pm_name =}"{% end %}],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Sanitize",
-        "CMAKE_C{% if cpp %}XX{% end %}_FLAGS_SANITIZE": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"{% if c and pm %},
-        "CMAKE_CXX_FLAGS_SANITIZE": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"{% end %}{% if pm %},
+        "CMAKE_C{% if cpp %}XX{% end %}_FLAGS_SANITIZE": "-U_FORTIFY_SOURCE -O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"{% if c and pm %},
+        "CMAKE_CXX_FLAGS_SANITIZE": "-U_FORTIFY_SOURCE -O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common"{% end %}{% if pm %},
         "CMAKE_MAP_IMPORTED_CONFIG_SANITIZE": "Sanitize;RelWithDebInfo;Release;Debug;"{% end %}
       }
     },
