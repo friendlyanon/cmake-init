@@ -131,6 +131,12 @@ https://semver.org/ for more information."""
         ),
         "description": ask(*(["Short description"] * 2)),
         "homepage": ask("Homepage URL ({})", "https://example.com/"),
+        "std": ask(
+            "{} standard ({})".format(lang, "/".join(lang.options)),
+            cli_args.std or lang.default,
+            predicate=lambda v: v in lang.options,
+            header=f"{lang} standard to use. Defaults to {lang.default}.",
+        ),
         "type_id": ask(
             "Target type ({})".format(
                 " or ".join([type_map[t] for t in lang.types])
@@ -143,12 +149,6 @@ Type of the target this project provides. A static/shared library will be set
 up to hide every symbol by default (as it should) and use an export header to
 explicitly mark symbols for export/import, but only when built as a shared
 library."""
-        ),
-        "std": ask(
-            "{} standard ({})".format(lang, "/".join(lang.options)),
-            cli_args.std or lang.default,
-            predicate=lambda v: v in lang.options,
-            header=f"{lang} standard to use. Defaults to {lang.default}.",
         ),
         "use_clang_tidy": ask(
             "Add clang-tidy to local dev preset ([Y]es/[n]o)",
@@ -180,6 +180,7 @@ library."""
         "msvc_cpp_std": "",
         "c90": False,
         "c99": False,
+        "modules": False,
     }
     package_manager = ask(
         "Package manager to use ([N]one/[c]onan/[v]cpkg)",
@@ -227,6 +228,9 @@ VCPKG_ROOT environment variable to be setup to vcpkg's root directory.""",
             d["c90"] = True
         else:
             d["c99"] = True
+    else:
+        if d["std"] == "20":
+            d["modules"] = True
     return d
 
 
