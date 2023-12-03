@@ -91,10 +91,7 @@ jobs:
       if: matrix.pm == 'conan'
       working-directory: proj
       shell: bash
-      run: |
-        pip3 install conan
-        bash < .github/scripts/conan-profile.sh
-        conan install . -b missing
+      run: bash < .github/scripts/conan-ci-setup.sh
 
     - name: Install vcpkg
       if: matrix.pm == 'vcpkg'

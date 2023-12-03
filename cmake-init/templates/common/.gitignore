@@ -9,6 +9,7 @@ prefix/
 .clangd
 CMakeLists.txt.user
 CMakeUserPresets.json
-compile_commands.json{% if lib and not pm %}
+compile_commands.json{% if conan %}
+conan_cache_*.tgz{% end %}{% if lib and not pm %}
 env.bat
 env.ps1{% end %}

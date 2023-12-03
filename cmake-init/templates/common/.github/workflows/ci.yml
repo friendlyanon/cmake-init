@@ -55,11 +55,14 @@ jobs:
       uses: actions/setup-python@v4
       with: { python-version: "3.8" }
 
+    - name: Conan cache
+      uses: actions/cache@v3
+      with:
+        path: conan_cache_save.tgz
+        key: conan-coverage-${{ hashFiles('conan*.[pl][yo]*') }}
+
     - name: Install dependencies
-      run: |
-        pip3 install conan
-        bash < .github/scripts/conan-profile.sh
-        conan install . -b missing{% elif vcpkg %}
+      run: bash < .github/scripts/conan-ci-setup.sh{% elif vcpkg %}
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
@@ -97,11 +100,14 @@ jobs:
       uses: actions/setup-python@v4
       with: { python-version: "3.8" }
 
+    - name: Conan cache
+      uses: actions/cache@v3
+      with:
+        path: conan_cache_save.tgz
+        key: conan-sanitize-${{ hashFiles('conan*.[pl][yo]*') }}
+
     - name: Install dependencies
-      run: |
-        pip3 install conan
-        bash < .github/scripts/conan-profile.sh
-        conan install . -b missing{% elif vcpkg %}
+      run: bash < .github/scripts/conan-ci-setup.sh{% elif vcpkg %}
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
@@ -155,12 +161,15 @@ jobs:
       uses: actions/setup-python@v4
       with: { python-version: "3.8" }
 
+    - name: Conan cache
+      uses: actions/cache@v3
+      with:
+        path: conan_cache_save.tgz
+        key: conan-${{ matrix.os }}-${{ hashFiles('conan*.[pl][yo]*') }}
+
     - name: Install dependencies
       shell: bash
-      run: |
-        pip3 install conan
-        bash < .github/scripts/conan-profile.sh
-        conan install . -b missing{% elif vcpkg %}
+      run: bash < .github/scripts/conan-ci-setup.sh{% elif vcpkg %}
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
