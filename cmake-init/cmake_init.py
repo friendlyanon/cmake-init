@@ -50,9 +50,9 @@ class Language:
         return self.name
 
 
-c_lang = Language("C", ["e", "s", "h"], ["90", "99", "11"], 1)
+c_lang = Language("C", ["e", "s", "h"], ["90", "99", "11", "23"], 1)
 
-cpp_lang = Language("C++", ["e", "h", "s"], ["11", "14", "17", "20"], 2)
+cpp_lang = Language("C++", ["e", "h", "s"], ["11", "14", "17", "20", "23"], 2)
 
 
 def not_empty(value):
