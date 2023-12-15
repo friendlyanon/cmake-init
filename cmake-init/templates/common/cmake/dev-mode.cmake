@@ -1,5 +1,6 @@
 include(cmake/folders.cmake)
 
+set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED 1)
 include(CTest)
 if(BUILD_TESTING)
   add_subdirectory(test)
