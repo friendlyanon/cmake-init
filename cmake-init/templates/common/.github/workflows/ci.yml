@@ -3,11 +3,11 @@ name: Continuous Integration
 on:
   push:
     branches:
-    - master
+    - main
 
   pull_request:
     branches:
-    - master{% if vcpkg %}
+    - main{% if vcpkg %}
 
 env:
   VCPKG_COMMIT: "16ee2ecb31788c336ace8bb14c21801efb6836e4"{% end %}
@@ -217,7 +217,7 @@ jobs:
     # this comment and the last line in the conditional below.
     # If you do not wish to use GitHub Pages for deploying documentation, then
     # simply delete this job similarly to the coverage one.
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
       && github.event_name == 'push'
       && github.repository_owner == '<name>'
       && false

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$(git branch --show-current)" = master ]; then
+if [ "$(git branch --show-current)" = main ]; then
   MAIN=cmake-init/cmake_init.py
   VERSION="v$(grep -oP '^__version__ = "\K\d(\.\d+){2}' "${MAIN}")"
   if [ -n "$(git ls-remote --tags origin "${VERSION}")" ]; then

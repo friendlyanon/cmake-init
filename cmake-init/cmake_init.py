@@ -320,7 +320,7 @@ def git_init(cwd):
         return
     branch = ""
     if (2, 28, 0) <= git_version:
-        branch = " -b master"
+        branch = " -b main"
     subprocess.run(f"git init{branch}", shell=True, check=True, cwd=cwd)
     print("""
 The project is ready to be used with git. If you are using GitHub, you may
@@ -329,7 +329,7 @@ push the project with the following commands from the project directory:
     git add .
     git commit -m "Initial commit"
     git remote add origin https://github.com/<your-account>/<repository>.git
-    git push -u origin master
+    git push -u origin main
 """)
 
 
