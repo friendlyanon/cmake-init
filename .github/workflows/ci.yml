@@ -57,7 +57,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-22.04'

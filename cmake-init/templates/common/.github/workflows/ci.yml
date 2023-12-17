@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - uses: actions/setup-python@v4
       with: { python-version: "3.8" }
@@ -45,7 +45,7 @@ jobs:
       && false
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install LCov
       run: sudo apt-get update -q
@@ -94,7 +94,7 @@ jobs:
     env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-14{% if c and pm %}, CXX: clang++-14{% end %} }
 
     steps:
-    - uses: actions/checkout@v3{% if conan %}
+    - uses: actions/checkout@v4{% if conan %}
 
     - name: Install Python
       uses: actions/setup-python@v4
@@ -146,7 +146,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-22.04'
@@ -223,7 +223,7 @@ jobs:
       && false
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - uses: actions/setup-python@v4
       with: { python-version: "3.8" }
