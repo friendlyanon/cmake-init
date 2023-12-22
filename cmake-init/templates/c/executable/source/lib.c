@@ -9,7 +9,7 @@
 
 static char const json[] = "{\"name\":\"{= name =}\"}";{% end %}
 
-struct library create_library()
+struct library create_library(void)
 {
   struct library lib = {% if pm %}{NULL};{% if not c99 %}
   struct json_tokener* tokener = NULL;

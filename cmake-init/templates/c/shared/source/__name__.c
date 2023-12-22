@@ -8,7 +8,7 @@
 
 static char const json[] = "{\"name\":\"{= name =}\"}";{% end %}
 
-char const* exported_function()
+char const* exported_function(void)
 {{% if pm %}{% if not c99 %}
   struct json_tokener* tokener = NULL;
   struct json_object* object = NULL;

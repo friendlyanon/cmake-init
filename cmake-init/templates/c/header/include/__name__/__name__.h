@@ -21,7 +21,7 @@ char const* header_only_name(void);
 {% if pm %}
 static char const json[] = "{\"name\":\"{= name =}\"}";
 {% end %}
-char const* header_only_name()
+char const* header_only_name(void)
 {{% if pm %}{% if not c99 %}
   struct json_tokener* tokener = NULL;
   struct json_object* object = NULL;
