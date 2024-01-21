@@ -1,10 +1,10 @@
 {% if exe %}# Parent project does not export its library target, so this CML implicitly
 # depends on being added from it, i.e. the testing is done only from the build
-# tree and is not feasible from an install location{% else %}cmake_minimum_required(VERSION 3.14){% end %}
+# tree and is not feasible from an install location{% else %}cmake_minimum_required(VERSION 3.{% if cmake_321 %}21{% else %}14{% end %}){% end %}
 
 project({= name =}Tests LANGUAGES C{% if cpp or pm %}{% if c_header %} C{% end %}XX{% end %}){% if not exe %}
-
-include(../cmake/project-is-top-level.cmake)
+{% if not cmake_321 %}
+include(../cmake/project-is-top-level.cmake){% end %}
 include(../cmake/folders.cmake)
 
 # ---- Dependencies ----

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.{% if cmake_321 %}21{% else %}14{% end %})
 
 macro(default name)
   if(NOT DEFINED "${name}")
@@ -48,6 +48,6 @@ endforeach()
 
 if(NOT badly_formatted STREQUAL "")
   list(JOIN badly_formatted "\n" bad_list)
-  message("The following files are badly formatted:\n\n${bad_list}\n")
+  message({% if cmake_321 %}NOTICE {% end %}"The following files are badly formatted:\n\n${bad_list}\n")
   message(FATAL_ERROR "Run again with FIX=YES to fix these files.")
 endif()

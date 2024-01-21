@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.{% if cmake_321 %}21{% else %}14{% end %})
 
 include(cmake/prelude.cmake)
 
@@ -9,8 +9,8 @@ project(
     HOMEPAGE_URL "{= homepage =}"
     LANGUAGES C
 )
-
-include(cmake/project-is-top-level.cmake)
+{% if not cmake_321 %}
+include(cmake/project-is-top-level.cmake){% end %}
 include(cmake/variables.cmake)
 
 # ---- Declare library ----
@@ -33,10 +33,10 @@ target_link_libraries({= name =}_lib PRIVATE json-c::json-c)
 
 # Unfortunately, hedley provides no CMake package to be found trivially using
 # find_package, so it has to be found manually
-find_path(HEDLEY_INCLUDE_DIR hedley.h)
+find_path(HEDLEY_INCLUDE_DIR hedley.h{% if cmake_321 %} REQUIRED){% else %})
 if(NOT HEDLEY_INCLUDE_DIR)
   message(FATAL_ERROR "Couldn't find hedley.h (${HEDLEY_INCLUDE_DIR})")
-endif()
+endif(){% end %}
 target_include_directories(
     {= name =}_lib SYSTEM
     PRIVATE "${HEDLEY_INCLUDE_DIR}"

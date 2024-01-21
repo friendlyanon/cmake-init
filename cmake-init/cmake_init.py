@@ -50,7 +50,7 @@ class Language:
         return self.name
 
 
-c_lang = Language("C", ["e", "s", "h"], ["90", "99", "11"], 1)
+c_lang = Language("C", ["e", "s", "h"], ["90", "99", "11", "17", "23"], 1)
 
 cpp_lang = Language("C++", ["e", "h", "s"], ["11", "14", "17", "20"], 2)
 
@@ -180,6 +180,7 @@ library."""
         "msvc_cpp_std": "",
         "c90": False,
         "c99": False,
+        "cmake_321": False,
         "modules": False,
     }
     package_manager = ask(
@@ -231,6 +232,8 @@ VCPKG_ROOT environment variable to be setup to vcpkg's root directory.""",
     else:
         if d["std"] == "20":
             d["modules"] = True
+    if d["c"] and int(d["std"]) >= 17:
+        d["cmake_321"] = True
     return d
 
 
@@ -252,6 +255,8 @@ def write_file(path, d, overwrite, zip_path):
 
 
 def should_install_file(name, d):
+    if name == "project-is-top-level.cmake":
+        return not d["cmake_321"]
     if name == "vcpkg.json":
         return d["vcpkg"]
     if name == "conanfile.py":

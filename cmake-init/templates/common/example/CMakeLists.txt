@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.{% if cmake_321 %}21{% else %}14{% end %})
 
 project({= name =}Examples CXX)
-
-include(../cmake/project-is-top-level.cmake)
+{% if not cmake_321 %}
+include(../cmake/project-is-top-level.cmake){% end %}
 include(../cmake/folders.cmake)
 
 if(PROJECT_IS_TOP_LEVEL)

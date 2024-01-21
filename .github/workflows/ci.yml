@@ -36,7 +36,7 @@ jobs:
       fail-fast: false
 
       matrix:
-        job: [1, 2, 3, 4, 5, 6, 7, 8]
+        job: [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
         pm: [none, conan, vcpkg]
 
@@ -51,6 +51,7 @@ jobs:
         - { job: 6, type: "--c -s --examples", name: "Library (C): static", flag: "" }
         - { job: 7, type: "--c -h --examples", name: "Library (C): header-only", flag: "" }
         - { job: 8, type: "--c -e", name: "Executable (C)", flag: "" }
+        - { job: 9, type: "--c --std 17 -e", name: "Executable (C17)", flag: "" }
 
     name: "${{ matrix.name }} (${{ matrix.os }}) (PM: ${{ matrix.pm }})"
 

@@ -30,21 +30,21 @@ cmake --build build --config Release
 Note that MSVC by default is not standards compliant and you need to pass some
 flags to make it behave properly. See the `flags-windows` preset in the
 [CMakePresets.json](CMakePresets.json) file for the flags and with what
-variable to provide them to CMake during configuration.
+variable to provide them to CMake during configuration.{% if not cmake_321 %}
 
 ### Building on Apple Silicon
 
 CMake supports building on Apple Silicon properly since 3.20.1. Make sure you
-have the [latest version][1] installed.
+have the [latest version][1] installed.{% end %}
 
 ## Install
 
 This project doesn't require any special command-line flags to install to keep
 things simple. As a prerequisite, the project has to be built with the above
-commands already.
+commands already.{% if not cmake_321 %}
 
 The below commands require at least CMake 3.15 to run, because that is the
-version in which [Install a Project][2] was added.
+version in which [Install a Project][2] was added.{% end %}
 
 Here is the command for installing the release mode artifacts with a
 single-configuration generator, like the Unix Makefiles one:
@@ -87,7 +87,7 @@ the project is configured as a top level project to avoid indirectly including
 other libraries when installed to a common prefix. Please review the
 [install-rules.cmake](cmake/install-rules.cmake) file for the full set of
 install rules.
-{% end %}
+{% end %}{% if not cmake_321 %}
 [1]: https://cmake.org/download/
-[2]: https://cmake.org/cmake/help/latest/manual/cmake.1.html#install-a-project{% if not exe %}
+[2]: https://cmake.org/cmake/help/latest/manual/cmake.1.html#install-a-project{% end %}{% if not exe %}
 [3]: https://cmake.org/cmake/help/latest/command/find_package.html{% end %}
