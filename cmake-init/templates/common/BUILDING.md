@@ -28,7 +28,7 @@ cmake --build build --config Release
 ### Building with MSVC
 
 Note that MSVC by default is not standards compliant and you need to pass some
-flags to make it behave properly. See the `flags-windows` preset in the
+flags to make it behave properly. See the `flags-msvc` preset in the
 [CMakePresets.json](CMakePresets.json) file for the flags and with what
 variable to provide them to CMake during configuration.{% if not cmake_321 %}
 
