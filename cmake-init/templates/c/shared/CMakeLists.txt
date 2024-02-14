@@ -44,13 +44,13 @@ set_target_properties(
 target_include_directories(
     {= name =}_{= name =} ${warning_guard}
     PUBLIC
-    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+    "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
 
 target_include_directories(
     {= name =}_{= name =} SYSTEM
     PUBLIC
-    "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
+    "\$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
 )
 
 target_compile_features({= name =}_{= name =} PUBLIC c_std_{= std =}){% if pm %}

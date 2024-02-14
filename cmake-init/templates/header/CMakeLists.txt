@@ -26,7 +26,7 @@ set_property(
 target_include_directories(
     {= name =}_{= name =} ${warning_guard}
     INTERFACE
-    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+    "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
 
 target_compile_features({= name =}_{= name =} INTERFACE cxx_std_{= std =}){% if pm %}
