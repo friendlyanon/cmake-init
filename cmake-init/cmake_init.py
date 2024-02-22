@@ -32,7 +32,7 @@ import subprocess
 import sys
 import zipfile
 
-__version__ = "0.40.1"
+__version__ = "0.40.2"
 
 is_windows = os.name == "nt"
 
