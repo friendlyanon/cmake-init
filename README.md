@@ -93,7 +93,7 @@ libraries! (Part 2)](https://www.youtube.com/watch?v=_5weX5mx8hc)
 Make sure you have these programs installed:
 
 * Python 3.8 or newer
-* CMake 3.20 or newer
+* CMake 3.20 or newer (3.21 or newer for C17 or newer projects)
 * git
 * [clang-tidy 14](#clang-tidy) (optional)
 * [cppcheck](#cppcheck) (optional)

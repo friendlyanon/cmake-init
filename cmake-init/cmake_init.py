@@ -366,13 +366,14 @@ def create(args, zip):
     for zip_path in (f"templates/{p}" for p in zip_paths):
         write_dir(path, d, args.overwrite, zipfile.Path(zip, zip_path))
     git_init(path)
-    print("""\
+    cmake_version = "3.21" if d["cmake_321"] else "3.20"
+    print(f"""\
 To get started with developing the project, make sure you read the generated
 HACKING.md and BUILDING.md files for how to build the project as a developer or
 as a user respectively. There are also some details you may want to fill in in
 the README.md, CONTRIBUTING.md and .github/workflows/ci.yml files.
 
-Now make sure you have at least CMake 3.20 installed for local development, to
+Now make sure you have at least CMake {cmake_version} installed for local development, to
 make use of all the nice Quality-of-Life improvements in newer releases:
 https://cmake.org/download/
 
