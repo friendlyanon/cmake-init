@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
       with: { python-version: "3.8" }
 
     - name: Install codespell
@@ -52,11 +52,11 @@ jobs:
         && sudo apt-get install lcov -q -y{% if conan %}
 
     - name: Install Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with: { python-version: "3.8" }
 
     - name: Conan cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: conan_cache_save.tgz
         key: conan-coverage-${{ hashFiles('conan*.[pl][yo]*') }}
@@ -82,7 +82,7 @@ jobs:
       run: cmake --build build/coverage -t coverage
 
     - name: Submit to codecov.io
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         file: build/coverage/coverage.info
 
@@ -97,11 +97,11 @@ jobs:
     - uses: actions/checkout@v4{% if conan %}
 
     - name: Install Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with: { python-version: "3.8" }
 
     - name: Conan cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: conan_cache_save.tgz
         key: conan-sanitize-${{ hashFiles('conan*.[pl][yo]*') }}
@@ -158,11 +158,11 @@ jobs:
         /usr/bin/clang-tidy-14 140{% if conan %}
 
     - name: Install Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with: { python-version: "3.8" }
 
     - name: Conan cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: conan_cache_save.tgz
         key: conan-${{ matrix.os }}-${{ hashFiles('conan*.[pl][yo]*') }}
@@ -225,7 +225,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
       with: { python-version: "3.8" }
 
     - name: Install m.css dependencies
