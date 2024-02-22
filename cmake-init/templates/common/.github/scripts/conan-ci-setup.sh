@@ -4,7 +4,7 @@ PS4='\033[1;34m>>>\033[0m '
 
 set -xeu
 
-pip3 install conan
+pip3 install conan!=2.1.0
 
 conan profile detect -f
 
