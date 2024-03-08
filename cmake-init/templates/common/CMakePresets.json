@@ -48,7 +48,7 @@
       "name": "conan",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/generators/conan_toolchain.cmake"{% if not cmake_321 %},
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/conan_toolchain.cmake"{% if not cmake_321 %},
         "CMAKE_POLICY_DEFAULT_CMP0091": "NEW"{% end %}
       }
     },{% end %}

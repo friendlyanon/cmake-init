@@ -259,7 +259,7 @@ def should_install_file(name, d):
         return not d["cmake_321"]
     if name == "vcpkg.json":
         return d["vcpkg"]
-    if name == "conanfile.txt":
+    if name == "conanfile.py":
         return d["conan"]
     if name == "install-config.cmake":
         return not d["exe"]

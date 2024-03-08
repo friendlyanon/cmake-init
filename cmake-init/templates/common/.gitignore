@@ -3,7 +3,8 @@
 .vs/
 .vscode/
 build/
-cmake-build-*/
+cmake-build-*/{% if conan %}
+conan/{% end %}
 prefix/
 .clangd
 CMakeLists.txt.user
