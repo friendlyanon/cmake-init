@@ -8,11 +8,11 @@ pip3 install conan!=2.1.0
 
 conan profile detect -f
 
-std={= cpp_std =}
+std={= cpp_std =}{% if cpp_std != msvc_cpp_std %}
 if [ "$RUNNER_OS" = Windows ]; then
   std={= msvc_cpp_std =}
 fi
-
+{% end %}
 profile="$(conan profile path default)"
 
 mv "$profile" "${profile}.bak"
