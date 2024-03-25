@@ -26,11 +26,7 @@
     {
       "name": "dev-darwin",
       "binaryDir": "${sourceDir}/build/dev-darwin",
-      "inherits": ["dev-common", "ci-darwin"],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
-      }
+      "inherits": ["dev-common", "ci-darwin"]
     },
     {
       "name": "dev-win64",
