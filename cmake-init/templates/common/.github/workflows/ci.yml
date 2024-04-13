@@ -85,6 +85,7 @@ jobs:
       uses: codecov/codecov-action@v4
       with:
         file: build/coverage/coverage.info
+        token: ${{ secrets.CODECOV_TOKEN }}
 
   sanitize:
     needs: [lint]
