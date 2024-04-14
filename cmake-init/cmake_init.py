@@ -34,8 +34,6 @@ import zipfile
 
 __version__ = "0.40.6"
 
-is_windows = os.name == "nt"
-
 compile_template = None
 
 
