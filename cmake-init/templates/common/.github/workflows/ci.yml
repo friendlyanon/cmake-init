@@ -225,6 +225,9 @@ jobs:
       && github.repository_owner == '<name>'
       && false
 
+    permissons:
+      contents: write
+
     steps:
     - uses: actions/checkout@v4
 
