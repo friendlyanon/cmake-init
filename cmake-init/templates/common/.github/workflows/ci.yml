@@ -225,7 +225,7 @@ jobs:
       && github.repository_owner == '<name>'
       && false
 
-    permissons:
+    permissions:
       contents: write
 
     steps:
