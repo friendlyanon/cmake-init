@@ -40,7 +40,7 @@ jobs:
 
         pm: [none, conan, vcpkg]
 
-        os: [macos-12, ubuntu-22.04, windows-2022]
+        os: [macos-14, ubuntu-22.04, windows-2022]
 
         include:
         - { job: 1, type: "-s --examples", name: "Library (C++): shared", flag: "-D BUILD_SHARED_LIBS=YES" }
