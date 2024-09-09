@@ -11,8 +11,8 @@ class Recipe(ConanFile):
     def requirements(self):{% if c %}{% if exe %}
         self.requires("hedley/15"){% end %}
         self.requires("json-c/0.17"){% else %}
-        self.requires("fmt/10.2.1"){% end %}
+        self.requires("fmt/11.0.2"){% end %}
 
     def build_requirements(self):{% if catch3 %}
-        self.test_requires("catch2/3.6.0"){% else %}
+        self.test_requires("catch2/3.7.0"){% else %}
         self.test_requires("catch2/2.13.10", options={"with_main": True}){% end %}

@@ -10,7 +10,7 @@ on:
     - master{% if vcpkg %}
 
 env:
-  VCPKG_COMMIT: "ad25766aefb5313b6bc4e2a4b78a2946f84fbf66"{% end %}
+  VCPKG_COMMIT: "eba7c6a894fce24146af4fdf161fef8e90dd6be3"{% end %}
 
 jobs:
   lint:

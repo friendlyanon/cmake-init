@@ -4,7 +4,7 @@
   "dependencies": [
     {
       "name": "{% if c %}json-c{% else %}fmt{% end %}",
-      "version>=": "{% if c %}2023-08-12{% else %}10.2.1#2{% end %}"
+      "version>=": "{% if c %}2023-08-12{% else %}11.0.2{% end %}"
     }{% if c and exe %},
     {
       "name": "hedley",
@@ -18,7 +18,7 @@
       "dependencies": [
         {% if catch3 %}{
           "name": "catch2",
-          "version>=": "3.6.0"
+          "version>=": "3.7.0"
         }{% else %}"catch2"{% end %}
       ]
     }
@@ -26,5 +26,5 @@
   "overrides": [
     { "name": "catch2", "version": "2.13.9#1" }
   ],{% end %}
-  "builtin-baseline": "ad25766aefb5313b6bc4e2a4b78a2946f84fbf66"
+  "builtin-baseline": "eba7c6a894fce24146af4fdf161fef8e90dd6be3"
 }
