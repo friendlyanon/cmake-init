@@ -124,7 +124,10 @@
       "name": "ci-darwin",
       "inherits": ["flags-appleclang", "ci-std"],
       "generator": "Xcode",
-      "hidden": true
+      "hidden": true{% if pm %},
+      "cacheVariables": {
+        "CMAKE_CATCH_DISCOVER_TESTS_DISCOVERY_MODE": "PRE_TEST"
+      }{% end %}
     },
     {
       "name": "ci-win64",
