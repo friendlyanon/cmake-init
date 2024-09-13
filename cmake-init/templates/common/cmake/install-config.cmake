@@ -1,6 +1,8 @@
-{% if pm %}include(CMakeFindDependencyMacro)
+{% if pm %}set({= name =}_FOUND YES)
+
+include(CMakeFindDependencyMacro)
 find_dependency({% if c %}json-c{% else %}fmt{% end %})
 
-if({% if c %}json-c{% else %}fmt{% end %}_FOUND)
+if({= name =}_FOUND)
   {% end %}include("${CMAKE_CURRENT_LIST_DIR}/{= name =}Targets.cmake"){% if pm %}
 endif(){% end %}

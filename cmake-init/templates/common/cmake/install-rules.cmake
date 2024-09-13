@@ -12,7 +12,8 @@ set(CMAKE_INSTALL_LIBDIR lib CACHE PATH ""){% end %}
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
-# find_package(<package>) call for consumers to find this project
+# find_package(<package>) call for consumers to find this project{% if pm %}
+# should match the name of variable set in the install-config.cmake script{% end %}
 set(package {= name =})
 
 install(
