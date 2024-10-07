@@ -40,7 +40,7 @@ jobs:
 
         pm: [none, conan, vcpkg]
 
-        os: [macos-14, ubuntu-22.04, windows-2022]
+        os: [macos-14, ubuntu-24.04, windows-2022]
 
         include:
         - { job: 1, type: "-s --examples", name: "Library (C++): shared", flag: "-D BUILD_SHARED_LIBS=YES" }
@@ -61,7 +61,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install static analyzers
-      if: matrix.os == 'ubuntu-22.04'
+      if: matrix.os == 'ubuntu-24.04'
       run: >-
         sudo apt-get install clang-tidy-14 cppcheck -y -q
 
@@ -78,7 +78,7 @@ jobs:
         python cmake-init.pyz ${{ matrix.type }} -p ${{ matrix.pm }} proj
 
     - name: Lint generated project
-      if: matrix.os == 'ubuntu-22.04'
+      if: matrix.os == 'ubuntu-24.04'
       working-directory: proj
       run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
 
