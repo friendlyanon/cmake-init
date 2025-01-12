@@ -63,11 +63,11 @@ jobs:
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-24.04'
       run: >-
-        sudo apt-get install clang-tidy-14 cppcheck -y -q
+        sudo apt-get install clang-tidy-18 cppcheck -y -q
 
         sudo update-alternatives --install
         /usr/bin/clang-tidy clang-tidy
-        /usr/bin/clang-tidy-14 140
+        /usr/bin/clang-tidy-18 180
 
     - uses: actions/setup-python@v5
       with: { python-version: "3.12" }
@@ -80,7 +80,7 @@ jobs:
     - name: Lint generated project
       if: matrix.os == 'ubuntu-24.04'
       working-directory: proj
-      run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
+      run: cmake -D FORMAT_COMMAND=clang-format-18 -P cmake/lint.cmake
 
     - name: Setup MultiToolTask
       if: matrix.os == 'windows-2022'

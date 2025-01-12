@@ -95,11 +95,11 @@ Make sure you have these programs installed:
 * Python 3.8 or newer
 * CMake 3.20 or newer (3.21 or newer for C17 or newer projects)
 * git
-* [clang-tidy 14](#clang-tidy) (optional)
+* [clang-tidy 18](#clang-tidy) (optional)
 * [cppcheck](#cppcheck) (optional)
 * [Doxygen < 1.9](#doxygen) (optional)
 * [LCOV](#lcov) (optional)
-* [clang-format 14](#clang-format) (optional)
+* [clang-format 18](#clang-format) (optional)
 * [codespell](#codespell) (optional)
 * [Package managers](#package-managers): Conan or vcpkg (optional)
 
@@ -197,7 +197,7 @@ Two targets are made available to check and fix code in developer mode using
 the `format-check` and `format-fix` targets respectively.
 
 **NOTE**: the project generates files that are formatted according to
-clang-format 14. Newer or older versions may format the project differently.
+clang-format 18. Newer or older versions may format the project differently.
 
 ### codespell
 

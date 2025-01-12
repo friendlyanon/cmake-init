@@ -26,7 +26,7 @@ jobs:
       run: pip3 install codespell
 
     - name: Lint
-      run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
+      run: cmake -D FORMAT_COMMAND=clang-format-18 -P cmake/lint.cmake
 
     - name: Spell check
       if: always()
@@ -92,7 +92,7 @@ jobs:
 
     runs-on: ubuntu-24.04
 
-    env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-14{% if c and pm %}, CXX: clang++-14{% end %} }
+    env: { C{% if c %}C{% else %}XX{% end %}: clang{% if cpp %}++{% end %}-18{% if c and pm %}, CXX: clang++-18{% end %} }
 
     steps:
     - uses: actions/checkout@v4{% if conan %}
@@ -154,11 +154,11 @@ jobs:
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-24.04'
       run: >-
-        sudo apt-get install clang-tidy-14 cppcheck -y -q
+        sudo apt-get install clang-tidy-18 cppcheck -y -q
 
         sudo update-alternatives --install
         /usr/bin/clang-tidy clang-tidy
-        /usr/bin/clang-tidy-14 140{% if conan %}
+        /usr/bin/clang-tidy-18 180{% if conan %}
 
     - name: Install Python
       uses: actions/setup-python@v5
