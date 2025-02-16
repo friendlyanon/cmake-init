@@ -57,6 +57,10 @@ def not_empty(value):
     return len(value) != 0
 
 
+class ArgumentError(Exception):
+    pass
+
+
 def prompt(msg, default, mapper=None, predicate=not_empty, header=None, no_prompt=False):
     if header is not None:
         print(header)
@@ -64,16 +68,15 @@ def prompt(msg, default, mapper=None, predicate=not_empty, header=None, no_promp
         # noinspection PyBroadException
         try:
             print(msg.format(default), end=": ")
-            value = ("" if no_prompt else input()) or default
-            if mapper is not None:
-                value = mapper(value)
+            in_value = ("" if no_prompt else input()) or default
+            value = mapper(value) if mapper is not None else in_value
             if predicate(value):
                 print()
                 return value
         except Exception:
             pass
         if no_prompt:
-            raise ValueError()
+            raise ArgumentError(f"'{in_value}' is not an acceptable value")
         print("Invalid value, try again")
 
 
@@ -349,11 +352,15 @@ def create(args, zip):
             file=sys.stderr,
         )
         exit(1)
-    if args.flags_used:
-        with contextlib.redirect_stdout(io.StringIO()):
+    try: 
+        if args.flags_used:
+            with contextlib.redirect_stdout(io.StringIO()):
+                d = get_substitutes(args, os.path.basename(path))
+        else:
             d = get_substitutes(args, os.path.basename(path))
-    else:
-        d = get_substitutes(args, os.path.basename(path))
+    except ArgumentError as e:
+        print(str(e), file=sys.stderr)
+        exit(1)
     mkdir(path)
     mapping = {"e": "executable/", "h": "header/", "s": "shared/"}
     zip_paths = [("c/" if d["c"] else "") + mapping[d["type_id"]], "common/"]
