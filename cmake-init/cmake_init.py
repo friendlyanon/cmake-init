@@ -69,7 +69,7 @@ def prompt(msg, default, mapper=None, predicate=not_empty, header=None, no_promp
         try:
             print(msg.format(default), end=": ")
             in_value = ("" if no_prompt else input()) or default
-            value = mapper(value) if mapper is not None else in_value
+            value = mapper(in_value) if mapper is not None else in_value
             if predicate(value):
                 print()
                 return value
