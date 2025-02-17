@@ -57,7 +57,7 @@ with open("../README.md") as f:
     long_description = f.read()
 
 setuptools.setup(
-    name="cmake-init",
+    name="cmake_init",
     version=version,
     author="friendlyanon",
     author_email="friendlyanon_@hotmail.com",
