@@ -32,7 +32,7 @@ import subprocess
 import sys
 import zipfile
 
-__version__ = "0.41.0"
+__version__ = "0.41.1"
 
 compile_template = None
 
