@@ -4,4 +4,4 @@ check-filenames =
 check-hidden =
 skip = */.git,*/build,*/prefix{% if conan %},*/conan{% end %}{% if c %},*/.codespellrc{% end %}
 quiet-level = 2{% if c %}
-ignore-regex = ^#include <(?:stdio)\.h>${% end %}
+ignore-regex = ^#include <(?:stdio)\.h>(\s*//.*)?${% end %}
