@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
       with: { python-version: "3.8" }
 
     - name: Install dependencies
@@ -38,9 +38,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
       with: { python-version: "3.8" }
 
     - name: Package
@@ -51,7 +51,7 @@ jobs:
       run: echo "version=$(python cmake-init.pyz --version)" >> $GITHUB_OUTPUT
 
     - name: Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v3
       env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
       with:
         files: cmake-init.pyz
