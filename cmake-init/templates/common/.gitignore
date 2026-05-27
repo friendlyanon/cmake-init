@@ -1,7 +1,7 @@
 **/.DS_Store
 .idea/
 .vs/
-.vscode/
+# .vscode/
 build/
 cmake-build-*/{% if conan %}
 conan/{% end %}

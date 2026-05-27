@@ -1,0 +1,11 @@
+{
+    "clangd.path": "{= clangd_path =}",
+    "clangd.arguments": [
+        "--compile-commands-dir=build",
+        "--background-index"
+    ],
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "cmake.configureOnOpen": true,
+    "cmake.generator": "Ninja",
+    "cmake.buildDirectory": "${workspaceFolder}/build"
+}

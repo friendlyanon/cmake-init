@@ -31,6 +31,7 @@ import re
 import subprocess
 import sys
 import zipfile
+import json
 
 __version__ = "0.41.1"
 
@@ -358,6 +359,7 @@ def create(args, zip):
                 d = get_substitutes(args, os.path.basename(path))
         else:
             d = get_substitutes(args, os.path.basename(path))
+        d["clangd_path"] = get_clangd_path()
     except ArgumentError as e:
         print(str(e), file=sys.stderr)
         exit(1)
@@ -412,6 +414,7 @@ def main(zip, template_compiler):
     p.add_argument(
         "path",
         type=os.path.realpath,
+        nargs='?',           # 变为可选
         help="path to generate to, the name is also derived from this",
     )
     create_flags = \
@@ -470,10 +473,64 @@ def main(zip, template_compiler):
         dest="package_manager",
         help="package manager to use (Options are: conan, vcpkg)",
     )
+    p.add_argument(
+        "-dcp",
+        metavar="PATH",
+        help="set clangd executable path permanently (e.g., /usr/bin/clangd or C:\\LLVM\\bin\\clangd.exe). Use empty string to clear."
+    )
+    p.add_argument(
+        "--deploy-clang-path",
+        metavar="PATH",
+        help="set clangd executable path permanently (e.g., /usr/bin/clangd or C:\\LLVM\\bin\\clangd.exe). Use empty string to clear."
+    )
     args = p.parse_args()
+    # 处理 --deploy-clang-path 单独使用的情况
+    if args.deploy_clang_path is not None:
+        save_clangd_path(args.deploy_clang_path)
+        return
+
+    # 如果没有提供 path 参数且没有 --deploy-clang-path，则报错
+    if args.path is None:
+        p.print_usage()
+        print("error: the following arguments are required: path", file=sys.stderr)
+        exit(1)
     if args.dummy:
         p.print_help()
         exit(1)
     flags_used = any(getattr(args, k) != "" for k in create_flags)
     setattr(args, "flags_used", flags_used)
     create(args, zip)
+
+def get_config_dir():
+    if sys.platform == "win32":
+        base = os.environ.get("APPDATA", os.path.expanduser("~\\AppData\\Roaming"))
+    else:
+        base = os.path.expanduser("~/.config")
+    return os.path.join(base, "cmake-init")
+
+def save_clangd_path(path):
+    config_dir = get_config_dir()
+    os.makedirs(config_dir, exist_ok=True)
+    config_file = os.path.join(config_dir, "config.json")
+    config = {}
+    if os.path.exists(config_file):
+        with open(config_file, "r", encoding="utf-8") as f:
+            try:
+                config = json.load(f)
+            except json.JSONDecodeError:
+                pass
+    config["clangd_path"] = path
+    with open(config_file, "w", encoding="utf-8") as f:
+        json.dump(config, f, indent=2)
+    print(f"clangd path set to: {path}")
+
+def get_clangd_path():
+    config_file = os.path.join(get_config_dir(), "config.json")
+    if os.path.exists(config_file):
+        with open(config_file, "r", encoding="utf-8") as f:
+            try:
+                config = json.load(f)
+                return config.get("clangd_path", "")
+            except json.JSONDecodeError:
+                pass
+    return ""
