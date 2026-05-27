@@ -81,7 +81,7 @@ setuptools.setup(
         "Topic :: Utilities",
     ],
     license="GPLv3+",
-    license_files="../COPYING",
+    license_files="COPYING",
     platforms="OS Independent",
     python_requires=">=3.8",
     entry_points={
